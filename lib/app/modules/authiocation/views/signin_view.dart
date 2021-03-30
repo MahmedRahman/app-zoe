@@ -78,7 +78,7 @@ class SigninView extends GetView {
                   ),
                   RaisedButton(
                     onPressed: () {
-                      Get.toNamed(Routes.HOME);
+                      Get.toNamed(Routes.LayoutView);
                     },
                     child: Text('Login'.tr),
                   ),

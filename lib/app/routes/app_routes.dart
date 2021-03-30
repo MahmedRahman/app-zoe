@@ -20,5 +20,8 @@ abstract class Routes {
 
   static const ORDER = '/order';
   static const OtpView = '/OtpView';
+  static const ENTRY_POINT = '/entry-point';
+  static const LayoutView = '/LayoutView';
+  static const ProductBrandView = '/ProductBrandView';
   
 }
