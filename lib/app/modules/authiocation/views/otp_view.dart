@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/routes/app_pages.dart';
-import 'package:zoe/app/utils/AppTheme.dart';
-import 'package:zoe/app/widget/CustomTextFormFiled.dart';
+import 'package:zoe/app/data/helper/AppTheme.dart';
+import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
 
 class OtpView extends GetView {
   @override

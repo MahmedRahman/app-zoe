@@ -1,11 +1,10 @@
 import 'package:drawing_animation/drawing_animation.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:zoe/app/Animation/FadeAnimation.dart';
+import 'package:zoe/app/data/component/CustomButton.dart';
 import 'package:zoe/app/modules/authiocation/views/signin_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';
-import 'package:zoe/app/utils/AppTheme.dart';
+import 'package:zoe/app/data/helper/AppTheme.dart';
 
 class SplashView extends GetView {
   @override
@@ -48,7 +47,11 @@ class SplashView extends GetView {
                         minWidth: size.width * .6,
                         buttonColor: Colors.red,
                         textTheme: ButtonTextTheme.primary,
-                        child: RaisedButton(
+                        child: 
+                        CustomButton(title:  'Enter by phone number'.tr,onPressed: (){
+                            Get.toNamed(Routes.SigninView);
+                        },)
+                       /* RaisedButton(
                          
                           child: Text(
                             'Enter by phone number'.tr,
@@ -57,7 +60,7 @@ class SplashView extends GetView {
                           onPressed: () {
                             Get.toNamed(Routes.SigninView);
                           },
-                        ),
+                        ),*/
                       ),
                     ),
                     Spacer(

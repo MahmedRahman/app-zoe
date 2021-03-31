@@ -6,21 +6,12 @@ import 'package:zoe/app/data/model/brand_model.dart';
 import 'package:zoe/app/modules/brand/controllers/brand_controller.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
+import 'package:zoe/app/data/component/CustomImageCached.dart';
+import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class BrandView extends GetView<BrandController> {
-
   BrandController brandController = Get.put(BrandController());
 
-  List<String> imageList = [
-    'assets/brandList/1.png',
-    'assets/brandList/2.png',
-    'assets/brandList/3.png',
-    'assets/brandList/4.png',
-    'assets/brandList/5.png',
-    'assets/brandList/7.png',
-    'assets/brandList/6.png',
-    'assets/brandList/8.png',
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,21 +25,36 @@ class BrandView extends GetView<BrandController> {
                 return GridView.count(
                   crossAxisCount: 2,
                   children: List.generate(brands.length, (index) {
-                    return CachedNetworkImage(
-                          imageUrl:
-                             brands.elementAt(index).name.toString(),
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        );
-                    
+                    Brand brand = brands.elementAt(index);
+                    return InkWell(
+                      onTap: () {
+                        Get.toNamed(Routes.ProductBrandView,
+                            arguments: [brand.id.toString()]);
+                      },
+                      child: Card(
+                          child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomImageCached(
+                          imageUrl: brand.image.toString(),
+                        ),
+                      )),
+                    );
+
                     // Text(brands.elementAt(index).name.toString());
                   }),
                 );
-              } else {
-                return Text('No Data');
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: CustomIndicator(
+                    indicatorStatus: IndicatorStatus.error,
+                  ),
+                );
               }
+              return Center(
+                child: CustomIndicator(
+                  indicatorStatus: IndicatorStatus.ListProduct,
+                ),
+              );
             }),
       ),
     );

@@ -14,179 +14,184 @@ import 'package:zoe/app/modules/category/views/category_view.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:zoe/app/widget/CustomImageCached.dart';
+import 'package:zoe/app/data/component/CustomImageCached.dart';
+import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          Image.asset('assets/offer.png'),
-          SizedBox(
-            height: 10,
-          ),
-          Title(
-            label: 'الاقسام',
-          ),
-          buildCategory(),
-          Title(
-            label: 'الماركات',
-          ),
-          buildBrand(),
-          FutureBuilder(
-              future: controller.getFeaturedCategories(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<FeaturedCategory> featuredCategories = snapshot.data;
-
-                  return Column(
-                    children: List.generate(
-                      featuredCategories.length,
-                      (indexCategory) {
-                        return Column(
-                          children: [
-                            Title(
-                              label: featuredCategories
-                                  .elementAt(indexCategory)
-                                  .name,
-                              sublabel: 'المزيد',
-                              categoryId:featuredCategories
-                                  .elementAt(indexCategory).id.toString() ,
-                            ),
-                            SizedBox(
-                              height: Get.height * .4,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: List.generate(
-                                  featuredCategories
-                                      .elementAt(indexCategory)
-                                      .products
-                                      .length,
-                                  (indexproducts) {
-                                    Product product = featuredCategories
-                                        .elementAt(indexCategory)
-                                        .products
-                                        .elementAt(indexproducts);
-
-                                    return ProductItem(
-                                      product: product,
-                                    );
-                                  },
-                                ),
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  );
-                } else {
-                  return Text('No data');
-                }
-              }),
-          SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: controller.getHome(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            HomeModel homeModel = snapshot.data;
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset('assets/offer.png'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Title(
+                    label: 'الاقسام',
+                  ),
+                  buildCategory(homeModel.data.departments),
+                  Title(
+                    label: 'الماركات',
+                  ),
+                  buildBrand(homeModel.data.brands),
+                 
+              
+                  buildFeaturedCategory(homeModel.data.featuredCategories),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: CustomIndicator(
+                indicatorStatus: IndicatorStatus.error,
+              ),
+            );
+          }
+          return Center(
+            child: CustomIndicator(
+              indicatorStatus: IndicatorStatus.wait,
+            ),
+          );
+        });
   }
 
-  SizedBox buildBrand() {
+  Widget buildCategory(List<BrandElement> brandElement) {
     return SizedBox(
         height: Get.height * .1,
-        child: FutureBuilder(
-          future: controller.getBrand(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<BrandElement> brandElement = snapshot.data;
-
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: brandElement.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed(Routes.ProductBrandView,arguments: [brandElement.elementAt(index).id.toString()]);
-                      },
-                      child: Container(
-                        width: Get.width * .5,
-                        height: Get.height * .2,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(20),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: brandElement.length,
+          itemBuilder: (context, index) {
+            BrandElement CategoryItem = brandElement.elementAt(index);
+            return GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.ProductCategoryView,
+                    arguments: [CategoryItem.id.toString()]);
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Container(
+                  width: Get.width * .5,
+                  height: Get.height * .2,
+                  decoration: BoxDecoration(
+                      color: Color(0xffFEF2ED),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(color: Colors.grey, blurRadius: 2)
+                      ]),
+                  child: Center(
+                    child: ListTile(
+                      dense: true,
+                      leading: SizedBox(
+                        width: 32,
+                        height: 32,
+                        child: CustomImageCached(
+                          imageUrl: CategoryItem.image,
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              brandElement.elementAt(index).image.toString(),
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
-
+                      ),
+                      title: Text(
+                        CategoryItem.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  );
-                },
-              );
-            } else {
-              return CircularProgressIndicator();
-            }
+                  ),
+                ),
+              ),
+            );
           },
         ));
   }
 
-  SizedBox buildCategory() {
+  Widget buildBrand(List<BrandElement> brandElement) {
     return SizedBox(
-      height: Get.height * .1,
-      child: FutureBuilder(
-          future: controller.getCategory(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<BrandElement> brandElement = snapshot.data;
-
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: brandElement.length,
-                itemBuilder: (context, index) {
-                  BrandElement CategoryItem = brandElement.elementAt(index);
-                  return GestureDetector(
-                    onTap: () {
-                      Get.toNamed(Routes.ProductCategoryView,arguments:[CategoryItem.id.toString()]);
-                    },
+       height: Get.height * .1,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: brandElement.length,
+        itemBuilder: (context, index) {
+          BrandElement Brand = brandElement.elementAt(index);
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.ProductBrandView,
+                    arguments: [Brand.id.toString()]);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Container(
+                    width: Get.width * .5,
+                    height: Get.height * .2,
+                    decoration: BoxDecoration(
+                        color: Color(0xffFEF2ED),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(color: Colors.grey, blurRadius: 2)
+                        ]),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                        width: Get.width * .5,
-                        height: Get.height * .2,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: ListTile(
-                          leading: CustomImageCached(
-                            imageUrl: CategoryItem.image,
-                          ),
-                          title: Text(CategoryItem.name),
-                        ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomImageCached(
+                        imageUrl: Brand.image.toString(),
                       ),
-                    ),
-                  );
-                },
-              );
+                    )),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 
-              //  Text('data vvvvvvvvvvvvvvvvvvvvv');
-            } else {
-              return CircularProgressIndicator();
-            }
-          }),
+  Widget buildFeaturedCategory(List<FeaturedCategory> featuredCategories) {
+    return Column(
+      children: List.generate(
+        featuredCategories.length,
+        (indexCategory) {
+          return Column(
+            children: [
+              Title(
+                label: featuredCategories.elementAt(indexCategory).name,
+                sublabel: '....',
+                categoryId:
+                    featuredCategories.elementAt(indexCategory).id.toString(),
+              ),
+              SizedBox(
+                height: Get.height * .4,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: List.generate(
+                    featuredCategories.elementAt(indexCategory).products.length,
+                    (indexproducts) {
+                      Product product = featuredCategories
+                          .elementAt(indexCategory)
+                          .products
+                          .elementAt(indexproducts);
+                      return ProductItem(
+                        product: product,
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          );
+        },
+      ),
     );
   }
 }
@@ -201,26 +206,48 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    print('object');
-    print(product);
-
     return InkWell(
-      onTap: (){
-        Get.toNamed(Routes.ProductDetailView , arguments: [product.id.toString()]);
+      onTap: () {
+        Get.toNamed(Routes.ProductDetailView,
+            arguments: [product.id.toString()]);
       },
       child: Container(
-        width: Get.width / 3,
+        width: Get.width / 2,
         child: Card(
-          
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomImageCached(
-                imageUrl: product.image.toString(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 200,
+                    child: CustomImageCached(
+                      imageUrl: product.image.toString(),
+                    ),
+                  ),
+                ),
               ),
-              Text(product.name.toString()),
-             // Text(product.brand.name.toString()),
-              Text(product.price.toString()),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  product.name.toString(),
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              // Text(product.brand.name.toString()),
+              Text(
+                product.price.toInt().toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ],
           ),
         ),
@@ -251,17 +278,19 @@ class Title extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               textAlign: TextAlign.right,
             ),
             InkWell(
               onTap: () {
                 print(categoryId);
-                Get.toNamed(Routes.ProductCategoryView,arguments: [categoryId]);
+                Get.toNamed(Routes.ProductCategoryView,
+                    arguments: [categoryId]);
               },
               child: Text(
                 sublabel ?? '',
-                style: TextStyle(color: Colors.red),
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
               ),
             )
           ],

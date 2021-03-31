@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zoe/app/data/component/CustomButton.dart';
+import 'package:zoe/app/modules/authiocation/controllers/authiocation_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
-import 'package:zoe/app/utils/AppTheme.dart';
-import 'package:zoe/app/utils/AppValidation.dart';
-import 'package:zoe/app/widget/CustomCheckBox.dart';
-import 'package:zoe/app/widget/CustomTextFormFiled.dart';
+import 'package:zoe/app/data/helper/AppTheme.dart';
+import 'package:zoe/app/data/helper/AppValidation.dart';
+import 'package:zoe/app/data/component/CustomCheckBox.dart';
+import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
 
-class SignupView extends GetView {
+class SignupView extends GetView<AuthiocationController> {
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +46,7 @@ class SignupView extends GetView {
                     inputHit: 'Full name'.tr,
                     inputLabel: 'Full name'.tr,
                     keyboardType: TextInputType.text,
+                    inputController: controller.fullName,
                     onValidator: (value) {
                       return AppValidation.checkEmpty(value);
                     },
@@ -50,6 +55,7 @@ class SignupView extends GetView {
                     inputHit: 'Telephone number'.tr,
                     inputLabel: 'Telephone number'.tr,
                     keyboardType: TextInputType.number,
+                    inputController: controller.phone,
                     onValidator: (value) {
                       return AppValidation.checkEmpty(value);
                     },
@@ -58,6 +64,7 @@ class SignupView extends GetView {
                     inputHit: 'Email'.tr,
                     inputLabel: 'Email'.tr,
                     keyboardType: TextInputType.emailAddress,
+                    inputController: controller.email,
                     onValidator: (value) {
                       return AppValidation.checkEmail(value);
                     },
@@ -66,6 +73,7 @@ class SignupView extends GetView {
                     inputHit: 'password'.tr,
                     inputLabel: 'password'.tr,
                     keyboardType: TextInputType.text,
+                    inputController: controller.password,
                     onValidator: (value) {
                       return AppValidation.checkEmpty(value);
                     },
@@ -73,11 +81,11 @@ class SignupView extends GetView {
                   SizedBox(
                     height: 10,
                   ),
-                  RaisedButton(
+                  CustomButton(
+                    title: 'new registration'.tr,
                     onPressed: () {
                       Get.toNamed(Routes.OtpView);
                     },
-                    child: Text('new registration'.tr),
                   ),
                   SizedBox(
                     height: 10,

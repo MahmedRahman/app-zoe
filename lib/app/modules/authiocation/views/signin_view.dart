@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zoe/app/data/component/CustomButton.dart';
 import 'package:zoe/app/routes/app_pages.dart';
-import 'package:zoe/app/utils/AppTheme.dart';
-import 'package:zoe/app/widget/CustomTextFormFiled.dart';
+import 'package:zoe/app/data/helper/AppTheme.dart';
+import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
 
 class SigninView extends GetView {
   @override
@@ -53,6 +54,7 @@ class SigninView extends GetView {
                   CustomTextFormFiled(
                     inputHit: 'password'.tr,
                     inputLabel: 'password'.tr,
+                    keyboardType: TextInputType.visiblePassword,
                   ),
                   SizedBox(
                     height: 10,
@@ -76,11 +78,11 @@ class SigninView extends GetView {
                   SizedBox(
                     height: 10,
                   ),
-                  RaisedButton(
+                  CustomButton(
+                    title: 'Login'.tr,
                     onPressed: () {
                       Get.toNamed(Routes.LayoutView);
                     },
-                    child: Text('Login'.tr),
                   ),
                   SizedBox(
                     height: 10,

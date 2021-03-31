@@ -6,6 +6,8 @@ import 'package:zoe/app/data/model/products_detaile_model.dart';
 
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
+import 'package:zoe/app/data/component/CustomImageCached.dart';
+import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class ProductDetailView extends GetView<ProductController> {
   @override
@@ -13,7 +15,9 @@ class ProductDetailView extends GetView<ProductController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         title: SizedBox(
           height: 100,
           child: Image.asset('assets/logo.png'),
@@ -25,6 +29,7 @@ class ProductDetailView extends GetView<ProductController> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               ProductsDetaileModel productsDetaile = snapshot.data;
+              //print();
               return ListView(
                 children: [
                   SizedBox(
@@ -32,15 +37,27 @@ class ProductDetailView extends GetView<ProductController> {
                     child: PageView(
                       scrollDirection: Axis.horizontal,
                       children: [
-                        Image.asset('assets/perfumeWoman/2.png'),
-                        Image.asset('assets/perfumeWoman/2.png'),
+                        productsDetaile.data.productImages.length == 0
+                            ? Center(
+                                child: CustomIndicator(
+                                  indicatorStatus: IndicatorStatus.error,
+                                ),
+                              )
+                            : CustomImageCached(
+                                imageUrl: productsDetaile.data.productImages[0],
+                              )
                       ],
                     ),
                   ),
                   ListTile(
                     title: Text(productsDetaile.data.product.name),
                     subtitle: Text(productsDetaile.data.department.name),
-                    leading: Image.asset('assets/productbrand.png'),
+                    leading: SizedBox(
+                      width: 32,
+                      child: CustomImageCached(
+                        imageUrl: productsDetaile.data.brand.image,
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15),
@@ -96,46 +113,49 @@ class ProductDetailView extends GetView<ProductController> {
                               ],
                             ),
                             ListView(
-                              children: List.generate(5, (index) {
-                                return Column(
-                                  children: [
-                                    ListTile(
-                                      trailing: Text('5/2/2021'),
-                                      title: Text('Mohamed Kamel'),
-                                      leading: Icon(Icons.contacts),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: RatingBarIndicator(
-                                          rating: 3,
-                                          itemCount: 5,
-                                          itemSize: 25.0,
-                                          direction: Axis.horizontal,
-                                          physics: BouncingScrollPhysics(),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
+                              children: List.generate(
+                                5,
+                                (index) {
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                        trailing: Text('5/2/2021'),
+                                        title: Text('Mohamed Kamel'),
+                                        leading: Icon(Icons.contacts),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: RatingBarIndicator(
+                                            rating: 3,
+                                            itemCount: 5,
+                                            itemSize: 25.0,
+                                            direction: Axis.horizontal,
+                                            physics: BouncingScrollPhysics(),
+                                            itemBuilder: (context, _) => Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                          "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العرب"),
-                                    ),
-                                  ],
-                                );
-                              }),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العرب",
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
-         
                   Card(
                     color: Colors.white,
                     child: ListTile(
@@ -152,9 +172,18 @@ class ProductDetailView extends GetView<ProductController> {
                   ),
                 ],
               );
-            } else {
-              return Text(' No data');
+            } else if (snapshot.hasError) {
+              return Center(
+                child: CustomIndicator(
+                  indicatorStatus: IndicatorStatus.error,
+                ),
+              );
             }
+            return Center(
+              child: CustomIndicator(
+                indicatorStatus: IndicatorStatus.ListProduct,
+              ),
+            );
           }),
     );
   }

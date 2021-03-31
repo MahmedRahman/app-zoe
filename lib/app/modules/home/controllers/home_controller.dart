@@ -20,6 +20,9 @@ class HomeController extends GetxController {
     return HomeProvider().getBrand();
   }
 
+  getHome() {
+    return HomeProvider().getHomePage();
+  }
   List<ProductModel> getProduct() {
     return productLsit;
   }

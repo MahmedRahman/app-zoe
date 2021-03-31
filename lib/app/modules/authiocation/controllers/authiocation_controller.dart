@@ -1,18 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class AuthiocationController extends GetxController {
-  //TODO: Implement AuthiocationController
-  
-  final count = 0.obs;
 
-  @override
-  void onInit() {}
+TextEditingController fullName = new TextEditingController();
+TextEditingController phone = new TextEditingController();
+TextEditingController email = new TextEditingController();
+TextEditingController password = new TextEditingController();
 
-  @override
-  void onReady() {}
-
-  @override
-  void onClose() {}
-
-  void increment() => count.value++;
 }

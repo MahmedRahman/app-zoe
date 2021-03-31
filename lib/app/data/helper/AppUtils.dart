@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/utils/AppTheme.dart';
+import 'package:zoe/app/data/helper/AppTheme.dart';
 
 class AppUtils{
     static showSnackBar(String title, String message , {Function onstatusBarClosed}) {

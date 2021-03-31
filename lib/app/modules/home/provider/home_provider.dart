@@ -7,7 +7,7 @@ class HomeProvider extends RepostoryProvide {
 
   Future<HomeModel> getHomePage() async {
     Response response = await repGet('home');
-    print(response.bodyString);
+ 
     homeModel = homeModelFromJson(response.bodyString);
     return homeModel;
   }
