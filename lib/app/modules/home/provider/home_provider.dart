@@ -5,33 +5,26 @@ import 'package:zoe/app/data/repostory.dart';
 class HomeProvider extends RepostoryProvide {
   HomeModel homeModel;
 
+  Future getData() async {
+
+  //  return homeModel;
+  }
+
   Future<HomeModel> getHomePage() async {
-    Response response = await repGet('home');
- 
+        Response response = await repGet('home');
     homeModel = homeModelFromJson(response.bodyString);
     return homeModel;
   }
 
   Future<List<BrandElement>> getCategory() async {
-    Response response = await repGet('home');
-    print(response.bodyString);
-    homeModel = homeModelFromJson(response.bodyString);
     return homeModel.data.departments;
   }
 
   Future<List<BrandElement>> getBrand() async {
-    Response response = await repGet('home');
-    print(response.bodyString);
-    homeModel = homeModelFromJson(response.bodyString);
     return homeModel.data.brands;
   }
 
   Future<List<FeaturedCategory>> getFeaturedCategories() async {
-    Response response = await repGet('home');
-    print(response.bodyString);
-    homeModel = homeModelFromJson(response.bodyString);
     return homeModel.data.featuredCategories;
   }
-
-  
 }

@@ -9,10 +9,9 @@ import 'package:zoe/app/data/component/CustomCheckBox.dart';
 import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
 
 class SignupView extends GetView<AuthiocationController> {
-
-  
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SingleChildScrollView(
         child: SingleChildScrollView(
@@ -24,107 +23,113 @@ class SignupView extends GetView<AuthiocationController> {
                   image: AssetImage('assets/bg.png'),
                 ),
               ),
-              child: Column(
-                children: [
-                  Container(
-                    height: Get.height * .3,
-                    child: SizedBox(
-                      width: Get.width * .8,
-                      child: Image.asset(
-                        'assets/logo.png',
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      height: Get.height * .3,
+                      child: SizedBox(
+                        width: Get.width * .8,
+                        child: Image.asset(
+                          'assets/logo.png',
+                        ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'new registration'.tr,
-                      style: headline1,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'new registration'.tr,
+                        style: headline1,
+                      ),
                     ),
-                  ),
-                  CustomTextFormFiled(
-                    inputHit: 'Full name'.tr,
-                    inputLabel: 'Full name'.tr,
-                    keyboardType: TextInputType.text,
-                    inputController: controller.fullName,
-                    onValidator: (value) {
-                      return AppValidation.checkEmpty(value);
-                    },
-                  ),
-                  CustomTextFormFiled(
-                    inputHit: 'Telephone number'.tr,
-                    inputLabel: 'Telephone number'.tr,
-                    keyboardType: TextInputType.number,
-                    inputController: controller.phone,
-                    onValidator: (value) {
-                      return AppValidation.checkEmpty(value);
-                    },
-                  ),
-                  CustomTextFormFiled(
-                    inputHit: 'Email'.tr,
-                    inputLabel: 'Email'.tr,
-                    keyboardType: TextInputType.emailAddress,
-                    inputController: controller.email,
-                    onValidator: (value) {
-                      return AppValidation.checkEmail(value);
-                    },
-                  ),
-                  CustomTextFormFiled(
-                    inputHit: 'password'.tr,
-                    inputLabel: 'password'.tr,
-                    keyboardType: TextInputType.text,
-                    inputController: controller.password,
-                    onValidator: (value) {
-                      return AppValidation.checkEmpty(value);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomButton(
-                    title: 'new registration'.tr,
-                    onPressed: () {
-                      Get.toNamed(Routes.OtpView);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.toNamed(Routes.SigninView);
-                        },
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'I dont have an account'.tr,
-                            style: subtitle,
-                            children: [
-                              TextSpan(
-                                text: ' ',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 15,
-                                  decoration: TextDecoration.underline,
+                    CustomTextFormFiled(
+                      inputHit: 'Full name'.tr,
+                      inputLabel: 'Full name'.tr,
+                      keyboardType: TextInputType.text,
+                      inputController: controller.fullName,
+                      onValidator: (value) {
+                        return AppValidation.checkEmpty(value);
+                      },
+                    ),
+                    CustomTextFormFiled(
+                      inputHit: 'Telephone number'.tr,
+                      inputLabel: 'Telephone number'.tr,
+                      keyboardType: TextInputType.number,
+                      inputController: controller.phone,
+                      onValidator: (value) {
+                        return AppValidation.checkEmpty(value);
+                      },
+                    ),
+                    CustomTextFormFiled(
+                      inputHit: 'Email'.tr,
+                      inputLabel: 'Email'.tr,
+                      keyboardType: TextInputType.emailAddress,
+                      inputController: controller.email,
+                      onValidator: (value) {
+                        return AppValidation.checkEmail(value);
+                      },
+                    ),
+                    CustomTextFormFiled(
+                      inputHit: 'password'.tr,
+                      inputLabel: 'password'.tr,
+                      keyboardType: TextInputType.text,
+                      inputController: controller.password,
+                      onValidator: (value) {
+                        return AppValidation.checkEmpty(value);
+                      },
+                    ),
+                    SizedBox(  
+                      height: 10,
+                    ),
+                    CustomButton(
+                      title: 'new registration'.tr,
+                      onPressed: () async {
+                        // Get.toNamed(Routes.OtpView);
+                        if (_formKey.currentState.validate()) {
+                          controller.createUser();
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.SigninView);
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'I dont have an account'.tr,
+                              style: subtitle,
+                              children: [
+                                TextSpan(
+                                  text: ' ',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                                text: 'new registration'.tr,
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 15,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              )
-                            ],
+                                TextSpan(
+                                  text: 'new registration'.tr,
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -9,7 +9,7 @@ import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
-class BrandView extends GetView<BrandController> {
+class BrandView extends StatelessWidget {
   BrandController brandController = Get.put(BrandController());
 
   @override

@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/data/component/CustomButton.dart';
+import 'package:zoe/app/data/helper/AppValidation.dart';
+import 'package:zoe/app/modules/authiocation/controllers/authiocation_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/helper/AppTheme.dart';
 import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
 
-class SigninView extends GetView {
+class SigninView extends GetView<AuthiocationController> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       body: Container(
         height: screenSize.height,
         decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/bg.png'),
-          fit: BoxFit.fill,
-        )),
+          image: DecorationImage(
+            image: AssetImage('assets/bg.png'),
+            fit: BoxFit.fill,
+          ),
+        ),
         child: Padding(
           padding: EdgeInsets.all(screenSize.width * .05),
           child: Center(
@@ -46,43 +49,62 @@ class SigninView extends GetView {
                       ),
                     ),
                   ),
-                  CustomTextFormFiled(
-                    inputHit: 'Telephone number'.tr,
-                    inputLabel: 'Telephone number'.tr,
-                    keyboardType: TextInputType.number,
-                  ),
-                  CustomTextFormFiled(
-                    inputHit: 'password'.tr,
-                    inputLabel: 'password'.tr,
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed(Routes.ForgotpasswordView);
-                      },
-                      child: Text(
-                        'forget your password?'.tr,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        CustomTextFormFiled(
+                          inputHit: 'Telephone number'.tr,
+                          inputLabel: 'Telephone number'.tr,
+                          keyboardType: TextInputType.number,
+                          inputController: controller.phone,
+                          onValidator: (value) {
+                            return AppValidation.checkEmpty(value);
+                          },
                         ),
-                      ),
+                        CustomTextFormFiled(
+                          inputHit: 'password'.tr,
+                          inputLabel: 'password'.tr,
+                          keyboardType: TextInputType.visiblePassword,
+                          inputController: controller.password,
+                          onValidator: (value) {
+                            return AppValidation.checkEmpty(value);
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.ForgotpasswordView);
+                            },
+                            child: Text(
+                              'forget your password?'.tr,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomButton(
+                          title: 'Login'.tr,
+                          buttonController: controller.buttonController,
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              controller.Signin();
+                              
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomButton(
-                    title: 'Login'.tr,
-                    onPressed: () {
-                      Get.toNamed(Routes.LayoutView);
-                    },
                   ),
                   SizedBox(
                     height: 10,

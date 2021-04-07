@@ -10,8 +10,11 @@ class CustomImageCached extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       placeholder: (context, url) => Center(
-        child: CustomIndicator(
-          indicatorStatus: IndicatorStatus.imageplaceholder,
+        child: SizedBox(
+          width: 50,
+          child: CustomIndicator(
+            indicatorStatus: IndicatorStatus.imageplaceholder,
+          ),
         ),
       ),
       errorWidget: (context, url, error) => Center(

@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class CustomButton extends StatelessWidget {
-  CustomButton({
-    @required this.title,
-    this.onPressed,
-  });
+  CustomButton({@required this.title, this.onPressed, this.buttonController});
+
+  final RoundedLoadingButtonController buttonController;
 
   final String title;
   Function onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return RoundedLoadingButton(
+      controller: buttonController,
+      color: Colors.red,
       onPressed: () {
+        FocusScope.of(context).unfocus();
         onPressed();
       },
-      child: Text(title),
+      child: Text(
+        title,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }

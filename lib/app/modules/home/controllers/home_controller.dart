@@ -8,7 +8,7 @@ import 'package:zoe/app/modules/home/provider/home_provider.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
-
+var selectindex = 2.obs;
   @override
   void onInit() {}
 
@@ -31,5 +31,7 @@ class HomeController extends GetxController {
   getFeaturedCategories() {
     return HomeProvider().getFeaturedCategories();
   }
+
+  
   
 }

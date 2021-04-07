@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:zoe/app/data/component/CustomButton.dart';
+import 'package:zoe/app/data/helper/AppConstant.dart';
+import 'package:zoe/app/data/helper/AppUtils.dart';
+import 'package:zoe/app/data/helper/showSnackBar.dart';
 import 'package:zoe/app/data/model/home_model.dart';
 import 'package:zoe/app/data/model/products_detaile_model.dart';
-
+import 'package:zoe/app/modules/cart/controllers/cart_controller.dart';
+import 'package:zoe/app/modules/cart/model/CartItem.dart';
+import 'package:zoe/app/modules/home/controllers/home_controller.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
@@ -29,11 +36,11 @@ class ProductDetailView extends GetView<ProductController> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               ProductsDetaileModel productsDetaile = snapshot.data;
-              //print();
+
               return ListView(
                 children: [
                   SizedBox(
-                    height: Get.height * .3,
+                    height: Get.height * .4,
                     child: PageView(
                       scrollDirection: Axis.horizontal,
                       children: [
@@ -45,13 +52,18 @@ class ProductDetailView extends GetView<ProductController> {
                               )
                             : CustomImageCached(
                                 imageUrl: productsDetaile.data.productImages[0],
-                              )
+                              ),
+                        CustomImageCached(
+                          imageUrl: productsDetaile.data.productImages[0],
+                        )
                       ],
                     ),
                   ),
+
                   ListTile(
                     title: Text(productsDetaile.data.product.name),
-                    subtitle: Text(productsDetaile.data.department.name),
+                    trailing:
+                        Text(productsDetaile.data.product.price.toString()),
                     leading: SizedBox(
                       width: 32,
                       child: CustomImageCached(
@@ -59,117 +71,49 @@ class ProductDetailView extends GetView<ProductController> {
                       ),
                     ),
                   ),
+
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Text(
-                      'الاحجام',
+                      'الوصف',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
-                  ListTile(
-                    title: Text('75 ممل'),
-                    trailing: Text('340 ريال'),
-                  ),
-                  ListTile(
-                    title: Text('105 ممل'),
-                    trailing: Text('300 ريال'),
-                  ),
-                  SizedBox(
-                    height: Get.height * .4,
-                    child: DefaultTabController(
-                      length: 3,
-                      child: Scaffold(
-                        appBar: TabBar(
-                          labelColor: Colors.grey,
-                          tabs: [
-                            Tab(
-                              child: Text('الوصف'),
-                            ),
-                            Tab(
-                              child: Text('الخصائص'),
-                            ),
-                            Tab(
-                              child: Text('المراجعات'),
-                            ),
-                          ],
-                        ),
-                        body: TabBarView(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Text(
-                                  productsDetaile.data.product.desc.toString()),
-                            ),
-                            Column(
-                              children: [
-                                ListTile(
-                                  title: Text('الحجم'),
-                                  subtitle: Text('75 ممل'),
-                                  trailing: Text('340.00'),
-                                )
-                              ],
-                            ),
-                            ListView(
-                              children: List.generate(
-                                5,
-                                (index) {
-                                  return Column(
-                                    children: [
-                                      ListTile(
-                                        trailing: Text('5/2/2021'),
-                                        title: Text('Mohamed Kamel'),
-                                        leading: Icon(Icons.contacts),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: RatingBarIndicator(
-                                            rating: 3,
-                                            itemCount: 5,
-                                            itemSize: 25.0,
-                                            direction: Axis.horizontal,
-                                            physics: BouncingScrollPhysics(),
-                                            itemBuilder: (context, _) => Icon(
-                                              Icons.star,
-                                              color: Colors.amber,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العرب",
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Html(
+                      data: productsDetaile.data.product.desc.toString(),
                     ),
                   ),
-                  Card(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: Text('الكمية'),
-                      title: Text('1'),
-                      trailing: RaisedButton.icon(
-                        onPressed: () {
-                          Get.toNamed(Routes.HOME);
-                        },
-                        icon: Icon(Icons.shop_two),
-                        label: Text('أضف للسلة'),
-                      ),
-                    ),
+
+              
+                  ListTile(
+                    leading: Text('الكمية'),
+                    trailing: Text('1'),
                   ),
+                  CustomButton(title: 'أضف للسلة',onPressed: (){
+
+                          showSnackBar(
+                            title: appName,
+                            message: 'تم الاضافة الى سلة المشتريات',
+                            snackbarStatus: () {
+                              Get.find<CartController>().addToCart(new CartItem(
+                                productimage:
+                                    productsDetaile.data.productImages[0],
+                                Productid: productsDetaile.data.product.id,
+                                productName: productsDetaile.data.product.name,
+                                ProductPrice:
+                                    productsDetaile.data.product.price,
+                                qty: 1,
+                              ));
+                              Get.toNamed(Routes.LayoutView);
+                              Get.find<HomeController>().selectindex.value = 3;
+                            },
+                          );
+                      },) 
                 ],
               );
             } else if (snapshot.hasError) {

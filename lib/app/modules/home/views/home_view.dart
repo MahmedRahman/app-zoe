@@ -17,54 +17,56 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
-class HomePage extends GetView<HomeController> {
+class HomePage extends StatelessWidget {
+
+   HomeController controller = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: controller.getHome(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            HomeModel homeModel = snapshot.data;
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10,
+        return FutureBuilder(
+            future: controller.getHome(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                HomeModel homeModel = snapshot.data;
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Image.asset('assets/offer.png'),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Title(
+                        label: 'الاقسام',
+                      ),
+                      buildCategory(homeModel.data.departments),
+                      Title(
+                        label: 'الماركات',
+                      ),
+                      buildBrand(homeModel.data.brands),  
+                      buildFeaturedCategory(homeModel.data.featuredCategories),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
-                  Image.asset('assets/offer.png'),
-                  SizedBox(
-                    height: 10,
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: CustomIndicator(
+                    indicatorStatus: IndicatorStatus.error,
                   ),
-                  Title(
-                    label: 'الاقسام',
-                  ),
-                  buildCategory(homeModel.data.departments),
-                  Title(
-                    label: 'الماركات',
-                  ),
-                  buildBrand(homeModel.data.brands),
-                 
-              
-                  buildFeaturedCategory(homeModel.data.featuredCategories),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: CustomIndicator(
-                indicatorStatus: IndicatorStatus.error,
-              ),
-            );
-          }
-          return Center(
-            child: CustomIndicator(
-              indicatorStatus: IndicatorStatus.wait,
-            ),
-          );
-        });
+                );
+              }
+              return Center(
+                child: CustomIndicator(
+                  indicatorStatus: IndicatorStatus.wait,
+                ),
+              );
+            });
+   
   }
 
   Widget buildCategory(List<BrandElement> brandElement) {
@@ -240,7 +242,7 @@ class ProductItem extends StatelessWidget {
                   ),
                 ),
               ),
-              // Text(product.brand.name.toString()),
+             
               Text(
                 product.price.toInt().toString(),
                 style: TextStyle(

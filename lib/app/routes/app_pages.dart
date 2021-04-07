@@ -1,7 +1,12 @@
 import 'package:get/get.dart';
 
 import 'package:zoe/app/modules/account/bindings/account_binding.dart';
+import 'package:zoe/app/modules/account/views/account_about_view.dart';
+import 'package:zoe/app/modules/account/views/account_adress_view.dart';
+import 'package:zoe/app/modules/account/views/account_order_history_detailes_view.dart';
+import 'package:zoe/app/modules/account/views/account_order_history_view.dart';
 import 'package:zoe/app/modules/account/views/account_view.dart';
+import 'package:zoe/app/modules/account/views/account_wish_list_view.dart';
 import 'package:zoe/app/modules/authiocation/bindings/authiocation_binding.dart';
 import 'package:zoe/app/modules/authiocation/views/authiocation_view.dart';
 import 'package:zoe/app/modules/authiocation/views/forgotpassword_view.dart';
@@ -12,6 +17,7 @@ import 'package:zoe/app/modules/authiocation/views/splash_view.dart';
 import 'package:zoe/app/modules/brand/bindings/brand_binding.dart';
 import 'package:zoe/app/modules/brand/views/brand_view.dart';
 import 'package:zoe/app/modules/cart/bindings/cart_binding.dart';
+import 'package:zoe/app/modules/cart/views/cart_check_out_view.dart';
 import 'package:zoe/app/modules/cart/views/cart_view.dart';
 import 'package:zoe/app/modules/category/bindings/category_binding.dart';
 import 'package:zoe/app/modules/category/views/category_view.dart';
@@ -20,9 +26,7 @@ import 'package:zoe/app/modules/entry_point/views/entry_point_view.dart';
 import 'package:zoe/app/modules/home/bindings/home_binding.dart';
 import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/modules/home/views/layout_view.dart';
-import 'package:zoe/app/modules/order/bindings/order_binding.dart';
-import 'package:zoe/app/modules/order/views/order_payment_view.dart';
-import 'package:zoe/app/modules/order/views/order_view.dart';
+
 import 'package:zoe/app/modules/product/bindings/product_binding.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/modules/product/views/product_brand_view.dart';
@@ -33,7 +37,7 @@ import 'package:zoe/app/modules/product/views/product_view.dart';
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.ENTRY_POINT;
+  static const INITIAL = Routes.SplashView;
 
   static final routes = [
     GetPage(
@@ -102,14 +106,9 @@ class AppPages {
       binding: ProductBinding(),
     ),
     GetPage(
-      name: Routes.ORDER,
-      page: () => OrderView(),
-      binding: OrderBinding(),
-    ),
-    GetPage(
-      name: Routes.OrderPaymentView,
-      page: () => OrderPaymentView(),
-      binding: OrderBinding(),
+      name: Routes.CartCheckOutView,
+      page: () => CartCheckOutView(),
+      binding: CartBinding(),
     ),
     GetPage(
       name: Routes.ENTRY_POINT,
@@ -120,6 +119,36 @@ class AppPages {
       name: Routes.ProductBrandView,
       page: () => ProductBrandView(),
       binding: ProductBinding(),
+    ),
+    GetPage(
+      name: Routes.ServererroView,
+      page: () => EntryPointView(),
+      binding: EntryPointBinding(),
+    ),
+    GetPage(
+      name: Routes.AccountOrderHistoryView,
+      page: () => AccountOrderHistoryView(),
+      binding: AccountBinding(),
+    ),
+    GetPage(
+      name: Routes.AccountOrderHistoryDetailesView,
+      page: () => AccountOrderHistoryDetailesView(),
+      binding: AccountBinding(),
+    ),
+    GetPage(
+      name: Routes.AccountAdressView,
+      page: () => AccountAdressView(),
+      binding: AccountBinding(),
+    ),
+    GetPage(
+      name: Routes.AccountAboutView,
+      page: () => AccountAboutView(),
+      binding: AccountBinding(),
+    ),
+    GetPage(
+      name: Routes.AccountWishListView,
+      page: () => AccountWishListView(),
+      binding: AccountBinding(),
     ),
   ];
 }

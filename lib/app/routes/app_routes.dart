@@ -23,5 +23,15 @@ abstract class Routes {
   static const ENTRY_POINT = '/entry-point';
   static const LayoutView = '/LayoutView';
   static const ProductBrandView = '/ProductBrandView';
+  static const ServererroView = '/ServererroView';
+  static const CartCheckOutView = '/CartCheckOutView';
+  static const AccountOrderHistoryView = '/AccountOrderHistoryView';
+  static const AccountOrderHistoryDetailesView =
+      '/AccountOrderHistoryDetailesView';
+
+  static const AccountAdressView = '/AccountAdressView';
+static const AccountAboutView = '/AccountAboutView';
+  
+static const AccountWishListView = '/AccountWishListView';
   
 }
