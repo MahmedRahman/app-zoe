@@ -95,9 +95,9 @@ class Product {
     String name;
     String image;
     Brand brand;
-    int priceBeforeDiscount;
+    dynamic priceBeforeDiscount;
     int discountRate;
-    int price;
+    dynamic price;
     int rating;
     int commentsCount;
     bool wishlist;
