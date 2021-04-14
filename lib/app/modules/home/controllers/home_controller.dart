@@ -1,37 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/data/BrandModel.dart';
-import 'package:zoe/app/data/CategoryModel.dart';
-import 'package:zoe/app/data/model/home_model.dart';
-import 'package:zoe/app/data/productModel.dart';
-import 'package:zoe/app/modules/home/provider/home_provider.dart';
+import 'package:zoe/app/api/web_serives.dart';
+
+import 'package:zoe/app/api/model/home_model.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
-var selectindex = 2.obs;
+  var selectindex = 2.obs;
+
   @override
-  void onInit() {}
-
-  getCategory() {
-   return HomeProvider().getCategory();
+  void onInit() async {
+    await getHome();
+    super.onInit();
   }
 
-  getBrand() {
-    return HomeProvider().getBrand();
-  }
+  final homeModelFuture = Future.value().obs;
 
-  getHome() {
-    return HomeProvider().getHomePage();
+  Future getHome() async {
+    HomeModel homeModel;
+    Response response = await WebServices().getHomePage();
+    homeModel = homeModelFromJson(response.bodyString);
+    homeModelFuture.value = Future.value(homeModel);
+    return homeModel;
   }
-  List<ProductModel> getProduct() {
-    return productLsit;
-  }
-
-
-  getFeaturedCategories() {
-    return HomeProvider().getFeaturedCategories();
-  }
-
-  
-  
 }

@@ -39,6 +39,7 @@ class Datum {
         this.orderTotal,
         this.address,
         this.city,
+        this.status
     });
 
     int id;
@@ -46,13 +47,14 @@ class Datum {
     double orderTotal;
     String address;
     String city;
-
+String status;
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         orderDate: DateTime.parse(json["order_date"]),
         orderTotal: json["order_total"].toDouble(),
         address: json["address"] == null ? null : json["address"],
         city: json["city"] == null ? null : json["city"],
+        status: json["status"] == null ? null : json["status"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -61,5 +63,6 @@ class Datum {
         "order_total": orderTotal,
         "address": address == null ? null : address,
         "city": city == null ? null : city,
+        "status": status == null ? null : status,
     };
 }

@@ -1,24 +1,22 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/data/BrandModel.dart';
-import 'package:zoe/app/data/model/brand_model.dart';
+import 'package:zoe/app/api/model/brand_model.dart';
 import 'package:zoe/app/modules/brand/controllers/brand_controller.dart';
-import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class BrandView extends StatelessWidget {
-  BrandController brandController = Get.put(BrandController());
-
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut<BrandController>(() {
+      return BrandController();
+    });
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-            future: brandController.getBrand(),
+            future: Get.find<BrandController>().brands,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<Brand> brands = snapshot.data;
@@ -32,15 +30,14 @@ class BrandView extends StatelessWidget {
                             arguments: [brand.id.toString()]);
                       },
                       child: Card(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CustomImageCached(
-                          imageUrl: brand.image.toString(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomImageCached(
+                            imageUrl: brand.image.toString(),
+                          ),
                         ),
-                      )),
+                      ),
                     );
-
-                    // Text(brands.elementAt(index).name.toString());
                   }),
                 );
               } else if (snapshot.hasError) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/order_history_model.dart';
@@ -11,16 +12,7 @@ class AccountOrderHistoryView extends GetView<AccountController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: SizedBox(
-          height: 100,
-          child: Image.asset('assets/logo.png'),
-        ),
-        centerTitle: true,
-       
-      ),
+      appBar: CustemAppBar(),
       body: FutureBuilder(
           future: controller.getOrderHistory(),
           builder: (context, snapshot) {
@@ -35,7 +27,7 @@ class AccountOrderHistoryView extends GetView<AccountController> {
                         Get.toNamed(Routes.AccountOrderHistoryDetailesView,arguments: [orderItem.id.toString()]);
                       },
                       title: Text(DateFormat("MMMM-dd").format(orderItem.orderDate).toString()),
-                      subtitle: Text(orderItem.city.toString()),
+                      subtitle: Text(orderItem.status.toString()),
                       leading: Text(orderItem.id.toString()),
                       trailing: Text(orderItem.orderTotal.toString()),
                     ),

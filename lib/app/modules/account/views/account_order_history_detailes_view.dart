@@ -23,13 +23,15 @@ class AccountOrderHistoryDetailesView extends GetView<AccountController> {
                   Card(
                     child: ListTile(
                       title: Text('تاريخ الطلب'),
-                      subtitle:  Text(DateFormat("MMMM-dd").format(ProductHistory.order.orderDate).toString()),
+                      subtitle: Text(DateFormat("MMMM-dd")
+                          .format(ProductHistory.order.orderDate)
+                          .toString()),
                       leading: Icon(Icons.history),
                     ),
                   ),
                   Card(
                     child: ListTile(
-                      title: Text('أجمالى ثمن الطلب'),
+                      title: Text('أجمالى السعر'),
                       subtitle:
                           Text(ProductHistory.order.orderTotal.toString()),
                       leading: Icon(Icons.money),
@@ -37,26 +39,33 @@ class AccountOrderHistoryDetailesView extends GetView<AccountController> {
                   ),
                   Card(
                     child: ListTile(
-                      title: Text('أجمالى ثمن الشحن'),
-                      subtitle: Text(
-                          ProductHistory.order.orderShippingFee.toString()),
+                      title: Text('حالة الطلب'),
+                      subtitle: Text(ProductHistory.order.status.toString()),
                       leading: Icon(Icons.local_shipping),
                     ),
                   ),
-                 
+                  Card(
+                    child: ListTile(
+                      title: Text('ألعنوان'),
+                      subtitle: Text(ProductHistory.order.address),
+                      leading: Icon(Icons.location_pin),
+                    ),
+                  ),
                   Column(
                     children:
                         List.generate(ProductHistory.items.length, (index) {
                       Item CartItem = ProductHistory.items.elementAt(index);
                       return ListTile(
-                        title: Text(CartItem.name.toString()),
+                        title: Text(CartItem.name.toString(),overflow: TextOverflow.ellipsis,),
                         subtitle: Text(CartItem.qty.toString()),
+                        trailing: Text(CartItem.total.toString()),
                         leading: SizedBox(
                             width: 32,
                             height: 32,
                             child: CustomImageCached(
                               imageUrl: CartItem.image.toString(),
                             )),
+                        
                       );
                     }).toList(),
                   )

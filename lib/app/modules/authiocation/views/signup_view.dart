@@ -79,15 +79,17 @@ class SignupView extends GetView<AuthiocationController> {
                         return AppValidation.checkEmpty(value);
                       },
                     ),
-                    SizedBox(  
+                    SizedBox(
                       height: 10,
                     ),
                     CustomButton(
                       title: 'new registration'.tr,
+                      buttonController: controller.buttonController,
                       onPressed: () async {
-                        // Get.toNamed(Routes.OtpView);
                         if (_formKey.currentState.validate()) {
                           controller.createUser();
+                        } else {
+                          controller.restbnt();
                         }
                       },
                     ),
@@ -103,7 +105,7 @@ class SignupView extends GetView<AuthiocationController> {
                           },
                           child: RichText(
                             text: TextSpan(
-                              text: 'I dont have an account'.tr,
+                              text: 'لديك حساب '.tr,
                               style: subtitle,
                               children: [
                                 TextSpan(
@@ -115,7 +117,7 @@ class SignupView extends GetView<AuthiocationController> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: 'new registration'.tr,
+                                  text: 'تسجيل دخول'.tr,
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 15,

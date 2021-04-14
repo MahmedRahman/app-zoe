@@ -1,50 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:zoe/app/data/component/CustomIndicator.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
+import 'package:zoe/app/modules/account/model/user_provile.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
 class AccountView extends StatelessWidget {
-
-  AccountController controller =Get.put(AccountController());
+  //AccountController controller = Get.put(AccountController());
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut<AccountController>(
+      () => AccountController(),
+    );
+    AccountController controller = Get.find<AccountController>();
     return Scaffold(
       body: Column(
         children: [
-         FutureBuilder(
-            future: controller.getProfile(),
-            builder: (context, snapshot) {
-              if(snapshot.hasData) {
-               return Column(
-                 children: [
-                   Text(snapshot.data['data']['name']),
-                   Text(snapshot.data['data']['email']),
-                    Text(snapshot.data['data']['mobile']),
-                 ],
-               );
-              
-              } else if(snapshot.hasError){
-
-              }
-              return Center(
-                child: Text(
-                  'قيد التنفيذ',
-                  style: TextStyle(fontSize: 20),
-                ),
-              );
-            }
-          ),
-         /* ListTile(
-            title: Text('تعديل الحساب'),
-            leading: Icon(Icons.account_circle),
-            trailing: Icon(Icons.arrow_forward),
-          ),*/
+          FutureBuilder(
+              future: controller.userProfile,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  UserProfileModel userProfileModel = snapshot.data;
+                  return Column(
+                    children: [
+                      Text(userProfileModel.data.name),
+                      Text(userProfileModel.data.email),
+                      Text(userProfileModel.data.mobile),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                      child: CustomIndicator(
+                    indicatorStatus: IndicatorStatus.error,
+                  ));
+                }
+                return Center(child: CustomIndicator());
+              }),
           Card(
             child: ListTile(
               title: Text('طلباتى'),
-              leading: Icon(Icons.account_circle),
+              leading: SvgPicture.asset('assets/order.svg'),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.toNamed(Routes.AccountOrderHistoryView);
@@ -54,35 +52,36 @@ class AccountView extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text('عناوين'),
-              leading: Icon(Icons.account_circle),
+              leading: SvgPicture.asset('assets/address.svg'),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.toNamed(Routes.AccountAdressView);
               },
             ),
-          ), Card(
+          ),
+          Card(
             child: ListTile(
-              title: Text('قائمة الامنيات'),
-              leading: Icon(Icons.account_circle),
+              title: Text('المفضلة'),
+              leading: SvgPicture.asset('assets/favarit.svg'),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
-               Get.toNamed(Routes.AccountWishListView);
+                Get.toNamed(Routes.AccountWishListView);
               },
             ),
           ),
           Card(
             child: ListTile(
               title: Text('مركز المساعدة'),
-              leading: Icon(Icons.account_circle),
+              leading: SvgPicture.asset('assets/helpcenter.svg'),
               trailing: Text('01000000000'),
             ),
           ),
           Card(
             child: ListTile(
               title: Text('حول زوي'),
-              leading: Icon(Icons.account_circle),
+              leading: SvgPicture.asset('assets/about.svg'),
               trailing: Icon(Icons.arrow_forward),
-              onTap: (){
+              onTap: () {
                 Get.toNamed(Routes.AccountAboutView);
               },
             ),
@@ -90,7 +89,7 @@ class AccountView extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text('تسجيل الخروج'),
-              leading: Icon(Icons.account_circle),
+              leading: SvgPicture.asset('assets/signout.svg'),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.find<UserAuth>().signout();

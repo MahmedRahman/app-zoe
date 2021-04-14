@@ -9,13 +9,12 @@ import 'package:zoe/app/modules/brand/views/brand_view.dart';
 import 'package:zoe/app/modules/cart/views/cart_view.dart';
 import 'package:zoe/app/modules/category/views/category_view.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
-
 import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
 class LayoutView extends StatelessWidget {
-     HomeController controller = Get.put(HomeController());
+  HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,7 @@ class LayoutView extends StatelessWidget {
               title: Text('الاقسام'),
               leading: Image.asset('assets/menu/category.png'),
               onTap: () {
-                  controller.selectindex.value = 0;
+                controller.selectindex.value = 0;
                 Get.back();
               },
             ),
@@ -54,7 +53,7 @@ class LayoutView extends StatelessWidget {
               title: Text('الماركات'),
               leading: Image.asset('assets/menu/brand.png'),
               onTap: () {
-                  controller.selectindex.value = 1;
+                controller.selectindex.value = 1;
                 Get.back();
               },
             ),
@@ -62,7 +61,7 @@ class LayoutView extends StatelessWidget {
               title: Text('سلة التسوق'),
               leading: Image.asset('assets/menu/shopping.png'),
               onTap: () {
-                 controller.selectindex.value = 3;
+                controller.selectindex.value = 3;
                 Get.back();
               },
             ),
@@ -97,65 +96,100 @@ class LayoutView extends StatelessWidget {
             ),
           ],
         ),
-        child: Obx(
-          () {
-            return CurvedNavigationBar(
-              index:  controller.selectindex.value,
-              animationDuration: Duration(milliseconds: 400),
-              backgroundColor: Colors.transparent,
-              buttonBackgroundColor: Colors.red,
-              color: Colors.white,
-              height: 75,
-              items: [
-                SvgPicture.asset(
-                  'assets/menu/category.svg',
-                  width:  controller.selectindex.value == 0 ? 32 : 20,
-                  color:  controller.selectindex.value == 0 ? Colors.white : Colors.red,
-                ),
-                SvgPicture.asset(
-                  'assets/menu/brands.svg',
-                  width:  controller.selectindex.value == 1 ? 32 : 20,
-                  color:  controller.selectindex.value == 1 ? Colors.white : Colors.red,
-                ),
-                SvgPicture.asset(
-                  'assets/menu/home.svg',
-                  width:  controller.selectindex.value == 2 ? 32 : 20,
-                  color:  controller.selectindex.value == 2 ? Colors.white : Colors.red,
-                ),
-                SvgPicture.asset(
-                  'assets/menu/shopping.svg',
-                  width:  controller.selectindex.value == 3 ? 32 : 20,
-                  color:  controller.selectindex.value == 3 ? Colors.white : Colors.red,
-                ),
-                SvgPicture.asset(
-                  'assets/menu/user.svg',
-                  width:  controller.selectindex.value == 4 ? 32 : 20,
-                  color:  controller.selectindex.value == 4 ? Colors.white : Colors.red,
-                ),
-              ],
-              onTap: (value) {
-                 controller.selectindex.value = value;
-                //  set controller.selectindex(value);
-                // s
-              },
-            );
-          }
-        ),
-      ),
-      body: Obx(
-         () {
-          return IndexedStack(
-              index:  controller.selectindex.value,
-              children: [
-                CategoryView(),
-                BrandView(),
-                HomePage(),
-                CartView(),
-                AccountView()
-              ],  
+        child: Obx(() {
+          return CurvedNavigationBar(
+            index: controller.selectindex.value,
+            animationDuration: Duration(milliseconds: 400),
+            backgroundColor: Colors.transparent,
+            buttonBackgroundColor: Colors.red,
+            color: Colors.white,
+            height: 75,
+            items: [
+              SvgPicture.asset(
+                'assets/menu/category.svg',
+                width: controller.selectindex.value == 0 ? 32 : 20,
+                color: controller.selectindex.value == 0
+                    ? Colors.white
+                    : Colors.red,
+              ),
+              SvgPicture.asset(
+                'assets/menu/brands.svg',
+                width: controller.selectindex.value == 1 ? 32 : 20,
+                color: controller.selectindex.value == 1
+                    ? Colors.white
+                    : Colors.red,
+              ),
+              SvgPicture.asset(
+                'assets/menu/home.svg',
+                width: controller.selectindex.value == 2 ? 32 : 20,
+                color: controller.selectindex.value == 2
+                    ? Colors.white
+                    : Colors.red,
+              ),
+              SvgPicture.asset(
+                'assets/menu/shopping.svg',
+                width: controller.selectindex.value == 3 ? 32 : 20,
+                color: controller.selectindex.value == 3
+                    ? Colors.white
+                    : Colors.red,
+              ),
+              SvgPicture.asset(
+                'assets/menu/user.svg',
+                width: controller.selectindex.value == 4 ? 32 : 20,
+                color: controller.selectindex.value == 4
+                    ? Colors.white
+                    : Colors.red,
+              ),
+            ],
+            onTap: (value) {
+              controller.selectindex.value = value;
+            },
           );
-        }
+        }),
       ),
+      body: Obx(() {
+        return IndexedStack(
+          index: controller.selectindex.value,
+          children: [
+            CategoryView(),
+            BrandView(),
+            HomePage(),
+            CartView(),
+            (Get.find<UserAuth>().getUserToken() == null)
+                ? loginuser()
+                : AccountView(),
+          ],
+        );
+      }),
     );
+  }
+
+  Widget loginuser() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'برجاء تسجيل الدخول',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red, // background
+            onPrimary: Colors.white, // foreground
+          ),
+          onPressed: () {
+            Get.toNamed(Routes.SigninView);
+          },
+          child: Text('تسجيل دخول'),
+        )
+      ],
+    ));
   }
 }

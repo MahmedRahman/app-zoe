@@ -1,11 +1,21 @@
 import 'package:get/get.dart';
-import 'package:zoe/app/data/BrandModel.dart';
-import 'package:zoe/app/modules/brand/providers/brand_provider.dart';
+
+import 'package:zoe/app/api/model/brand_model.dart';
+import 'package:zoe/app/api/web_serives.dart';
 
 class BrandController extends GetxController {
   //TODO: Implement BrandController
-  
-  getBrand(){
-    return BrandProvider().getbrand();
+  Future<List<Brand>> brands;
+
+  @override
+  void onInit() {
+    getBrand();
+  }
+
+  getBrand() async {
+    Response response = await WebServices().getbrand();
+    final brandsModel = brandsModelFromJson(response.bodyString);
+    brands =Future.value(brandsModel.data.brands);
+    return brandsModel.data.brands;
   }
 }

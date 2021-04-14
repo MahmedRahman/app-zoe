@@ -28,10 +28,13 @@ abstract class Routes {
   static const AccountOrderHistoryView = '/AccountOrderHistoryView';
   static const AccountOrderHistoryDetailesView =
       '/AccountOrderHistoryDetailesView';
-
   static const AccountAdressView = '/AccountAdressView';
-static const AccountAboutView = '/AccountAboutView';
+  static const AccountAboutView = '/AccountAboutView';
+  static const AccountWishListView = '/AccountWishListView';
+  static const AccountAddAdressView = '/AccountAddAdressView';
+
+
   
-static const AccountWishListView = '/AccountWishListView';
-  
+
+  static const ProductDepartmentsView = '/ProductDepartmentsView';
 }

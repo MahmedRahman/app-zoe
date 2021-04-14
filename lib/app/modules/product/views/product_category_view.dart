@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/data/model/category_products_model.dart';
+import 'package:zoe/app/data/component/CustomAppBar.dart';
+import 'package:zoe/app/api/model/category_products_model.dart';
 
 import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
@@ -13,29 +14,7 @@ class ProductCategoryView extends GetView<ProductController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: SizedBox(
-          height: 100,
-          child: Image.asset('assets/logo.png'),
-        ),
-        centerTitle: true,
-        actions: [
-          InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.logout,
-                color: Colors.red,
-              ),
-            ),
-            onTap: () {
-              Get.toNamed(Routes.SplashView);
-            },
-          )
-        ],
-      ),
+      appBar: CustemAppBar(),
       body: FutureBuilder(
         future: controller.getProductByCategory(Get.arguments[0].toString()),
         builder: (context, snapshot) {
@@ -71,4 +50,5 @@ class ProductCategoryView extends GetView<ProductController> {
       ),
     );
   }
+
 }

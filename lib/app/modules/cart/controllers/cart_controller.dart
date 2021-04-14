@@ -1,52 +1,44 @@
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
 import 'package:zoe/app/modules/cart/model/CartItem.dart';
-import 'package:zoe/app/modules/cart/providers/provider_provider.dart';
 import 'package:zoe/app/routes/app_pages.dart';
+import 'package:zoe/auth.dart';
 
 class CartController extends GetxController {
-  List<CartItem> listCartItem = List<CartItem>().obs;
-  RoundedLoadingButtonController buttonController =
-      new RoundedLoadingButtonController();
-  var ShappingPrice = 50;
-  @override
-  void onInit() {}
+  List<CartItem> listCartItem = List<CartItem>.empty(growable: true).obs;
 
-  Cart() {
-    listCartItem = [];
+  var listCartItemFutter = Future.value().obs;
+
+  RoundedLoadingButtonController buttonController;
+
+  var shappingPrice = 10.obs;
+  var totalPrice = 0.obs;
+  int addressid = 1;
+
+  void onInit() {
+    updaetCartItem();
+    buttonController = new RoundedLoadingButtonController();
+    super.onInit();
   }
 
-  Future getCartItem() async {
-    return await listCartItem;
+  updaetCartItem() {
+    listCartItemFutter.value = Future.value(listCartItem);
   }
 
   addToCart(CartItem cartItem) {
     if (isExitProduct(cartItem) == false) {
       listCartItem.add(cartItem);
     }
-  }
-
-  Future CartPack() async {
-    return await listCartItem;
-  }
-
-  printCart() {
-    listCartItem.forEach((element) {
-      print(element.Productid);
-      print(element.productName);
-      print(element.qty.toString());
-      print(element.ProductPrice);
-    });
-    print("Print toal Cart item : " + cartCount().toString());
-    print("Print toal Cart Price : " + cartTotalPrice().toString());
+    updaetCartItem();
   }
 
   bool isExitProduct(CartItem cartItem) {
     for (CartItem localCartItem in listCartItem) {
-      if (localCartItem.Productid == cartItem.Productid) {
+      if (localCartItem.productid == cartItem.productid) {
         localCartItem.addQty(qty: cartItem.qty);
 
         return true;
@@ -61,9 +53,13 @@ class CartController extends GetxController {
 
   carClearItem(int index) {
     listCartItem.removeAt(index);
-    update();
+
     showSnackBar(
-        title: appName, message: 'تم حذف العنصر', snackbarStatus: () {});
+        title: appName,
+        message: 'تم حذف العنصر',
+        snackbarStatus: () {
+          updaetCartItem();
+        });
   }
 
   int cartCount() {
@@ -73,7 +69,7 @@ class CartController extends GetxController {
   double cartTotalPrice() {
     double price = 0;
     for (CartItem localCartItem in listCartItem) {
-      price = price + localCartItem.ProductPrice + ShappingPrice;
+      price = price + localCartItem.productPrice + shappingPrice.value;
     }
     return price;
   }
@@ -81,7 +77,7 @@ class CartController extends GetxController {
   double cartTotalProductPrice() {
     double price = 0;
     for (CartItem localCartItem in listCartItem) {
-      price = price + localCartItem.ProductPrice;
+      price = price + localCartItem.productPrice;
     }
     return price;
   }
@@ -89,21 +85,35 @@ class CartController extends GetxController {
   checkout() async {
     String productList = '';
     String productQty = '';
+    String productSize = '';
+    String productColor = '';
     var i = 0;
 
     listCartItem.forEach((CartItem _cartItem) {
       if (i == 0) {
-        productList = productList.toString() + _cartItem.Productid.toString();
+        productList = productList.toString() + _cartItem.productid.toString();
         productQty = productQty.toString() + _cartItem.qty.toString();
+        productSize = productSize.toString() + _cartItem.qty.toString();
+        productColor = productColor.toString() + _cartItem.qty.toString();
         i = 1;
       } else {
         productList =
-            productList.toString() + ',' + _cartItem.Productid.toString();
+            productList.toString() + ',' + _cartItem.productid.toString();
         productQty = productQty.toString() + ',' + _cartItem.qty.toString();
+        productSize = productSize.toString() + ',' + _cartItem.qty.toString();
+        productColor = productColor.toString() + ',' + _cartItem.qty.toString();
       }
     });
 
-    await CartProvider().checkout(productList, productQty).then((response) {
+    await WebServices()
+        .checkout(
+      addressid: addressid,
+      colors: productColor,
+      qtyList: productQty,
+      productsList: productList,
+      sizes: productSize,
+    )
+        .then((response) {
       if (response.body['success']) {
         showSnackBar(
             title: appName,
@@ -124,5 +134,21 @@ class CartController extends GetxController {
     });
 
     buttonController.reset();
+  }
+
+  void cartComplete() {
+    //buttonController.reset();
+
+    if (Get.find<UserAuth>().getUserToken() == null) {
+      showSnackBar(
+        title: appName,
+        message: 'برجاء تسجيل الدخول لتمكن من اتمام الطلب',
+        snackbarStatus: () {
+          Get.toNamed(Routes.SigninView);
+        },
+      );
+    } else {
+      Get.toNamed(Routes.CartCheckOutView);
+    }
   }
 }

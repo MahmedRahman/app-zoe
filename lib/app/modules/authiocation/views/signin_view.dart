@@ -99,7 +99,6 @@ class SigninView extends GetView<AuthiocationController> {
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               controller.Signin();
-                              
                             }
                           },
                         ),
@@ -147,6 +146,22 @@ class SigninView extends GetView<AuthiocationController> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.LayoutView);
+                    },
+                    child: Text(
+                      'دخول كزائر',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline
+                      ),
+                      
+                    ),
+                  )
                 ],
               ),
             ),

@@ -9,7 +9,7 @@ String baes_url = 'https://dev.matrixclouds.com/zoe/public/api/';
 String api_key = 'zoe_api_key';
 String Language = 'ar';
 
-class RepostoryProvide extends GetConnect {
+class APIManger extends GetConnect {
   final header = {
     'x-api-key': api_key,
     'Content-Language': Language,
@@ -33,7 +33,11 @@ class RepostoryProvide extends GetConnect {
     print("Api Request " + baes_url + url);
     setUserTokan();
     Response response = await post(baes_url + url, body, headers: header);
-
+    print("Api Request " +
+        baes_url +
+        url +
+        " Api Request:: " +
+        response.statusCode.toString());
     try {
       switch (response.statusCode) {
         case 200:
@@ -77,16 +81,14 @@ class RepostoryProvide extends GetConnect {
         url +
         " Api Request:: " +
         response.statusCode.toString());
-    try {
-      print(response.statusCode);
 
+    try {
       switch (response.statusCode) {
         case 200:
           if (isJsonParsable(response.bodyString)) {
             return response;
           } else {
             print(response.bodyString);
-            // Get.toNamed(Routes.SETTING);
           }
 
           break;

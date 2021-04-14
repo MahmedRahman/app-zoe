@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.976" height="25.927" viewBox="0 0 20.976 25.927">
+  <g id="order" transform="translate(1.003 1)">
+    <g id="Group_771" data-name="Group 771" transform="translate(0 4.72)">
+      <g id="Group_770" data-name="Group 770">
+        <path id="Path_2504" data-name="Path 2504" d="M71.983,116.016l-1.068-13.464a1.682,1.682,0,0,0-1.67-1.547H67.134v3.127a.7.7,0,0,1-1.4,0v-3.127H59.286v3.127a.7.7,0,0,1-1.4,0v-3.127H55.774a1.682,1.682,0,0,0-1.67,1.545l-1.069,13.468a3.9,3.9,0,0,0,3.884,4.194H68.1a3.9,3.9,0,0,0,3.884-4.2Zm-6.317-6.857-3.624,3.624a.7.7,0,0,1-.991,0l-1.7-1.7a.7.7,0,0,1,.991-.991l1.2,1.2,3.129-3.129a.7.7,0,1,1,.991.991Z" transform="translate(-53.023 -101.005)" fill="none" stroke="#ea3a3c" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="Group_773" data-name="Group 773" transform="translate(4.86)">
+      <g id="Group_772" data-name="Group 772">
+        <path id="Path_2505" data-name="Path 2505" d="M161.664,0a4.63,4.63,0,0,0-4.625,4.625V4.72h1.4V4.625a3.223,3.223,0,1,1,6.447,0V4.72h1.4V4.625A4.63,4.63,0,0,0,161.664,0Z" transform="translate(-157.039)" fill="none" stroke="#ea3a3c" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

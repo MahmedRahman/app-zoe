@@ -34,6 +34,13 @@ class CustomIndicator extends StatelessWidget {
         );
         break;
 
+      case IndicatorStatus.NoProductincart:
+        return SizedBox(
+          width: 265,
+          child: Lottie.asset('assets/cartnoproduct.json'),
+        );
+        break;
+
       default:
         return CircularProgressIndicator();
     }
@@ -46,4 +53,5 @@ enum IndicatorStatus {
   imageplaceholder,
   ListProduct,
   NoProductFound,
+  NoProductincart,
 }

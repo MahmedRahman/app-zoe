@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class CustomTextFormFiled extends StatelessWidget {
@@ -13,7 +11,8 @@ class CustomTextFormFiled extends StatelessWidget {
     this.inputLabel,
     this.inputHit,
     this.keyboardType,
-    this.onValidator, this.inputController,
+    this.onValidator,
+    this.inputController,
   }) : super(key: key);
 
   @override
@@ -23,7 +22,6 @@ class CustomTextFormFiled extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        
           SizedBox(
             height: 5,
           ),
@@ -34,9 +32,7 @@ class CustomTextFormFiled extends StatelessWidget {
             decoration: InputDecoration(
               errorStyle: TextStyle(fontSize: 14),
               labelText: inputLabel,
-              labelStyle: TextStyle(
-                color: Colors.grey
-              ),
+              labelStyle: TextStyle(color: Colors.grey),
               isDense: true,
               filled: true,
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -44,10 +40,14 @@ class CustomTextFormFiled extends StatelessWidget {
               hintText: inputHit,
               hintStyle: TextStyle(fontWeight: FontWeight.bold),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
                 borderSide: BorderSide(color: Colors.red, width: 2),
               ),
             ),
@@ -93,7 +93,7 @@ class CustomTextAreaFormFiled extends StatelessWidget {
             keyboardType: keyboardType,
             minLines: 5, //Normal textInputField will be displayed
             maxLines: 5,
-            
+
             decoration: InputDecoration(
               isDense: true,
               filled: true,

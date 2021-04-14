@@ -5,6 +5,7 @@ import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/account_adrees_model.dart';
+import 'package:zoe/app/routes/app_pages.dart';
 
 class AccountAdressView extends GetView<AccountController> {
   @override
@@ -13,36 +14,44 @@ class AccountAdressView extends GetView<AccountController> {
       appBar: CustemAppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.defaultDialog(content: Text('data'));
+          Get.toNamed(Routes.AccountAddAdressView);
         },
         child: Icon(Icons.add),
       ),
-      body: FutureBuilder(
-          future: controller.getAccountAdress(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Datum> AccountAddress = snapshot.data;
-              return ListView(
-                  children: List.generate(AccountAddress.length, (index) {
-                Datum Address = AccountAddress.elementAt(index);
-                return Card(
-                  child: ListTile(
-                    title: Text(Address.address.toString()),
-                    subtitle: Text(Address.city.toString()),
-                    trailing:
-                        IconButton(icon: Icon(Icons.delete), onPressed: () {}),
-                  ),
+      body: GetX<AccountController>(builder: (controller) {
+        return FutureBuilder(
+            future: controller.AdreesModel.value,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Datum> AccountAddress = snapshot.data;
+                AccountAddress.sort((b, a) => a.id.compareTo(b.id));
+
+                return ListView(
+                    children: List.generate(AccountAddress.length, (index) {
+                  Datum Address = AccountAddress.elementAt(index);
+                  return Card(
+                    child: ListTile(
+                      title: Text(Address.address.toString()),
+                      subtitle: Text(Address.city.toString()),
+                      trailing: IconButton(
+                          icon: Icon(Icons.delete,color: Colors.red,),
+                          onPressed: () {
+                            controller.deleteUserAddress(
+                                userAddresId: Address.id);
+                          }),
+                    ),
+                  );
+                }).toList());
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: CustomIndicator(),
                 );
-              }).toList());
-            } else if (snapshot.hasError) {
+              }
               return Center(
                 child: CustomIndicator(),
               );
-            }
-            return Center(
-              child: CustomIndicator(),
-            );
-          }),
+            });
+      }),
     );
   }
 }

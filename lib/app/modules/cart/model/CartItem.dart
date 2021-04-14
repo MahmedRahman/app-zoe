@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 
 class CartItem {
-  int Productid;
+  int productid;
   String productName;
-   String productimage;
-  double ProductPrice;
+  String productimage;
+  dynamic productPrice;
+  int productSize;
+  int productColor;
   int qty;
-  double totalprice;
+  dynamic totalprice;
 
   CartItem({
-    @required this.Productid,
+    @required this.productid,
     @required this.productName,
     @required this.productimage,
-    @required this.ProductPrice,
+    @required this.productPrice,
+    this.productSize = 0,
+    this.productColor = 0,
     @required this.qty,
   }) {
-    totalprice = ProductPrice * this.qty;
+    totalprice = productPrice * this.qty;
   }
 
   addQty({@required int qty}) {
     this.qty = this.qty + qty;
-    totalprice = ProductPrice * this.qty;
+    totalprice = productPrice * this.qty;
   }
 }

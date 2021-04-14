@@ -1,72 +1,66 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/data/BrandModel.dart';
-import 'package:zoe/app/data/CategoryModel.dart';
-import 'package:zoe/app/data/model/home_model.dart';
-import 'package:zoe/app/data/productModel.dart';
-import 'package:zoe/app/modules/account/views/account_view.dart';
-import 'package:zoe/app/modules/brand/views/brand_view.dart';
-import 'package:zoe/app/modules/cart/views/cart_view.dart';
-import 'package:zoe/app/modules/category/views/category_view.dart';
+import 'package:zoe/app/api/model/home_model.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class HomePage extends StatelessWidget {
-
-   HomeController controller = Get.put(HomeController());
+  // HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-        return FutureBuilder(
-            future: controller.getHome(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                HomeModel homeModel = snapshot.data;
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
+    return Container(
+      child: GetX<HomeController>(
+          init: HomeController(),
+          builder: (controller) {
+            return FutureBuilder(
+                future: controller.homeModelFuture.value,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    HomeModel homeModel = snapshot.data;
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Image.asset('assets/offer.png'),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Title(
+                            label: 'الاقسام',
+                          ),
+                          buildCategory(homeModel.data.departments),
+                          Title(
+                            label: 'الماركات',
+                          ),
+                          buildBrand(homeModel.data.brands),
+                          buildFeaturedCategory(
+                              homeModel.data.featuredCategories),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ),
-                      Image.asset('assets/offer.png'),
-                      SizedBox(
-                        height: 10,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: CustomIndicator(
+                        indicatorStatus: IndicatorStatus.error,
                       ),
-                      Title(
-                        label: 'الاقسام',
-                      ),
-                      buildCategory(homeModel.data.departments),
-                      Title(
-                        label: 'الماركات',
-                      ),
-                      buildBrand(homeModel.data.brands),  
-                      buildFeaturedCategory(homeModel.data.featuredCategories),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: CustomIndicator(
-                    indicatorStatus: IndicatorStatus.error,
-                  ),
-                );
-              }
-              return Center(
-                child: CustomIndicator(
-                  indicatorStatus: IndicatorStatus.wait,
-                ),
-              );
-            });
-   
+                    );
+                  }
+                  return Center(
+                    child: CustomIndicator(
+                      indicatorStatus: IndicatorStatus.wait,
+                    ),
+                  );
+                });
+          }),
+    );
   }
 
   Widget buildCategory(List<BrandElement> brandElement) {
@@ -79,7 +73,7 @@ class HomePage extends StatelessWidget {
             BrandElement CategoryItem = brandElement.elementAt(index);
             return GestureDetector(
               onTap: () {
-                Get.toNamed(Routes.ProductCategoryView,
+                Get.toNamed(Routes.ProductDepartmentsView,
                     arguments: [CategoryItem.id.toString()]);
               },
               child: Padding(
@@ -121,7 +115,7 @@ class HomePage extends StatelessWidget {
 
   Widget buildBrand(List<BrandElement> brandElement) {
     return SizedBox(
-       height: Get.height * .1,
+      height: Get.height * .1,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: brandElement.length,
@@ -226,7 +220,7 @@ class ProductItem extends StatelessWidget {
                   child: SizedBox(
                     height: 200,
                     child: CustomImageCached(
-                      imageUrl: product.image.toString(),
+                      imageUrl: product.image ?? '',
                     ),
                   ),
                 ),
@@ -242,9 +236,8 @@ class ProductItem extends StatelessWidget {
                   ),
                 ),
               ),
-             
               Text(
-                product.price.toInt().toString(),
+                product.price.toInt().toString() + ' ' + 'ريال',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -285,7 +278,7 @@ class Title extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                print(categoryId);
+               
                 Get.toNamed(Routes.ProductCategoryView,
                     arguments: [categoryId]);
               },

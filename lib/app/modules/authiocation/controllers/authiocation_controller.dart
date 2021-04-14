@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
-import 'package:zoe/app/data/model/user_model.dart';
-import 'package:zoe/app/modules/authiocation/providers/authiocation_provider.dart';
+import 'package:zoe/app/api/model/user_model.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
@@ -23,8 +23,12 @@ class AuthiocationController extends GetxController {
     password.text = "123123123";
   }
 
+  restbnt() {
+    buttonController.stop();
+  }
+
   createUser() {
-    AuthiocationProvider()
+    WebServices()
         .createUser(
             name: fullName.text,
             mobile: phone.text,
@@ -45,21 +49,22 @@ class AuthiocationController extends GetxController {
         showSnackBar(
           message: response.body['errors'],
           title: appName,
-          snackbarStatus: () {},
+          snackbarStatus: () {
+            restbnt();
+          },
         );
       }
     });
   }
 
   Signin() async {
-    await AuthiocationProvider()
+    await WebServices()
         .signin(
       mobile: phone.text,
       password: password.text,
     )
         .then((Response response) {
       if (response.body['success']) {
-      
         Get.find<UserAuth>()
             .setUserToken(response.body['data']['access_token'].toString());
         showSnackBar(

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'package:zoe/app/modules/account/bindings/account_binding.dart';
 import 'package:zoe/app/modules/account/views/account_about_view.dart';
+import 'package:zoe/app/modules/account/views/account_add_adress_view.dart';
 import 'package:zoe/app/modules/account/views/account_adress_view.dart';
 import 'package:zoe/app/modules/account/views/account_order_history_detailes_view.dart';
 import 'package:zoe/app/modules/account/views/account_order_history_view.dart';
@@ -31,13 +32,14 @@ import 'package:zoe/app/modules/product/bindings/product_binding.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/modules/product/views/product_brand_view.dart';
 import 'package:zoe/app/modules/product/views/product_category_view.dart';
+import 'package:zoe/app/modules/product/views/product_departments_view.dart';
 import 'package:zoe/app/modules/product/views/product_detail_view.dart';
 import 'package:zoe/app/modules/product/views/product_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.SplashView;
+  static const INITIAL = Routes.ENTRY_POINT;
 
   static final routes = [
     GetPage(
@@ -105,6 +107,12 @@ class AppPages {
       page: () => ProductDetailView(),
       binding: ProductBinding(),
     ),
+
+        GetPage(
+      name: Routes.ProductDepartmentsView,
+      page: () => ProductDepartmentsView(),
+      binding: ProductBinding(),
+    ),
     GetPage(
       name: Routes.CartCheckOutView,
       page: () => CartCheckOutView(),
@@ -148,6 +156,11 @@ class AppPages {
     GetPage(
       name: Routes.AccountWishListView,
       page: () => AccountWishListView(),
+      binding: AccountBinding(),
+    ),
+    GetPage(
+      name: Routes.AccountAddAdressView,
+      page: () => AccountAddAdressView(),
       binding: AccountBinding(),
     ),
   ];
