@@ -8,8 +8,11 @@ import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
+import 'package:zoe/app/routes/app_pages.dart';
 
-class ProductDetailView extends GetView<ProductController> {
+class ProductDetailView extends StatelessWidget {
+  ProductController controller = Get.put(ProductController());
+
   @override
   Widget build(BuildContext context) {
     var fav = true.obs;
@@ -115,9 +118,7 @@ class ProductDetailView extends GetView<ProductController> {
                           return Card(
                             child: ListTile(
                               onTap: () {
-                                controller.productSizeSelect.value =
-                                    index;
-                                        
+                                controller.productSizeSelect.value = index;
                               },
                               selected:
                                   controller.productSizeSelect.value == index,
@@ -166,9 +167,7 @@ class ProductDetailView extends GetView<ProductController> {
                           return Card(
                             child: ListTile(
                               onTap: () {
-                                controller.productColorSelect.value =
-                                   index;
-                                        
+                                controller.productColorSelect.value = index;
                               },
                               selected:
                                   controller.productColorSelect.value == index,
@@ -244,7 +243,7 @@ class ProductDetailView extends GetView<ProductController> {
                             .data.similarProducts
                             .elementAt(indexproducts);
 
-                        return ProductItem(
+                        return ProductItem_detailes(
                           product: product,
                         );
                       },
@@ -266,6 +265,67 @@ class ProductDetailView extends GetView<ProductController> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class ProductItem_detailes extends StatelessWidget {
+  const ProductItem_detailes({
+    Key key,
+    @required this.product,
+  }) : super(key: key);
+
+  final dynamic product;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Get.offAndToNamed(
+          Routes.ProductDetailView,
+          arguments: [product.id.toString()],
+        );
+      },
+      child: Container(
+        width: Get.width / 2,
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 200,
+                    child: CustomImageCached(
+                      imageUrl: product.image ?? '',
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  product.name.toString(),
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                product.price.toInt().toString() + ' ' + 'ريال',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

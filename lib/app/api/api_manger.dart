@@ -14,6 +14,8 @@ class APIManger extends GetConnect {
     'x-api-key': api_key,
     'Content-Language': Language,
     'Authorization': 'Bearer ',
+    'Content-type': 'application/json',
+    'Accept': 'application/json'
   };
 
   void setUserTokan() {
@@ -66,7 +68,7 @@ class APIManger extends GetConnect {
 
   Future<Response> repGet(url) async {
     print("Api Request " + baes_url + url);
-    print('xxxxxxxxxxxx');
+  
     print(header);
     setUserTokan();
 

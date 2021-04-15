@@ -204,9 +204,10 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('object');
-        Get.offAndToNamed(Routes.ProductDetailView,
-            arguments: [product.id.toString()]);
+        Get.toNamed(
+          Routes.ProductDetailView,
+          arguments: [product.id.toString()],
+        );
       },
       child: Container(
         width: Get.width / 2,
@@ -279,7 +280,6 @@ class Title extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-               
                 Get.toNamed(Routes.ProductCategoryView,
                     arguments: [categoryId]);
               },

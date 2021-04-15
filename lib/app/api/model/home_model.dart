@@ -60,7 +60,7 @@ class BrandElement {
     BrandElement({
         this.id,
         this.name,
-        this.image='https://via.placeholder.com/300.png',
+        this.image,
     });
 
     int id;
@@ -70,7 +70,7 @@ class BrandElement {
     factory BrandElement.fromJson(Map<String, dynamic> json) => BrandElement(
         id: json["id"],
         name: json["name"],
-        image: json["image"] == null ? 'https://via.placeholder.com/300.png' : json["image"],
+        image: json["image"] == null ? null : json["image"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -108,47 +108,59 @@ class Product {
     Product({
         this.id,
         this.name,
-        this.brand,
         this.image,
         this.priceBeforeDiscount,
-        this.discountRate,
         this.price,
+        this.wishlist,
+        this.discountRate,
         this.rating,
         this.commentsCount,
+        this.defaultSize,
+        this.defaultColor,
+        this.brand,
     });
 
     int id;
     String name;
-    ProductBrand brand;
     String image;
-    double priceBeforeDiscount;
-    int discountRate;
+    int priceBeforeDiscount;
     double price;
+    bool wishlist;
+    int discountRate;
     int rating;
     int commentsCount;
+    DefaultSize defaultSize;
+    DefaultColor defaultColor;
+    ProductBrand brand;
 
     factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
         name: json["name"],
-        brand: ProductBrand.fromJson(json["brand"]),
-        image: json["image"] == null ? null : json["image"],
-        priceBeforeDiscount: json["price_before_discount"].toDouble(),
-        discountRate: json["discount_rate"],
+        image: json["image"],
+        priceBeforeDiscount: json["price_before_discount"],
         price: json["price"].toDouble(),
+        wishlist: json["wishlist"],
+        discountRate: json["discount_rate"],
         rating: json["rating"],
         commentsCount: json["comments_count"],
+        defaultSize: DefaultSize.fromJson(json["default_size"]),
+        defaultColor: DefaultColor.fromJson(json["default_color"]),
+        brand: ProductBrand.fromJson(json["brand"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "brand": brand.toJson(),
-        "image": image == null ? null : image,
+        "image": image,
         "price_before_discount": priceBeforeDiscount,
-        "discount_rate": discountRate,
         "price": price,
+        "wishlist": wishlist,
+        "discount_rate": discountRate,
         "rating": rating,
         "comments_count": commentsCount,
+        "default_size": defaultSize.toJson(),
+        "default_color": defaultColor.toJson(),
+        "brand": brand.toJson(),
     };
 }
 
@@ -169,5 +181,49 @@ class ProductBrand {
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+    };
+}
+
+class DefaultColor {
+    DefaultColor({
+        this.id,
+        this.color,
+        this.size,
+    });
+
+    int id;
+    String color;
+    dynamic size;
+
+    factory DefaultColor.fromJson(Map<String, dynamic> json) => DefaultColor(
+        id: json["id"],
+        color: json["color"] == null ? null : json["color"],
+        size: json["size"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "color": color == null ? null : color,
+        "size": size,
+    };
+}
+
+class DefaultSize {
+    DefaultSize({
+        this.id,
+        this.size,
+    });
+
+    int id;
+    String size;
+
+    factory DefaultSize.fromJson(Map<String, dynamic> json) => DefaultSize(
+        id: json["id"],
+        size: json["size"] == null ? null : json["size"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "size": size == null ? null : size,
     };
 }

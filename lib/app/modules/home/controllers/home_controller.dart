@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/web_serives.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:zoe/app/api/model/home_model.dart';
 
@@ -17,14 +18,23 @@ class HomeController extends GetxController {
 
   Future getHome() async {
     HomeModel homeModel;
+    // await getJson();
+
+    homeModel = homeModelFromJson(await getJson());
+    homeModelFuture.value = Future.value(homeModel);
+
+/*
     Response response = await WebServices().getHomePage();
     if (response.hasError) {
       homeModelFuture.value = Future.error('error');
     } else {
-      homeModel = homeModelFromJson(response.bodyString);
-      homeModelFuture.value = Future.value(homeModel);
     }
+*/
 
     return homeModel;
+  }
+
+  Future<String> getJson() {
+    return rootBundle.loadString('assets/home.json');
   }
 }
