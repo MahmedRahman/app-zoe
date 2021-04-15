@@ -162,7 +162,7 @@ class HomePage extends StatelessWidget {
             children: [
               Title(
                 label: featuredCategories.elementAt(indexCategory).name,
-                sublabel: '....',
+                sublabel: 'المزيد',
                 categoryId:
                     featuredCategories.elementAt(indexCategory).id.toString(),
               ),

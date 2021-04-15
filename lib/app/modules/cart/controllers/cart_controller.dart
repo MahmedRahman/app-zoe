@@ -93,15 +93,17 @@ class CartController extends GetxController {
       if (i == 0) {
         productList = productList.toString() + _cartItem.productid.toString();
         productQty = productQty.toString() + _cartItem.qty.toString();
-        productSize = productSize.toString() + _cartItem.qty.toString();
-        productColor = productColor.toString() + _cartItem.qty.toString();
+        productSize = productSize.toString() + _cartItem.productSize.toString();
+        productColor = productColor.toString() + _cartItem.productColor.toString();
         i = 1;
       } else {
         productList =
             productList.toString() + ',' + _cartItem.productid.toString();
         productQty = productQty.toString() + ',' + _cartItem.qty.toString();
-        productSize = productSize.toString() + ',' + _cartItem.qty.toString();
-        productColor = productColor.toString() + ',' + _cartItem.qty.toString();
+        productSize =
+            productSize.toString() + ',' + _cartItem.productSize.toString();
+        productColor =
+            productColor.toString() + ',' + _cartItem.productColor.toString();
       }
     });
 

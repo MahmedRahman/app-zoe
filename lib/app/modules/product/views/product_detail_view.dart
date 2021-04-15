@@ -4,6 +4,7 @@ import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomButton.dart';
 import 'package:zoe/app/api/model/products_detaile_model.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
@@ -24,18 +25,38 @@ class ProductDetailView extends GetView<ProductController> {
               children: [
                 SizedBox(
                   height: Get.height * .4,
-                  child: PageView(
-                    scrollDirection: Axis.horizontal,
+                  child: Stack(
                     children: [
-                      productsDetaile.data.productImages.length == 0
-                          ? Center(
-                              child: CustomIndicator(
-                                indicatorStatus: IndicatorStatus.error,
-                              ),
+                      PageView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          productsDetaile.data.productImages.length == 0
+                              ? Center(
+                                  child: CustomIndicator(
+                                    indicatorStatus: IndicatorStatus.error,
+                                  ),
+                                )
+                              : CustomImageCached(
+                                  imageUrl:
+                                      productsDetaile.data.productImages[0],
+                                ),
+                        ],
+                      ),
+                      Positioned(
+                        top: 20,
+                        left: 20,
+                        child: Column(
+                          children: [
+                   
+                            SizedBox(
+                              width: 64,
+                              height: 64,
+                              child: CustomImageCached(
+                                  imageUrl: productsDetaile.data.brand.image),
                             )
-                          : CustomImageCached(
-                              imageUrl: productsDetaile.data.productImages[0],
-                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -198,6 +219,34 @@ class ProductDetailView extends GetView<ProductController> {
                 ),
                 SizedBox(
                   height: 15,
+                ),
+                Text(
+                  'منتجات مشابها',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  height: Get.height * .4,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(
+                      productsDetaile.data.similarProducts.length,
+                      (indexproducts) {
+                        SimilarProduct product = productsDetaile
+                            .data.similarProducts
+                            .elementAt(indexproducts);
+
+                        return ProductItem(
+                          product: product,
+                        );
+                      },
+                    ),
+                  ),
                 )
               ],
             );

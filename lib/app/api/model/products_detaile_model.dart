@@ -36,31 +36,39 @@ class Data {
     Data({
         this.product,
         this.productImages,
+        this.specifications,
         this.brand,
         this.department,
         this.category,
+        this.similarProducts,
     });
 
     Product product;
     List<String> productImages;
+    List<Specification> specifications;
     Brand brand;
     Category department;
     Category category;
+    List<SimilarProduct> similarProducts;
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         product: Product.fromJson(json["product"]),
         productImages: List<String>.from(json["product_images"].map((x) => x)),
+        specifications: List<Specification>.from(json["specifications"].map((x) => Specification.fromJson(x))),
         brand: Brand.fromJson(json["brand"]),
         department: Category.fromJson(json["department"]),
         category: Category.fromJson(json["category"]),
+        similarProducts: List<SimilarProduct>.from(json["similar_products"].map((x) => SimilarProduct.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "product": product.toJson(),
         "product_images": List<dynamic>.from(productImages.map((x) => x)),
+        "specifications": List<dynamic>.from(specifications.map((x) => x.toJson())),
         "brand": brand.toJson(),
         "department": department.toJson(),
         "category": category.toJson(),
+        "similar_products": List<dynamic>.from(similarProducts.map((x) => x.toJson())),
     };
 }
 
@@ -130,8 +138,8 @@ class Product {
     dynamic priceBeforeDiscount;
     dynamic discountRate;
     dynamic price;
-    dynamic rating;
-    dynamic commentsCount;
+    int rating;
+    int commentsCount;
     bool wishlist;
     DefaultSize defaultSize;
     List<Color> colors;
@@ -203,12 +211,12 @@ class DefaultSize {
 
     factory DefaultSize.fromJson(Map<String, dynamic> json) => DefaultSize(
         id: json["id"],
-        size: json["size"],
+        size: json["size"] == null ? null : json["size"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "size": size,
+        "size": size == null ? null : size,
     };
 }
 
@@ -217,21 +225,101 @@ class Size {
         this.id,
         this.title,
         this.price,
+        this.priceBeforeDiscount,
     });
 
     int id;
     String title;
-    dynamic price;
+    var price;
+    var priceBeforeDiscount;
 
     factory Size.fromJson(Map<String, dynamic> json) => Size(
         id: json["id"],
         title: json["title"],
         price: json["price"],
+        priceBeforeDiscount: json["price_before_discount"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "price": price,
+        "price_before_discount": priceBeforeDiscount,
+    };
+}
+
+class SimilarProduct {
+    SimilarProduct({
+        this.id,
+        this.name,
+        this.image,
+        this.priceBeforeDiscount,
+        this.price,
+        this.wishlist,
+        this.discountRate,
+        this.rating,
+        this.commentsCount,
+        this.defaultSize,
+        this.brand,
+    });
+
+    int id;
+    String name;
+    String image;
+    var priceBeforeDiscount;
+    var price;
+    bool wishlist;
+    int discountRate;
+    int rating;
+    int commentsCount;
+    DefaultSize defaultSize;
+    Category brand;
+
+    factory SimilarProduct.fromJson(Map<String, dynamic> json) => SimilarProduct(
+        id: json["id"],
+        name: json["name"],
+        image: json["image"],
+        priceBeforeDiscount: json["price_before_discount"],
+        price: json["price"].toDouble(),
+        wishlist: json["wishlist"],
+        discountRate: json["discount_rate"],
+        rating: json["rating"],
+        commentsCount: json["comments_count"],
+        defaultSize: DefaultSize.fromJson(json["default_size"]),
+        brand: Category.fromJson(json["brand"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "image": image,
+        "price_before_discount": priceBeforeDiscount,
+        "price": price,
+        "wishlist": wishlist,
+        "discount_rate": discountRate,
+        "rating": rating,
+        "comments_count": commentsCount,
+        "default_size": defaultSize.toJson(),
+        "brand": brand.toJson(),
+    };
+}
+
+class Specification {
+    Specification({
+        this.title,
+        this.value,
+    });
+
+    String title;
+    String value;
+
+    factory Specification.fromJson(Map<String, dynamic> json) => Specification(
+        title: json["title"],
+        value: json["value"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "title": title,
+        "value": value,
     };
 }

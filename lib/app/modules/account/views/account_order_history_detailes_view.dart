@@ -26,7 +26,7 @@ class AccountOrderHistoryDetailesView extends GetView<AccountController> {
                       subtitle: Text(DateFormat("MMMM-dd")
                           .format(ProductHistory.order.orderDate)
                           .toString()),
-                      leading: Icon(Icons.history),
+                      leading: Icon(Icons.history,color: Colors.red),
                     ),
                   ),
                   Card(
@@ -34,38 +34,39 @@ class AccountOrderHistoryDetailesView extends GetView<AccountController> {
                       title: Text('أجمالى السعر'),
                       subtitle:
                           Text(ProductHistory.order.orderTotal.toString()),
-                      leading: Icon(Icons.money),
+                      leading: Icon(Icons.money,color: Colors.red),
                     ),
                   ),
                   Card(
                     child: ListTile(
                       title: Text('حالة الطلب'),
                       subtitle: Text(ProductHistory.order.status.toString()),
-                      leading: Icon(Icons.local_shipping),
+                      leading: Icon(Icons.local_shipping,color: Colors.red),
                     ),
                   ),
                   Card(
                     child: ListTile(
                       title: Text('ألعنوان'),
                       subtitle: Text(ProductHistory.order.address),
-                      leading: Icon(Icons.location_pin),
+                      leading: Icon(Icons.location_pin ,color: Colors.red,),
                     ),
                   ),
+                  Text('المنتجات المطلوبة'),
                   Column(
                     children:
                         List.generate(ProductHistory.items.length, (index) {
                       Item CartItem = ProductHistory.items.elementAt(index);
-                      return ListTile(
-                        title: Text(CartItem.name.toString(),overflow: TextOverflow.ellipsis,),
-                        subtitle: Text(CartItem.qty.toString()),
-                        trailing: Text(CartItem.total.toString()),
-                        leading: SizedBox(
-                            width: 32,
-                            height: 32,
-                            child: CustomImageCached(
-                              imageUrl: CartItem.image.toString(),
-                            )),
-                        
+                      return Card(
+                        child: ListTile(
+                          title: Text(CartItem.name.toString(),overflow: TextOverflow.ellipsis,),
+                          leading: SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: CustomImageCached(
+                                imageUrl: CartItem.image.toString(),
+                              )),
+                          
+                        ),
                       );
                     }).toList(),
                   )

@@ -23,19 +23,34 @@ class AccountOrderHistoryView extends GetView<AccountController> {
                   Datum orderItem = ListorderItem.elementAt(index);
                   return Card(
                     child: ListTile(
-                      onTap: (){
-                        Get.toNamed(Routes.AccountOrderHistoryDetailesView,arguments: [orderItem.id.toString()]);
+                      onTap: () {
+                        Get.toNamed(Routes.AccountOrderHistoryDetailesView,
+                            arguments: [orderItem.id.toString()]);
                       },
-                      title: Text(DateFormat("MMMM-dd").format(orderItem.orderDate).toString()),
+                      title: Text(DateFormat("MMMM-dd")
+                          .format(orderItem.orderDate)
+                          .toString()),
                       subtitle: Text(orderItem.status.toString()),
-                      leading: Text(orderItem.id.toString()),
-                      trailing: Text(orderItem.orderTotal.toString()),
+                      leading: CircleAvatar(
+                        child: Text(
+                          orderItem.id.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
+                      trailing: Text(orderItem.orderTotal.toStringAsFixed(0) + ' ' + 'ريال'),
                     ),
                   );
                 }),
               );
             } else if (snapshot.hasError) {
-              return Center(child: CustomIndicator(indicatorStatus: IndicatorStatus.error,));
+              return Center(
+                  child: CustomIndicator(
+                indicatorStatus: IndicatorStatus.error,
+              ));
             }
             return Center(child: CustomIndicator());
           }),

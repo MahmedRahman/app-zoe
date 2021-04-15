@@ -34,11 +34,15 @@ class AccountAdressView extends GetView<AccountController> {
                       title: Text(Address.address.toString()),
                       subtitle: Text(Address.city.toString()),
                       trailing: IconButton(
-                          icon: Icon(Icons.delete,color: Colors.red,),
-                          onPressed: () {
-                            controller.deleteUserAddress(
-                                userAddresId: Address.id);
-                          }),
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          controller.deleteUserAddress(
+                              userAddresId: Address.id);
+                        },
+                      ),
                     ),
                   );
                 }).toList());
