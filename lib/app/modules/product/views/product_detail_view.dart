@@ -47,7 +47,6 @@ class ProductDetailView extends GetView<ProductController> {
                         left: 20,
                         child: Column(
                           children: [
-                   
                             SizedBox(
                               width: 64,
                               height: 64,

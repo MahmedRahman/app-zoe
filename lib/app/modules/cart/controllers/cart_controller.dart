@@ -15,7 +15,7 @@ class CartController extends GetxController {
 
   RoundedLoadingButtonController buttonController;
 
-  var shappingPrice = 20.obs;
+  var shappingPrice = 30.obs;
   var totalPrice = 0.obs;
   int addressid = 1;
 
