@@ -41,14 +41,7 @@ class APIManger extends GetConnect {
     try {
       switch (response.statusCode) {
         case 200:
-          //return response;
-          if (isJsonParsable(response.bodyString)) {
-            print(response.body['errors']);
-            return response;
-          } else {
-            print(response.bodyString);
-            Future.error('error');
-          }
+          return response;
           break;
         case 201:
           //return response;
@@ -73,7 +66,10 @@ class APIManger extends GetConnect {
 
   Future<Response> repGet(url) async {
     print("Api Request " + baes_url + url);
+    print('xxxxxxxxxxxx');
+    print(header);
     setUserTokan();
+
     Response response = await get(baes_url + url, headers: header);
 
     print("Api Request " +
@@ -85,12 +81,7 @@ class APIManger extends GetConnect {
     try {
       switch (response.statusCode) {
         case 200:
-          if (isJsonParsable(response.bodyString)) {
-            return response;
-          } else {
-            print(response.bodyString);
-          }
-
+          return response;
           break;
         default:
           print(response.bodyString);

@@ -69,10 +69,10 @@ class CartController extends GetxController {
   double cartTotalPrice() {
     double price = 0;
     for (CartItem localCartItem in listCartItem) {
-      price = price + localCartItem.productPrice ;
+      price = price + localCartItem.productPrice;
     }
 
-    price = price +  shappingPrice.value;
+    price = price + shappingPrice.value;
     return price;
   }
 
@@ -96,7 +96,8 @@ class CartController extends GetxController {
         productList = productList.toString() + _cartItem.productid.toString();
         productQty = productQty.toString() + _cartItem.qty.toString();
         productSize = productSize.toString() + _cartItem.productSize.toString();
-        productColor = productColor.toString() + _cartItem.productColor.toString();
+        productColor =
+            productColor.toString() + _cartItem.productColor.toString();
         i = 1;
       } else {
         productList =
@@ -123,7 +124,7 @@ class CartController extends GetxController {
             title: appName,
             message: response.body['message'],
             snackbarStatus: () {
-              buttonController.reset();
+              buttonController.stop();
               clearCart();
               Get.toNamed(Routes.LayoutView);
             });
@@ -132,12 +133,12 @@ class CartController extends GetxController {
             title: appName,
             message: response.body,
             snackbarStatus: () {
-              buttonController.reset();
+              buttonController.stop();
             });
       }
     });
 
-    buttonController.reset();
+      buttonController.stop();
   }
 
   void cartComplete() {

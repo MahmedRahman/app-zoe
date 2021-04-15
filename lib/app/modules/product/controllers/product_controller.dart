@@ -50,7 +50,7 @@ class ProductController extends GetxController {
     return productsBrandModel.data.products;
   }
 
-  void productAddToCart(productsDetaile) {
+  void productAddToCart(ProductsDetaileModel productsDetaile) {
     bntrest();
     showSnackBar(
       title: appName,
@@ -66,8 +66,16 @@ class ProductController extends GetxController {
                 : productsDetaile.data.product.sizes
                     .elementAt(productSizeSelect.value)
                     .price,
-            productColor: productColorSelect.value,
-            productSize: productSizeSelect.value,
+            productColor: productsDetaile.data.product.colors.length == 0
+                ? 0
+                : productsDetaile.data.product.colors
+                    .elementAt(productColorSelect.value)
+                    .id,
+            productSize: productsDetaile.data.product.sizes.length == 0
+                ? 0
+                : productsDetaile.data.product.sizes
+                    .elementAt(productSizeSelect.value)
+                    .id,
             qty: 1,
           ),
         );

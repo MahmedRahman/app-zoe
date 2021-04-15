@@ -12,6 +12,8 @@ class BrandController extends GetxController {
     getBrand();
   }
 
+  
+
   getBrand() async {
     Response response = await WebServices().getbrand();
     final brandsModel = brandsModelFromJson(response.bodyString);

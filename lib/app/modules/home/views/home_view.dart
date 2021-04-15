@@ -204,7 +204,8 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.ProductDetailView,
+        print('object');
+        Get.offAndToNamed(Routes.ProductDetailView,
             arguments: [product.id.toString()]);
       },
       child: Container(

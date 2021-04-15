@@ -115,7 +115,9 @@ class ProductDetailView extends GetView<ProductController> {
                           return Card(
                             child: ListTile(
                               onTap: () {
-                                controller.productSizeSelect.value = index;
+                                controller.productSizeSelect.value =
+                                    index;
+                                        
                               },
                               selected:
                                   controller.productSizeSelect.value == index,
@@ -164,7 +166,9 @@ class ProductDetailView extends GetView<ProductController> {
                           return Card(
                             child: ListTile(
                               onTap: () {
-                                controller.productColorSelect.value = index;
+                                controller.productColorSelect.value =
+                                   index;
+                                        
                               },
                               selected:
                                   controller.productColorSelect.value == index,
