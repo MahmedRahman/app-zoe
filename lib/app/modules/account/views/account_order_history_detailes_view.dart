@@ -18,54 +18,132 @@ class AccountOrderHistoryDetailesView extends GetView<AccountController> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               Data ProductHistory = snapshot.data;
-              return Column(
+              return ListView(
                 children: [
-                  Card(
-                    child: ListTile(
-                      title: Text('تاريخ الطلب'),
-                      subtitle: Text(DateFormat("MMMM-dd")
-                          .format(ProductHistory.order.orderDate)
-                          .toString()),
-                      leading: Icon(Icons.history,color: Colors.red),
+                  SizedBox(height: 15),
+                  Container(
+                    width: Get.width,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        'بيانات الطلب',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                  Card(
-                    child: ListTile(
-                      title: Text('أجمالى السعر'),
-                      subtitle:
-                          Text(ProductHistory.order.orderTotal.toString()),
-                      leading: Icon(Icons.money,color: Colors.red),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Container(
+                      color: Colors.grey.withOpacity(.3),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: Text('رقم الطلب'),
+                            title: Text(ProductHistory.order.id.toString()),
+                            // leading: Icon(Icons.history,color: Colors.red),
+                          ),
+                          ListTile(
+                            leading: Text('التاريخ'),
+                            title: Text(DateFormat("MMMM-dd")
+                                .format(ProductHistory.order.orderDate)
+                                .toString()),
+                            // leading: Icon(Icons.history,color: Colors.red),
+                          ),
+                          ListTile(
+                            leading: Text('ألعنوان'),
+                            title: Text(ProductHistory.order.address),
+                            // leading: Icon(Icons.location_pin ,color: Colors.red,),
+                          ),
+                          ListTile(
+                            leading: Text('الحالة'),
+                            title: Text(ProductHistory.order.status.toString()),
+                            //leading: Icon(Icons.local_shipping, color: Colors.red),
+                          ),
+                          ListTile(
+                            leading: Text('أجمالى السعر'),
+                            title: Text(
+                                ProductHistory.order.orderTotal.toString()),
+                            // leading: Icon(Icons.money, color: Colors.red),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Card(
-                    child: ListTile(
-                      title: Text('حالة الطلب'),
-                      subtitle: Text(ProductHistory.order.status.toString()),
-                      leading: Icon(Icons.local_shipping,color: Colors.red),
+                  Container(
+                    width: Get.width,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        'المنتجات المطلوبة',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                  Card(
-                    child: ListTile(
-                      title: Text('ألعنوان'),
-                      subtitle: Text(ProductHistory.order.address),
-                      leading: Icon(Icons.location_pin ,color: Colors.red,),
-                    ),
-                  ),
-                  Text('المنتجات المطلوبة'),
                   Column(
                     children:
                         List.generate(ProductHistory.items.length, (index) {
                       Item CartItem = ProductHistory.items.elementAt(index);
-                      return Card(
-                        child: ListTile(
-                          title: Text(CartItem.name.toString(),overflow: TextOverflow.ellipsis,),
-                          leading: SizedBox(
-                              width: 32,
-                              height: 32,
-                              child: CustomImageCached(
-                                imageUrl: CartItem.image.toString(),
-                              )),
-                          
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Card(
+                          elevation: 2,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: Get.width * .2,
+                                    child: CustomImageCached(
+                                      imageUrl: CartItem.image.toString(),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: Get.width * .7,
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          dense: true,
+                                          title: Text(
+                                            CartItem.name.toString(),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          dense: true,
+                                          leading: Text('العدد'),
+                                          title: Text(
+                                            CartItem.qty.toString(),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          dense: true,
+                                          leading: Text('السعر'),
+                                          title: Text(
+                                            CartItem.price.toString(),
+                                          ),
+                                        ),
+                                        GetUtils.isNullOrBlank(CartItem.color)
+                                            ? SizedBox.shrink()
+                                            : ListTile(
+                                                leading: Text('اللون'),
+                                                title: Text(
+                                                  CartItem.color.toString(),
+                                                ),
+                                              ),
+                                        GetUtils.isNullOrBlank(CartItem.size)
+                                            ? SizedBox.shrink()
+                                            : ListTile(
+                                                leading: Text('الحجم'),
+                                                title: Text(
+                                                  CartItem.size.toString(),
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     }).toList(),

@@ -280,7 +280,7 @@ class SimilarProduct {
         name: json["name"],
         image: json["image"],
         priceBeforeDiscount: json["price_before_discount"],
-        price: json["price"].toDouble(),
+        price: json["price"],
         wishlist: json["wishlist"],
         discountRate: json["discount_rate"],
         rating: json["rating"],

@@ -96,7 +96,7 @@ class CartView extends StatelessWidget {
                                                 leading: Icon(Icons.money),
                                                 title: Text('السعر'),
                                                 trailing: Text(
-                                                  _cartitem.productPrice
+                                                  _cartitem.totalprice
                                                       .toString(),
                                                 ),
                                               ),

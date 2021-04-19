@@ -8,7 +8,7 @@ class CartItem {
   int productSize;
   int productColor;
 
-    String productSizeName;
+  String productSizeName;
   String productColorName;
   int qty;
   dynamic totalprice;

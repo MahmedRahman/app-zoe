@@ -24,7 +24,7 @@ class ProductDetailView extends StatelessWidget {
           if (snapshot.hasData) {
             productsModel.ProductsDetaileModel productsDetaile = snapshot.data;
             fav.value = productsDetaile.data.product.wishlist;
-            controller.ProductPrice.value = productsDetaile.data.product.price;
+            controller.ProductPrice.value = productsDetaile.data.product.price.toDouble();
             return ListView(
               children: [
                 SizedBox(
@@ -150,10 +150,9 @@ class ProductDetailView extends StatelessWidget {
                       width: 10,
                     ),
                     TextButton(
-                      style:TextButton.styleFrom(
-                     backgroundColor: Colors.transparent,
-                     
-                      )  ,
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                      ),
                       onPressed: () {
                         controller.removeproductQty();
                       },
@@ -161,8 +160,7 @@ class ProductDetailView extends StatelessWidget {
                         '-',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                           color: Colors.red,
-                          
+                          color: Colors.red,
                         ),
                       ),
                     ),
@@ -223,7 +221,7 @@ class ProductDetailView extends StatelessWidget {
           );
         },
       ),
-   //  bottomNavigationBar: custembottomNavigationBar(),
+      //  bottomNavigationBar: custembottomNavigationBar(),
     );
   }
 
@@ -295,7 +293,7 @@ class ProductDetailView extends StatelessWidget {
                       controller.ProductPrice.value = productsDetaile
                           .data.product.sizes
                           .elementAt(index)
-                          .price;
+                          .price.toDouble();
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

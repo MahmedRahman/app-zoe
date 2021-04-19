@@ -23,7 +23,7 @@ class ProductController extends GetxController {
 
   var productQty = 1.obs;
 
-  var ProductPrice = 0.obs;
+  var ProductPrice = 0.0.obs;
 
   addproductQty() {
     productQty.value = productQty.value + 1;

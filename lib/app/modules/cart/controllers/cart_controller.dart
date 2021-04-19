@@ -71,7 +71,7 @@ class CartController extends GetxController {
   double cartTotalPrice() {
     double price = 0;
     for (CartItem localCartItem in listCartItem) {
-      price = price + localCartItem.productPrice;
+      price = price + localCartItem.totalprice;
     }
 
     price = price + shappingPrice.value;
@@ -81,7 +81,7 @@ class CartController extends GetxController {
   double cartTotalProductPrice() {
     double price = 0;
     for (CartItem localCartItem in listCartItem) {
-      price = price + localCartItem.productPrice;
+      price = price + localCartItem.totalprice;
     }
     return price;
   }
