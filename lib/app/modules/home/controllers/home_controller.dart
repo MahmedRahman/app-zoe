@@ -20,12 +20,17 @@ class HomeController extends GetxController {
     HomeModel homeModel;
     // await getJson();
 
-    //homeModel = homeModelFromJson(await getJson());
+    //
     //
 
     Response response = await WebServices().getHomePage();
+    if (response.statusCode == 500) {
+      homeModel = homeModelFromJson(await getJson());
+    }
+    if (response.statusCode == 200) {
+      homeModel = homeModelFromJson(response.bodyString);
+    }
 
-    homeModel = homeModelFromJson(response.bodyString);
     homeModelFuture.value = Future.value(homeModel);
 
 /*
