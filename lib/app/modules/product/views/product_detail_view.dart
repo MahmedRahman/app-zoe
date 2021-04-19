@@ -24,7 +24,8 @@ class ProductDetailView extends StatelessWidget {
           if (snapshot.hasData) {
             productsModel.ProductsDetaileModel productsDetaile = snapshot.data;
             fav.value = productsDetaile.data.product.wishlist;
-            controller.ProductPrice.value = productsDetaile.data.product.price.toDouble();
+            controller.ProductPrice.value =
+                productsDetaile.data.product.price.toDouble();
             return ListView(
               children: [
                 SizedBox(
@@ -64,25 +65,32 @@ class ProductDetailView extends StatelessWidget {
                       Positioned(
                         top: 20,
                         right: 20,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: fav.value ? Colors.red : Colors.grey,
-                            size: 32,
-                          ),
-                          onPressed: () {
-                            controller.SetFavoraitProduct(
-                              productsDetaile.data.product.id.toString(),
+                        child: Obx(
+                           () {
+                            return IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: fav.value ? Colors.red : Colors.grey,
+                                size: 32,
+                              ),
+                              onPressed: () {
+
+                               
+                                controller.SetFavoraitProduct(
+                                  productsDetaile.data.product.id.toString(),
+                                );
+                                if (fav.value) {
+                                  fav.value = false;
+                                } else {
+                                  fav.value = true;
+                                }
+                                ;
+                              },
                             );
-                            if (fav.value) {
-                              fav.value = false;
-                            } else {
-                              fav.value = true;
-                            }
-                            ;
-                          },
+                          }
                         ),
                       )
+                    
                     ],
                   ),
                 ),
@@ -252,12 +260,20 @@ class ProductDetailView extends StatelessWidget {
                                         .data.product.colors
                                         .elementAt(index)
                                         .color)),
-                                border:
-                                    Border.all(color: Colors.black, width: 2),
+                                border: controller.productColorSelect.value ==
+                                        index
+                                    ? Border.all(color: Colors.black, width: 2)
+                                    : Border.all(
+                                        color: Color(HexColorFormString()
+                                            .getColorFromHex(productsDetaile
+                                                .data.product.colors
+                                                .elementAt(index)
+                                                .color)),
+                                        width: 2),
                                 boxShadow: [
                                   controller.productColorSelect.value == index
                                       ? BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: Colors.grey.withOpacity(0.8),
                                           spreadRadius: 5,
                                           blurRadius: 7,
                                           offset: Offset(0,
@@ -293,7 +309,8 @@ class ProductDetailView extends StatelessWidget {
                       controller.ProductPrice.value = productsDetaile
                           .data.product.sizes
                           .elementAt(index)
-                          .price.toDouble();
+                          .price
+                          .toDouble();
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
