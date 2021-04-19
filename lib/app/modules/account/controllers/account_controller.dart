@@ -23,6 +23,9 @@ class AccountController extends GetxController {
   TextEditingController address = new TextEditingController();
   int cityid = -1;
 
+
+  final wishListModelFuture = Future.value().obs;
+
   RoundedLoadingButtonController buttonController =
       new RoundedLoadingButtonController();
 
@@ -43,6 +46,7 @@ class AccountController extends GetxController {
   getWishList() async {
     return await WebServices().getWishList().then((response) {
       final wishListModel = wishListModelFromJson(response.bodyString);
+      wishListModelFuture.value = Future.value(wishListModel.data.products);
       return wishListModel.data.products;
     });
   }

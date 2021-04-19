@@ -38,11 +38,13 @@ class AccountOrderHistoryDetailesView extends GetView<AccountController> {
                       child: Column(
                         children: [
                           ListTile(
+                            dense: true,
                             leading: Text('رقم الطلب'),
                             title: Text(ProductHistory.order.id.toString()),
                             // leading: Icon(Icons.history,color: Colors.red),
                           ),
                           ListTile(
+                            dense: true,
                             leading: Text('التاريخ'),
                             title: Text(DateFormat("MMMM-dd")
                                 .format(ProductHistory.order.orderDate)
@@ -50,16 +52,19 @@ class AccountOrderHistoryDetailesView extends GetView<AccountController> {
                             // leading: Icon(Icons.history,color: Colors.red),
                           ),
                           ListTile(
+                            dense: true,
                             leading: Text('ألعنوان'),
                             title: Text(ProductHistory.order.address),
                             // leading: Icon(Icons.location_pin ,color: Colors.red,),
                           ),
                           ListTile(
+                            dense: true,
                             leading: Text('الحالة'),
                             title: Text(ProductHistory.order.status.toString()),
                             //leading: Icon(Icons.local_shipping, color: Colors.red),
                           ),
                           ListTile(
+                            dense: true,
                             leading: Text('أجمالى السعر'),
                             title: Text(
                                 ProductHistory.order.orderTotal.toString()),
