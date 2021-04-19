@@ -123,7 +123,7 @@ class Product {
     int id;
     String name;
     String image;
-    int priceBeforeDiscount;
+    double priceBeforeDiscount;
     double price;
     bool wishlist;
     int discountRate;
@@ -137,7 +137,7 @@ class Product {
         id: json["id"],
         name: json["name"],
         image: json["image"],
-        priceBeforeDiscount: json["price_before_discount"],
+        priceBeforeDiscount: json["price_before_discount"].toDouble(),
         price: json["price"].toDouble(),
         wishlist: json["wishlist"],
         discountRate: json["discount_rate"],

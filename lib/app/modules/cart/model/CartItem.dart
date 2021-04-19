@@ -7,6 +7,9 @@ class CartItem {
   dynamic productPrice;
   int productSize;
   int productColor;
+
+    String productSizeName;
+  String productColorName;
   int qty;
   dynamic totalprice;
 
@@ -15,6 +18,8 @@ class CartItem {
     @required this.productName,
     @required this.productimage,
     @required this.productPrice,
+    this.productSizeName = '',
+    this.productColorName = '',
     this.productSize = 0,
     this.productColor = 0,
     @required this.qty,

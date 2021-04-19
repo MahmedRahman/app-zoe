@@ -138,7 +138,7 @@ class Product {
     dynamic priceBeforeDiscount;
     dynamic discountRate;
     dynamic price;
-    int rating;
+    dynamic rating;
     int commentsCount;
     bool wishlist;
     DefaultSize defaultSize;
@@ -269,9 +269,9 @@ class SimilarProduct {
     var priceBeforeDiscount;
     var price;
     bool wishlist;
-    int discountRate;
-    int rating;
-    int commentsCount;
+    var discountRate;
+    var rating;
+    var commentsCount;
     DefaultSize defaultSize;
     Category brand;
 

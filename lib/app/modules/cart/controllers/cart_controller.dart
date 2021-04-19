@@ -38,7 +38,9 @@ class CartController extends GetxController {
 
   bool isExitProduct(CartItem cartItem) {
     for (CartItem localCartItem in listCartItem) {
-      if (localCartItem.productid == cartItem.productid) {
+      if (localCartItem.productid == cartItem.productid &&
+          localCartItem.productSize == cartItem.productSize &&
+          localCartItem.productColor == cartItem.productColor) {
         localCartItem.addQty(qty: cartItem.qty);
 
         return true;
@@ -138,7 +140,7 @@ class CartController extends GetxController {
       }
     });
 
-      buttonController.stop();
+    buttonController.stop();
   }
 
   void cartComplete() {

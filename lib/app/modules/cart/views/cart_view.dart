@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:zoe/app/data/component/CustomButton.dart';
@@ -24,7 +25,7 @@ class CartView extends StatelessWidget {
           GetX<CartController>(
             builder: (controller) {
               return SizedBox(
-                height: Get.height * .6,
+                height: Get.height,
                 child: FutureBuilder(
                   future: controller.listCartItemFutter.value,
                   builder: (context, snapshot) {
@@ -46,46 +47,81 @@ class CartView extends StatelessWidget {
                         ;
                       } else {
                         return ListView(
+                          primary: false,
                           children: [
-                            Column(
-                              children: List.generate(
-                                listCartItem.length,
-                                (index) {
-                                  CartItem _cartitem =
-                                      listCartItem.elementAt(index);
-                                  return Card(
-                                    child: ListTile(
-                                      leading: SizedBox(
-                                        width: 32,
-                                        child: CustomImageCached(
-                                          imageUrl: _cartitem.productimage,
-                                        ),
-                                      ),
-                                      title: Text(_cartitem.productName),
-                                      subtitle: Text(_cartitem.qty.toString() +
-                                          " - " +
-                                          _cartitem.productPrice.toString() +
-                                          ' ' +
-                                          'ريال'),
-                                      trailing: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Colors.red, // background
-                                          // foreground
-                                        ),
-                                        onPressed: () {
-                                          controller.carClearItem(index);
-                                        },
-                                        child: Icon(Icons.delete),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ).toList(),
-                            ),
-                            SizedBox(
-                              height: Get.height * .2,
+                            SingleChildScrollView(
                               child: Column(
                                 children: [
+                                  Column(
+                                    children: List.generate(
+                                      listCartItem.length,
+                                      (index) {
+                                        CartItem _cartitem =
+                                            listCartItem.elementAt(index);
+                                        return Card(
+                                          child: Column(
+                                            children: [
+                                              ListTile(
+                                                leading: SizedBox(
+                                                  width: 32,
+                                                  child: CustomImageCached(
+                                                    imageUrl:
+                                                        _cartitem.productimage,
+                                                  ),
+                                                ),
+                                                title:
+                                                    Text(_cartitem.productName),
+                                                trailing: ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    primary:
+                                                        Colors.red, // background
+                                                    // foreground
+                                                  ),
+                                                  onPressed: () {
+                                                    controller
+                                                        .carClearItem(index);
+                                                  },
+                                                  child: Icon(Icons.delete),
+                                                ),
+                                              ),
+                                              ListTile(
+                                                leading:
+                                                    Icon(Icons.queue_play_next),
+                                                title: Text('العدد'),
+                                                trailing: Text(
+                                                  _cartitem.qty.toString(),
+                                                ),
+                                              ),
+                                              ListTile(
+                                                leading: Icon(Icons.money),
+                                                title: Text('السعر'),
+                                                trailing: Text(
+                                                  _cartitem.productPrice
+                                                      .toString(),
+                                                ),
+                                              ),
+                                             _cartitem.productSize==0 ? SizedBox.shrink() : ListTile(
+                                                leading: Icon(Icons.line_weight),
+                                                title: Text('الحجم'),
+                                                trailing: Text(
+                                                  _cartitem.productSizeName
+                                                      .toString(),
+                                                ),
+                                              ),
+                                             _cartitem.productColor==0 ? SizedBox.shrink() : ListTile(
+                                                leading: Icon(Icons.color_lens),
+                                                title: Text('اللون'),
+                                                trailing: Text(
+                                                  _cartitem.productColorName
+                                                      .toString(),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
                                   ListTile(
                                     trailing: Icon(Icons.check_sharp),
                                     leading: SizedBox(
@@ -118,10 +154,10 @@ class CartView extends StatelessWidget {
                                       controller.cartComplete();
                                     },
                                     child: Text('أنهاء الطلب'),
-                                  ),
+                                  )
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         );
                       }

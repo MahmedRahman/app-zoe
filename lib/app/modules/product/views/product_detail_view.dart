@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomButton.dart';
-import 'package:zoe/app/api/model/products_detaile_model.dart';
+import 'package:zoe/app/api/model/products_detaile_model.dart' as productsModel;
 import 'package:flutter_html/flutter_html.dart';
 import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
@@ -12,7 +12,7 @@ import 'package:zoe/app/routes/app_pages.dart';
 
 class ProductDetailView extends StatelessWidget {
   ProductController controller = Get.put(ProductController());
-
+//Get.arguments[0].toString()
   @override
   Widget build(BuildContext context) {
     var fav = true.obs;
@@ -22,29 +22,30 @@ class ProductDetailView extends StatelessWidget {
         future: controller.getProductDetailes(Get.arguments[0].toString()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            ProductsDetaileModel productsDetaile = snapshot.data;
+            productsModel.ProductsDetaileModel productsDetaile = snapshot.data;
             fav.value = productsDetaile.data.product.wishlist;
+            controller.ProductPrice.value = productsDetaile.data.product.price;
             return ListView(
               children: [
                 SizedBox(
+                  width: Get.width,
                   height: Get.height * .4,
                   child: Stack(
                     children: [
                       PageView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          productsDetaile.data.productImages.length == 0
-                              ? Center(
-                                  child: CustomIndicator(
-                                    indicatorStatus: IndicatorStatus.error,
-                                  ),
-                                )
-                              : CustomImageCached(
-                                  imageUrl:
-                                      productsDetaile.data.productImages[0],
-                                ),
-                        ],
-                      ),
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(
+                              productsDetaile.data.productImages.length,
+                              (index) {
+                            return SizedBox(
+                              width: Get.width,
+                              height: Get.height * .4,
+                              child: CustomImageCached(
+                                imageUrl:
+                                    productsDetaile.data.productImages[index],
+                              ),
+                            );
+                          }).toList()),
                       Positioned(
                         top: 20,
                         left: 20,
@@ -54,164 +55,120 @@ class ProductDetailView extends StatelessWidget {
                               width: 64,
                               height: 64,
                               child: CustomImageCached(
-                                  imageUrl: productsDetaile.data.brand.image),
+                                imageUrl: productsDetaile.data.brand.image,
+                              ),
                             )
                           ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 20,
+                        right: 20,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.favorite,
+                            color: fav.value ? Colors.red : Colors.grey,
+                            size: 32,
+                          ),
+                          onPressed: () {
+                            controller.SetFavoraitProduct(
+                              productsDetaile.data.product.id.toString(),
+                            );
+                            if (fav.value) {
+                              fav.value = false;
+                            } else {
+                              fav.value = true;
+                            }
+                            ;
+                          },
                         ),
                       )
                     ],
                   ),
                 ),
                 ListTile(
-                  title: Text(productsDetaile.data.product.name),
-                  trailing: Text(
-                    productsDetaile.data.product.price.toString() +
-                        ' ' +
-                        'ريال',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
+                  title: Text(
+                    productsDetaile.data.product.name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  leading: SizedBox(
-                    width: 32,
-                    child: Obx(() {
-                      return IconButton(
-                        icon: Icon(
-                          Icons.favorite,
-                          color: fav.value ? Colors.red : Colors.grey,
+                  trailing: Obx(() {
+                    return Text(
+                      controller.ProductPrice.toString() + ' ' + 'ريال',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    );
+                  }),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    productColorBox(productsDetaile),
+                  ],
+                ),
+                productSizeBox(productsDetaile),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'الكمية',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                          fontSize: 18,
                         ),
-                        onPressed: () {
-                          controller.SetFavoraitProduct(
-                            productsDetaile.data.product.id.toString(),
-                          );
-                          if (fav.value) {
-                            fav.value = false;
-                          } else {
-                            fav.value = true;
-                          }
-                          ;
-                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        controller.addproductQty();
+                      },
+                      child: Text(
+                        '+',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Obx(() {
+                      return Text(
+                        controller.productQty.value.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       );
                     }),
-                  ),
-                ),
-                (productsDetaile.data.product.sizes.length != 0)
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          'الاحجام',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
-                Column(
-                  children: List.generate(
-                    productsDetaile.data.product.sizes.length,
-                    (index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Obx(() {
-                          return Card(
-                            child: ListTile(
-                              onTap: () {
-                                controller.productSizeSelect.value = index;
-                              },
-                              selected:
-                                  controller.productSizeSelect.value == index,
-                              selectedTileColor: Colors.grey,
-                              title: Text(
-                                productsDetaile.data.product.sizes
-                                    .elementAt(index)
-                                    .title,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              trailing: Text(
-                                productsDetaile.data.product.sizes
-                                        .elementAt(index)
-                                        .price
-                                        .toString() +
-                                    ' ' +
-                                    'ريال',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          );
-                        }),
-                      );
-                    },
-                  ),
-                ),
-                (productsDetaile.data.product.colors.length != 0)
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          'اللون',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
-                Column(
-                  children: List.generate(
-                    productsDetaile.data.product.colors.length,
-                    (index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Obx(() {
-                          return Card(
-                            child: ListTile(
-                              onTap: () {
-                                controller.productColorSelect.value = index;
-                              },
-                              selected:
-                                  controller.productColorSelect.value == index,
-                              selectedTileColor: Colors.grey,
-                              title: Text(
-                                productsDetaile.data.product.colors
-                                    .elementAt(index)
-                                    .title,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              trailing: Text(
-                                productsDetaile.data.product.colors
-                                    .elementAt(index)
-                                    .color
-                                    .toString(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          );
-                        }),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Text(
-                    'الوصف',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
+                    SizedBox(
+                      width: 10,
                     ),
-                  ),
+                    TextButton(
+                      style:TextButton.styleFrom(
+                     backgroundColor: Colors.transparent,
+                     
+                      )  ,
+                      onPressed: () {
+                        controller.removeproductQty();
+                      },
+                      child: Text(
+                        '-',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                           color: Colors.red,
+                          
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Html(
-                    data: productsDetaile.data.product.desc.toString(),
-                  ),
-                ),
-                ListTile(
-                  leading: Text('الكمية'),
-                  trailing: Text('1'),
-                ),
+                productDetailesInfo(productsDetaile),
                 CustomButton(
                   title: 'أضف للسلة',
                   buttonController: controller.buttonController,
@@ -239,7 +196,7 @@ class ProductDetailView extends StatelessWidget {
                     children: List.generate(
                       productsDetaile.data.similarProducts.length,
                       (indexproducts) {
-                        SimilarProduct product = productsDetaile
+                        productsModel.SimilarProduct product = productsDetaile
                             .data.similarProducts
                             .elementAt(indexproducts);
 
@@ -265,6 +222,171 @@ class ProductDetailView extends StatelessWidget {
             ),
           );
         },
+      ),
+   //  bottomNavigationBar: custembottomNavigationBar(),
+    );
+  }
+
+  Widget productColorBox(productsModel.ProductsDetaileModel productsDetaile) {
+    return (productsDetaile.data.product.colors.length != 0)
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: List.generate(
+                  productsDetaile.data.product.colors.length,
+                  (index) {
+                    return Obx(() {
+                      return InkWell(
+                        onTap: () {
+                          controller.productColorSelect.value = index;
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            child: SizedBox.shrink(),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Color(HexColorFormString()
+                                    .getColorFromHex(productsDetaile
+                                        .data.product.colors
+                                        .elementAt(index)
+                                        .color)),
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                                boxShadow: [
+                                  controller.productColorSelect.value == index
+                                      ? BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: Offset(0,
+                                              3), // changes position of shadow
+                                        )
+                                      : BoxShadow()
+                                ]),
+                          ),
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ),
+            ],
+          )
+        : SizedBox.shrink();
+  }
+
+  Widget productSizeBox(productsModel.ProductsDetaileModel productsDetaile) {
+    return (productsDetaile.data.product.sizes.length != 0)
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                  children: List.generate(
+                      productsDetaile.data.product.sizes.length, (index) {
+                return Obx(() {
+                  return InkWell(
+                    onTap: () {
+                      controller.productSizeSelect.value = index;
+                      controller.ProductPrice.value = productsDetaile
+                          .data.product.sizes
+                          .elementAt(index)
+                          .price;
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 50,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              productsDetaile.data.product.sizes
+                                  .elementAt(index)
+                                  .title,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 2),
+                          color: controller.productSizeSelect.value == index
+                              ? Colors.grey.withOpacity(.5)
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
+                });
+              })),
+            ],
+          )
+        : SizedBox.shrink();
+  }
+
+  Widget productDetailesInfo(
+      productsModel.ProductsDetaileModel productsDetaile) {
+    return DefaultTabController(
+      length: 2, // length of tabs
+      initialIndex: 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            child: TabBar(
+              labelColor: Colors.red,
+              unselectedLabelColor: Colors.black,
+              tabs: [
+                Tab(text: 'الوصف'),
+                Tab(text: 'الخصائص'),
+              ],
+            ),
+          ),
+          Container(
+            height: 400, //height of TabBarView
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Colors.grey, width: 0.5),
+              ),
+            ),
+            child: TabBarView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Container(
+                    child: Html(
+                      data: productsDetaile.data.product.desc.toString(),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: List.generate(
+                        productsDetaile.data.specifications.length, (index) {
+                      return ListTile(
+                        title: Text(productsDetaile.data.specifications
+                            .elementAt(index)
+                            .title
+                            .toString()),
+                        subtitle: Text(productsDetaile.data.specifications
+                            .elementAt(index)
+                            .value
+                            .toString()),
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -328,5 +450,18 @@ class ProductItem_detailes extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class HexColorFormString {
+  int getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    if (hexColor.length == 3) {
+      hexColor = "FF" + hexColor + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
   }
 }

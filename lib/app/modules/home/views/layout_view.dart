@@ -85,68 +85,7 @@ class LayoutView extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Obx(() {
-          return CurvedNavigationBar(
-            index: controller.selectindex.value,
-            animationDuration: Duration(milliseconds: 400),
-            backgroundColor: Colors.transparent,
-            buttonBackgroundColor: Colors.red,
-            color: Colors.white,
-            height: 75,
-            items: [
-              SvgPicture.asset(
-                'assets/menu/category.svg',
-                width: controller.selectindex.value == 0 ? 32 : 20,
-                color: controller.selectindex.value == 0
-                    ? Colors.white
-                    : Colors.red,
-              ),
-              SvgPicture.asset(
-                'assets/menu/brands.svg',
-                width: controller.selectindex.value == 1 ? 32 : 20,
-                color: controller.selectindex.value == 1
-                    ? Colors.white
-                    : Colors.red,
-              ),
-              SvgPicture.asset(
-                'assets/menu/home.svg',
-                width: controller.selectindex.value == 2 ? 32 : 20,
-                color: controller.selectindex.value == 2
-                    ? Colors.white
-                    : Colors.red,
-              ),
-              SvgPicture.asset(
-                'assets/menu/shopping.svg',
-                width: controller.selectindex.value == 3 ? 32 : 20,
-                color: controller.selectindex.value == 3
-                    ? Colors.white
-                    : Colors.red,
-              ),
-              SvgPicture.asset(
-                'assets/menu/user.svg',
-                width: controller.selectindex.value == 4 ? 32 : 20,
-                color: controller.selectindex.value == 4
-                    ? Colors.white
-                    : Colors.red,
-              ),
-            ],
-            onTap: (value) {
-              controller.selectindex.value = value;
-            },
-          );
-        }),
-      ),
+      bottomNavigationBar: custembottomNavigationBar(),
       body: Obx(() {
         return IndexedStack(
           index: controller.selectindex.value,
@@ -159,6 +98,72 @@ class LayoutView extends StatelessWidget {
                 ? loginuser()
                 : AccountView(),
           ],
+        );
+      }),
+    );
+  }
+
+  Container custembottomNavigationBar() {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Obx(() {
+        return CurvedNavigationBar(
+         
+          index: controller.selectindex.value,
+          animationDuration: const Duration(milliseconds: 400),
+          backgroundColor: Colors.transparent,
+          buttonBackgroundColor: Colors.red,
+          color: Colors.white,
+          height: 75,
+          items: [
+            SvgPicture.asset(
+              'assets/menu/category.svg',
+              width: controller.selectindex.value == 0 ? 32 : 20,
+              color: controller.selectindex.value == 0
+                  ? Colors.white
+                  : Colors.red,
+            ),
+            SvgPicture.asset(
+              'assets/menu/brands.svg',
+              width: controller.selectindex.value == 1 ? 32 : 20,
+              color: controller.selectindex.value == 1
+                  ? Colors.white
+                  : Colors.red,
+            ),
+            SvgPicture.asset(
+              'assets/menu/home.svg',
+              width: controller.selectindex.value == 2 ? 32 : 20,
+              color: controller.selectindex.value == 2
+                  ? Colors.white
+                  : Colors.red,
+            ),
+            SvgPicture.asset(
+              'assets/menu/shopping.svg',
+              width: controller.selectindex.value == 3 ? 32 : 20,
+              color: controller.selectindex.value == 3
+                  ? Colors.white
+                  : Colors.red,
+            ),
+            SvgPicture.asset(
+              'assets/menu/user.svg',
+              width: controller.selectindex.value == 4 ? 32 : 20,
+              color: controller.selectindex.value == 4
+                  ? Colors.white
+                  : Colors.red,
+            ),
+          ],
+          onTap: (value) {
+            controller.selectindex.value = value;
+          },
         );
       }),
     );
