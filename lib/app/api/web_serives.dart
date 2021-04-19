@@ -1,61 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/api_manger.dart';
+import 'package:zoe/app/api/response_model.dart';
 
 class WebServices extends APIManger {
-  Future<Response> getProfile() async {
-    Response response = await repGet('profile');
+  Future<ResponsModel> getProfile() async {
+    ResponsModel response = await repGet('profile');
     return response;
   }
 
-  Future<Response> getWishList() async {
-    Response response = await repGet('wishlist');
+  Future<ResponsModel> getWishList() async {
+    ResponsModel response = await repGet('wishlist');
     return response;
   }
 
-  Future<Response> getOrderHistory() async {
-    Response response = await repGet('orders');
+  Future<ResponsModel> getOrderHistory() async {
+    ResponsModel response = await repGet('orders');
     return response;
   }
 
-  Future<Response> getOrderDetailsHistory(String orderid) async {
-    Response response = await repGet('orders/' + orderid);
+  Future<ResponsModel> getOrderDetailsHistory(String orderid) async {
+    ResponsModel response = await repGet('orders/' + orderid);
     return response;
   }
 
-  Future<Response> getAccountAdress() async {
-    Response response = await repGet('user_address');
+  Future<ResponsModel> getAccountAdress() async {
+    ResponsModel response = await repGet('user_address');
     return response;
   }
 
-  Future<Response> addAccountAdress(String address, int city) async {
-    Response response =
+  Future<ResponsModel> addAccountAdress(String address, int city) async {
+    ResponsModel response =
         await repPost('user_address', {'address': address, 'city': city});
     return response;
   }
 
-  Future<Response> getDepartments() async {
-    Response response = await repGet('departments');
+  Future<ResponsModel> getDepartments() async {
+    ResponsModel response = await repGet('departments');
     return response;
   }
 
-  Future<Response> getDepartmentCategoryandBrand(int departmentId) async {
-    Response response = await repGet('department/' + departmentId.toString());
+  Future<ResponsModel> getDepartmentCategoryandBrand(int departmentId) async {
+    ResponsModel response = await repGet('department/' + departmentId.toString());
     return response;
   }
 
-  Future<Response> getCity() async {
-    Response response = await repGet('cities');
+  Future<ResponsModel> getCity() async {
+    ResponsModel response = await repGet('cities');
     return response;
   }
 
-  Future<Response> createUser({
+  Future<ResponsModel> createUser({
     @required String name,
     @required String email,
     @required String mobile,
     @required String password,
   }) async {
-    Response response = await repPost('register', {
+    ResponsModel response = await repPost('register', {
       "name": name,
       "email": email,
       "mobile": mobile,
@@ -65,11 +66,11 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<Response> signin({
+  Future<ResponsModel> signin({
     @required String mobile,
     @required String password,
   }) async {
-    Response response = await repPost('login', {
+    ResponsModel response = await repPost('login', {
       "mobile": mobile,
       "password": password,
     });
@@ -77,19 +78,19 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<Response> getbrand() async {
-    Response response = await repGet('brands');
+  Future<ResponsModel> getbrand() async {
+    ResponsModel response = await repGet('brands');
     return response;
   }
 
-  Future<Response> checkout({
+  Future<ResponsModel> checkout({
     @required String productsList,
     @required String qtyList,
     @required int addressid,
     @required String colors,
     @required String sizes,
   }) async {
-    Response response = await repPost(
+    ResponsModel response = await repPost(
       'checkout',
       {
         'products': productsList,
@@ -103,40 +104,40 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<Response> getProductByCategory(String categoryId) async {
-    Response response = await repGet('category/$categoryId');
+  Future<ResponsModel> getProductByCategory(String categoryId) async {
+    ResponsModel response = await repGet('category/$categoryId');
     return response;
   }
 
-  Future<Response> getProductByDepartments(String departmentsId) async {
-    Response response = await repGet('department_products/$departmentsId');
+  Future<ResponsModel> getProductByDepartments(String departmentsId) async {
+    ResponsModel response = await repGet('department_products/$departmentsId');
     return response;
   }
 
-  Future<Response> deleteUserAddress(int userAddresId) async {
-    Response response =
+  Future<ResponsModel> deleteUserAddress(int userAddresId) async {
+    ResponsModel response =
         await repPost('delete_user_address/' + userAddresId.toString(), '');
     return response;
   }
 
-  Future<Response> getProductByBrand(String brandId) async {
-    Response response = await repGet('brands/$brandId');
+  Future<ResponsModel> getProductByBrand(String brandId) async {
+    ResponsModel response = await repGet('brands/$brandId');
     return response;
   }
 
-  Future<Response> getProductDetailes(String productId) async {
-    Response response = await repGet('product/$productId');
+  Future<ResponsModel> getProductDetailes(String productId) async {
+    ResponsModel response = await repGet('product/$productId');
     return response;
   }
 
-  Future<Response> setFavoraitProduct(String productId) async {
-    Response response =
+  Future<ResponsModel> setFavoraitProduct(String productId) async {
+    ResponsModel response =
         await repPost('wishlist_product', {'product': productId});
     return response;
   }
 
-  Future<Response> getHomePage() async {
-    Response response = await repGet('home');
+  Future<ResponsModel> getHomePage() async {
+    ResponsModel response = await repGet('home');
     return response;
   }
 }

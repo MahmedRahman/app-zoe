@@ -33,8 +33,10 @@ abstract class Routes {
   static const AccountWishListView = '/AccountWishListView';
   static const AccountAddAdressView = '/AccountAddAdressView';
 
-
-  
-
   static const ProductDepartmentsView = '/ProductDepartmentsView';
+  static const ACCOUNT_ORDER = '/account/order';
+  static const ACCOUNT_ORDER_LIST = '/account/order/list';
+  static const ACCOUNT_ORDER_DETAIL = '/account/order/detail';
+  static const ACCOUNT_ADRESS_LIST = '/account/adress/list';
+  static const ACCOUNT_ADRESS_ADD = '/account/adress/add';
 }

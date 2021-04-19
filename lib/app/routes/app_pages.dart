@@ -1,11 +1,16 @@
 import 'package:get/get.dart';
 
+import 'package:zoe/app/modules/account/adress/add/bindings/account_adress_add_binding.dart';
+import 'package:zoe/app/modules/account/adress/add/views/account_adress_add_view.dart';
+import 'package:zoe/app/modules/account/adress/list/bindings/account_adress_list_binding.dart';
+import 'package:zoe/app/modules/account/adress/list/views/account_adress_list_view.dart';
 import 'package:zoe/app/modules/account/bindings/account_binding.dart';
+import 'package:zoe/app/modules/account/order/detail/bindings/account_order_detail_binding.dart';
+import 'package:zoe/app/modules/account/order/detail/views/account_order_detail_view.dart';
+import 'package:zoe/app/modules/account/order/list/bindings/account_order_list_binding.dart';
+import 'package:zoe/app/modules/account/order/list/views/account_order_list_view.dart';
 import 'package:zoe/app/modules/account/views/account_about_view.dart';
-import 'package:zoe/app/modules/account/views/account_add_adress_view.dart';
-import 'package:zoe/app/modules/account/views/account_adress_view.dart';
-import 'package:zoe/app/modules/account/views/account_order_history_detailes_view.dart';
-import 'package:zoe/app/modules/account/views/account_order_history_view.dart';
+
 import 'package:zoe/app/modules/account/views/account_view.dart';
 import 'package:zoe/app/modules/account/views/account_wish_list_view.dart';
 import 'package:zoe/app/modules/authiocation/bindings/authiocation_binding.dart';
@@ -27,7 +32,6 @@ import 'package:zoe/app/modules/entry_point/views/entry_point_view.dart';
 import 'package:zoe/app/modules/home/bindings/home_binding.dart';
 import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/modules/home/views/layout_view.dart';
-
 import 'package:zoe/app/modules/product/bindings/product_binding.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/modules/product/views/product_brand_view.dart';
@@ -107,8 +111,7 @@ class AppPages {
       page: () => ProductDetailView(),
       binding: ProductBinding(),
     ),
-
-        GetPage(
+    GetPage(
       name: Routes.ProductDepartmentsView,
       page: () => ProductDepartmentsView(),
       binding: ProductBinding(),
@@ -133,21 +136,7 @@ class AppPages {
       page: () => EntryPointView(),
       binding: EntryPointBinding(),
     ),
-    GetPage(
-      name: Routes.AccountOrderHistoryView,
-      page: () => AccountOrderHistoryView(),
-      binding: AccountBinding(),
-    ),
-    GetPage(
-      name: Routes.AccountOrderHistoryDetailesView,
-      page: () => AccountOrderHistoryDetailesView(),
-      binding: AccountBinding(),
-    ),
-    GetPage(
-      name: Routes.AccountAdressView,
-      page: () => AccountAdressView(),
-      binding: AccountBinding(),
-    ),
+
     GetPage(
       name: Routes.AccountAboutView,
       page: () => AccountAboutView(),
@@ -158,10 +147,26 @@ class AppPages {
       page: () => AccountWishListView(),
       binding: AccountBinding(),
     ),
+
     GetPage(
-      name: Routes.AccountAddAdressView,
-      page: () => AccountAddAdressView(),
-      binding: AccountBinding(),
+      name: Routes.ACCOUNT_ORDER_LIST,
+      page: () => AccountOrderListView(),
+      binding: AccountOrderListBinding(),
+    ),
+    GetPage(
+      name: Routes.ACCOUNT_ORDER_DETAIL,
+      page: () => AccountOrderDetailView(),
+      binding: AccountOrderDetailBinding(),
+    ),
+    GetPage(
+      name: Routes.ACCOUNT_ADRESS_LIST,
+      page: () => AccountAdressListView(),
+      binding: AccountAdressListBinding(),
+    ),
+    GetPage(
+      name: Routes.ACCOUNT_ADRESS_ADD,
+      page: () => AccountAdressAddView(),
+      binding: AccountAdressAddBinding(),
     ),
   ];
 }

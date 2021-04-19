@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:zoe/app/data/component/CustemDropdown.dart';
 import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomButton.dart';
-import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/helper/AppValidation.dart';
-import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 
-class AccountAddAdressView extends GetView<AccountController> {
+import '../controllers/account_adress_add_controller.dart';
+
+class AccountAdressAddView extends GetView<AccountAdressAddController> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -92,7 +92,6 @@ class AccountAddAdressView extends GetView<AccountController> {
                     FocusScope.of(context).unfocus();
                     if (_formKey.currentState.validate()) {
                       controller.addAccountAdress();
-                      
                     } else {
                       controller.bntrest();
                     }
@@ -105,4 +104,7 @@ class AccountAddAdressView extends GetView<AccountController> {
       ),
     );
   }
+
+
+
 }

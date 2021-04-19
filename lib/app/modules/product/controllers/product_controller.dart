@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:zoe/app/api/model/department_products_model.dart';
+import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
@@ -39,35 +40,50 @@ class ProductController extends GetxController {
   }
 
   Future getProductByCategory(String categoryId) async {
-    Response response = await WebServices().getProductByCategory(categoryId);
+    ResponsModel responsModel =
+        await WebServices().getProductByCategory(categoryId);
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      final categoryProductsModel =
+          categoryProductsModelFromJson(response.bodyString);
 
-    final categoryProductsModel =
-        categoryProductsModelFromJson(response.bodyString);
-
-    return categoryProductsModel.data.products;
+      return categoryProductsModel.data.products;
+    }
   }
 
   Future getProductByDepartments(String departmentsId) async {
-    Response response =
+    ResponsModel responsModel =
         await WebServices().getProductByDepartments(departmentsId);
-    final departmentProductsModel =
-        departmentProductsModelFromJson(response.bodyString);
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      final departmentProductsModel =
+          departmentProductsModelFromJson(response.bodyString);
 
-    return departmentProductsModel.data.products;
+      return departmentProductsModel.data.products;
+    }
   }
 
   Future getProductDetailes(String productId) async {
-    Response response = await WebServices().getProductDetailes(productId);
-    final productsDetaileModel =
-        productsDetaileModelFromJson(response.bodyString);
+    ResponsModel responsModel =
+        await WebServices().getProductDetailes(productId);
+    if (responsModel.success) {
+      Response response = responsModel.data;
 
-    return productsDetaileModel;
+      final productsDetaileModel =
+          productsDetaileModelFromJson(response.bodyString);
+
+      return productsDetaileModel;
+    }
   }
 
   Future getProductByBrand(String brandId) async {
-    Response response = await WebServices().getProductByBrand(brandId);
-    final productsBrandModel = productsBrandModelFromJson(response.bodyString);
-    return productsBrandModel.data.products;
+    ResponsModel responsModel = await WebServices().getProductByBrand(brandId);
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      final productsBrandModel =
+          productsBrandModelFromJson(response.bodyString);
+      return productsBrandModel.data.products;
+    }
   }
 
   void productAddToCart(ProductsDetaileModel productsDetaile) {
@@ -123,7 +139,7 @@ class ProductController extends GetxController {
   }
 
   Future SetFavoraitProduct(String brandId) async {
-    Response response = await WebServices().setFavoraitProduct(brandId);
-    print(response.bodyString);
+    ResponsModel responsModel = await WebServices().setFavoraitProduct(brandId);
+    if (responsModel.success) {}
   }
 }

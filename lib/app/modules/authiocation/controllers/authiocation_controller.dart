@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
@@ -27,14 +28,15 @@ class AuthiocationController extends GetxController {
     buttonController.stop();
   }
 
-  createUser() {
-    WebServices()
-        .createUser(
-            name: fullName.text,
-            mobile: phone.text,
-            email: email.text,
-            password: password.text)
-        .then((Response response) {
+  createUser() async {
+    ResponsModel responsModel = await WebServices().createUser(
+        name: fullName.text,
+        mobile: phone.text,
+        email: email.text,
+        password: password.text);
+
+    if (responsModel.success) {
+      Response response = responsModel.data;
       if (response.body['success']) {
         final userModel = userModelFromJson(response.bodyString);
 
@@ -54,16 +56,18 @@ class AuthiocationController extends GetxController {
           },
         );
       }
-    });
+    }
   }
 
   Signin() async {
-    await WebServices()
-        .signin(
+    
+    ResponsModel responsModel = await WebServices().signin(
       mobile: phone.text,
       password: password.text,
-    )
-        .then((Response response) {
+    );
+
+    if (responsModel.success) {
+      Response response = responsModel.data;
       if (response.body['success']) {
         Get.find<UserAuth>()
             .setUserToken(response.body['data']['access_token'].toString());
@@ -84,6 +88,9 @@ class AuthiocationController extends GetxController {
           },
         );
       }
-    });
+    } else {
+      restbnt();
+    }
+
   }
 }

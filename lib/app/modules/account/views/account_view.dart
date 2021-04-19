@@ -45,7 +45,7 @@ class AccountView extends StatelessWidget {
               leading: SvgPicture.asset('assets/order.svg'),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
-                Get.toNamed(Routes.AccountOrderHistoryView);
+                Get.toNamed(Routes.ACCOUNT_ORDER_LIST);
               },
             ),
           ),
@@ -55,7 +55,7 @@ class AccountView extends StatelessWidget {
               leading: SvgPicture.asset('assets/address.svg'),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
-                Get.toNamed(Routes.AccountAdressView);
+                Get.toNamed(Routes.ACCOUNT_ADRESS_LIST);
               },
             ),
           ),

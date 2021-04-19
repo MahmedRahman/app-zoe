@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -18,27 +19,13 @@ class HomeController extends GetxController {
 
   Future getHome() async {
     HomeModel homeModel;
-    // await getJson();
-
-    //
-    //
-
-    Response response = await WebServices().getHomePage();
-    if (response.statusCode == 500) {
-      homeModel = homeModelFromJson(await getJson());
-    }
-    if (response.statusCode == 200) {
+ 
+    ResponsModel responsModel = await WebServices().getHomePage();
+    if (responsModel.success) {
+      Response response = responsModel.data;
       homeModel = homeModelFromJson(response.bodyString);
+      homeModelFuture.value = Future.value(homeModel);
     }
-
-    homeModelFuture.value = Future.value(homeModel);
-
-/*
-    if (response.hasError) {
-      homeModelFuture.value = Future.error('error');
-    } else {
-    }
-*/
 
     return homeModel;
   }

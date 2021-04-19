@@ -7,6 +7,7 @@ import 'package:zoe/app/data/component/CustomButton.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
+import 'package:zoe/app/modules/account/adress/list/controllers/account_adress_list_controller.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/account_adrees_model.dart';
 import 'package:zoe/app/modules/cart/controllers/cart_controller.dart';
@@ -140,8 +141,8 @@ class CartCheckOutView extends GetView<CartController> {
     );
   }
 
-  GetX<AccountController> addressWidget() {
-    return GetX<AccountController>(builder: (_accountController) {
+  GetX<AccountAdressListController> addressWidget() {
+    return GetX<AccountAdressListController>(builder: (_accountController) {
       return FutureBuilder(
           future: _accountController.AdreesModel.value,
           builder: (context, snapshot) {

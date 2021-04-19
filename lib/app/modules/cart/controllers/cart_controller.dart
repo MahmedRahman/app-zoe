@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
@@ -112,15 +113,16 @@ class CartController extends GetxController {
       }
     });
 
-    await WebServices()
-        .checkout(
+    ResponsModel responsModel = await WebServices().checkout(
       addressid: addressid,
       colors: productColor,
       qtyList: productQty,
       productsList: productList,
       sizes: productSize,
-    )
-        .then((response) {
+    );
+
+    if (responsModel.success) {
+      Response response = responsModel.data;
       if (response.body['success']) {
         showSnackBar(
             title: appName,
@@ -138,7 +140,7 @@ class CartController extends GetxController {
               buttonController.stop();
             });
       }
-    });
+    }
 
     buttonController.stop();
   }

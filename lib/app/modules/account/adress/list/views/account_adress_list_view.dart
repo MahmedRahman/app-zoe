@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
@@ -7,9 +7,16 @@ import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/account_adrees_model.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 
-class AccountAdressView extends GetView<AccountController> {
-  @override
+import '../controllers/account_adress_list_controller.dart';
+
+class AccountAdressListView extends GetView<AccountAdressListController> {
+
+   @override
   Widget build(BuildContext context) {
+
+
+controller.getAccountAdress();
+
     return Scaffold(
       appBar: CustemAppBar(),
       floatingActionButton: FloatingActionButton(
@@ -18,7 +25,7 @@ class AccountAdressView extends GetView<AccountController> {
         },
         child: Icon(Icons.add),
       ),
-      body: GetX<AccountController>(builder: (controller) {
+      body: GetX<AccountAdressListController>(builder: (controller) {
         return FutureBuilder(
             future: controller.AdreesModel.value,
             builder: (context, snapshot) {
@@ -58,4 +65,6 @@ class AccountAdressView extends GetView<AccountController> {
       }),
     );
   }
+
+
 }

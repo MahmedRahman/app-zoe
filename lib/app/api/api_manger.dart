@@ -1,7 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/connect.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
+import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
@@ -18,7 +22,7 @@ class APIManger extends GetConnect {
     'Accept': 'application/json'
   };
 
-  void setUserTokan() {
+  void login() {
     String tokan = Get.find<UserAuth>().getUserToken();
 
     if (tokan != null) {
@@ -31,47 +35,52 @@ class APIManger extends GetConnect {
     }
   }
 
-  Future<Response> repPost(url, body) async {
+  Future<ResponsModel> repPost(url, body) async {
     print("Api Request " + baes_url + url);
-    setUserTokan();
+    login();
+
     Response response = await post(baes_url + url, body, headers: header);
-    print("Api Request " +
-        baes_url +
-        url +
-        " Api Request:: " +
-        response.statusCode.toString());
+
     try {
       switch (response.statusCode) {
         case 200:
-          return response;
+          return ResponsModel(
+            code: response.statusCode,
+            success: true,
+            data: response,
+          );
           break;
-        case 201:
-          //return response;
-          if (isJsonParsable(response.bodyString)) {
-            return response;
-          } else {
-            print(response.bodyString);
-            Future.error('error');
-            //  Get.toNamed(Routes.SETTING);
-          }
-          break;
+
         default:
-          print(response.statusCode);
-          print(response.bodyString);
-          Get.toNamed(Routes.ServererroView);
+          Get.to(ErrorView(
+            api_url: response.headers.toString(),
+            api_body: response.status.toString(),
+            api_header: header.toString(),
+            api_status_code: '',
+          ));
+          return ResponsModel(
+            code: response.statusCode,
+            success: false,
+          );
       }
     } catch (e) {
-      print(e);
-      throw e;
+      Get.to(ErrorView(
+        api_url: response.headers.toString(),
+        api_body: e.toString(),
+        api_header: '',
+        api_status_code: e.hashCode.toString(),
+      ));
+      return ResponsModel(
+        code: e.hashCode,
+        success: false,
+      );
     }
+  
   }
 
-  Future<Response> repGet(url) async {
+  Future<ResponsModel> repGet(url) async {
     print("Api Request " + baes_url + url);
-  
-    print(header);
-    setUserTokan();
-
+    login();
     Response response = await get(baes_url + url, headers: header);
 
     print("Api Request " +
@@ -80,29 +89,96 @@ class APIManger extends GetConnect {
         " Api Request:: " +
         response.statusCode.toString());
 
-    try {
+     try {
       switch (response.statusCode) {
         case 200:
-          return response;
+          return ResponsModel(
+            code: response.statusCode,
+            success: true,
+            data: response,
+          );
           break;
+
         default:
-          print(response.bodyString);
-          Get.toNamed(Routes.ServererroView);
+          Get.to(ErrorView(
+            api_url: response.headers.toString(),
+            api_body: response.status.toString(),
+            api_header: header.toString(),
+            api_status_code: '',
+          ));
+          return ResponsModel(
+            code: response.statusCode,
+            success: false,
+          );
       }
     } catch (e) {
-      print(e);
-      throw e;
+      Get.to(ErrorView(
+        api_url: response.headers.toString(),
+        api_body: e.toString(),
+        api_header: '',
+        api_status_code: e.hashCode.toString(),
+      ));
+      return ResponsModel(
+        code: e.hashCode,
+        success: false,
+      );
     }
-
-    //print(response.hasError);
   }
 
-  bool isJsonParsable(String jsonString) {
-    try {
-      var decodedJSON = json.decode(jsonString) as Map<String, dynamic>;
-      return true;
-    } on FormatException catch (e) {
-      return false;
-    }
+}
+
+class ErrorView extends GetView {
+  ErrorView({
+    this.api_url,
+    this.api_header,
+    this.api_body,
+    this.api_status_code,
+  });
+
+  final String api_url;
+  final String api_header;
+  final String api_body;
+  final String api_status_code;
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () {},
+      child: Scaffold(
+        body: ListView(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Lottie.asset('assets/error_api.json'),
+            ListTile(
+              title: Text('API Url'),
+              subtitle: Text(api_url),
+            ),
+            ListTile(
+              title: Text('API Header'),
+              subtitle: Text(api_header.toString()),
+            ),
+            ListTile(
+              title: Text('API Body'),
+              subtitle: Text(api_body.toString()),
+            ),
+            ListTile(
+              title: Text('API Status Code'),
+              subtitle: Text(api_status_code),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                'أعادة المحاولة',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
