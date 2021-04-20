@@ -5,68 +5,76 @@ import 'package:zoe/app/data/component/CustomButton.dart';
 import 'package:zoe/app/api/model/products_detaile_model.dart' as productsModel;
 import 'package:flutter_html/flutter_html.dart';
 import 'package:zoe/app/modules/home/views/home_view.dart';
+import 'package:zoe/app/modules/home/views/layout_view.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 
 class ProductDetailView extends StatelessWidget {
-  ProductController controller = Get.put(ProductController());
+  ProductDetailView({@required String this.productId});
+
+  final String productId;
+
 //Get.arguments[0].toString()
   @override
   Widget build(BuildContext context) {
+    ProductController controller = Get.put(ProductController(), tag: productId);
+    controller.getProductDetailes(productId);
     var fav = true.obs;
     return Scaffold(
       appBar: CustemAppBar(),
-      body: FutureBuilder(
-        future: controller.getProductDetailes(Get.arguments[0].toString()),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            productsModel.ProductsDetaileModel productsDetaile = snapshot.data;
-            fav.value = productsDetaile.data.product.wishlist;
-            controller.ProductPrice.value =
-                productsDetaile.data.product.price.toDouble();
-            return ListView(
-              children: [
-                SizedBox(
-                  width: Get.width,
-                  height: Get.height * .4,
-                  child: Stack(
-                    children: [
-                      PageView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(
-                              productsDetaile.data.productImages.length,
-                              (index) {
-                            return SizedBox(
-                              width: Get.width,
-                              height: Get.height * .4,
-                              child: CustomImageCached(
-                                imageUrl:
-                                    productsDetaile.data.productImages[index],
-                              ),
-                            );
-                          }).toList()),
-                      Positioned(
-                        top: 20,
-                        left: 20,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              width: 64,
-                              height: 64,
-                              child: CustomImageCached(
-                                imageUrl: productsDetaile.data.brand.image,
-                              ),
-                            )
-                          ],
+      //   bottomNavigationBar: custembottomNavigationBar(),
+      body: GetX<ProductController>(builder: (builder) {
+        return FutureBuilder(
+          future: controller.productsDetaileFutureModel.value,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              productsModel.ProductsDetaileModel productsDetaile =
+                  snapshot.data;
+              fav.value = productsDetaile.data.product.wishlist;
+              controller.ProductPrice.value =
+                  productsDetaile.data.product.price.toDouble();
+              return ListView(
+                children: [
+                  SizedBox(
+                    width: Get.width,
+                    height: Get.height * .4,
+                    child: Stack(
+                      children: [
+                        PageView(
+                            scrollDirection: Axis.horizontal,
+                            children: List.generate(
+                                productsDetaile.data.productImages.length,
+                                (index) {
+                              return SizedBox(
+                                width: Get.width,
+                                height: Get.height * .4,
+                                child: CustomImageCached(
+                                  imageUrl:
+                                      productsDetaile.data.productImages[index],
+                                ),
+                              );
+                            }).toList()),
+                        Positioned(
+                          top: 20,
+                          left: 20,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: 64,
+                                height: 64,
+                                child: CustomImageCached(
+                                  imageUrl: productsDetaile.data.brand.image,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: 20,
-                        right: 20,
-                        child: Obx(
-                           () {
+                        Positioned(
+                          top: 20,
+                          right: 20,
+                          child: Obx(() {
                             return IconButton(
                               icon: Icon(
                                 Icons.favorite,
@@ -74,8 +82,6 @@ class ProductDetailView extends StatelessWidget {
                                 size: 32,
                               ),
                               onPressed: () {
-
-                               
                                 controller.SetFavoraitProduct(
                                   productsDetaile.data.product.id.toString(),
                                 );
@@ -87,153 +93,156 @@ class ProductDetailView extends StatelessWidget {
                                 ;
                               },
                             );
-                          }
-                        ),
-                      )
-                    
-                    ],
+                          }),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                ListTile(
-                  title: Text(
-                    productsDetaile.data.product.name,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  trailing: Obx(() {
-                    return Text(
-                      controller.ProductPrice.toString() + ' ' + 'ريال',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                    );
-                  }),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    productColorBox(productsDetaile),
-                  ],
-                ),
-                productSizeBox(productsDetaile),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'الكمية',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                          fontSize: 18,
-                        ),
-                      ),
+                  ListTile(
+                    title: Text(
+                      productsDetaile.data.product.name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        controller.addproductQty();
-                      },
-                      child: Text(
-                        '+',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Obx(() {
+                    trailing: Obx(() {
                       return Text(
-                        controller.productQty.value.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        controller.ProductPrice.toString() + ' ' + 'ريال',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
                       );
                     }),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                      ),
-                      onPressed: () {
-                        controller.removeproductQty();
-                      },
-                      child: Text(
-                        '-',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      productColorBox(productsDetaile, controller),
+                    ],
+                  ),
+                  productSizeBox(productsDetaile, controller),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'الكمية',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                productDetailesInfo(productsDetaile),
-                CustomButton(
-                  title: 'أضف للسلة',
-                  buttonController: controller.buttonController,
-                  onPressed: () {
-                    controller.productAddToCart(productsDetaile);
-                  },
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  'منتجات مشابها',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
-                  height: Get.height * .4,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: List.generate(
-                      productsDetaile.data.similarProducts.length,
-                      (indexproducts) {
-                        productsModel.SimilarProduct product = productsDetaile
-                            .data.similarProducts
-                            .elementAt(indexproducts);
-
-                        return ProductItem_detailes(
-                          product: product,
+                      SizedBox(
+                        width: 10,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          controller.addproductQty();
+                        },
+                        child: Text(
+                          '+',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() {
+                        return Text(
+                          controller.productQty.value.toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         );
-                      },
+                      }),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                        ),
+                        onPressed: () {
+                          controller.removeproductQty();
+                        },
+                        child: Text(
+                          '-',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  productDetailesInfo(productsDetaile),
+                  CustomButton(
+                    title: 'أضف للسلة',
+                    buttonController: controller.buttonController,
+                    onPressed: () {
+                      controller.productAddToCart(productsDetaile);
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'منتجات متشابهة',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
-                )
-              ],
-            );
-          } else if (snapshot.hasError) {
+                  SizedBox(
+                    height: 15,
+                  ),
+                  SizedBox(
+                    height: Get.height * .4,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: List.generate(
+                        productsDetaile.data.similarProducts.length,
+                        (indexproducts) {
+                          productsModel.SimilarProduct product = productsDetaile
+                              .data.similarProducts
+                              .elementAt(indexproducts);
+
+                          return ProductItem_detailes(
+                            product: product,
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: CustomIndicator(
+                  indicatorStatus: IndicatorStatus.error,
+                ),
+              );
+            }
             return Center(
               child: CustomIndicator(
-                indicatorStatus: IndicatorStatus.error,
+                indicatorStatus: IndicatorStatus.ListProduct,
               ),
             );
-          }
-          return Center(
-            child: CustomIndicator(
-              indicatorStatus: IndicatorStatus.ListProduct,
-            ),
-          );
-        },
-      ),
+          },
+        );
+      }),
       //  bottomNavigationBar: custembottomNavigationBar(),
     );
   }
 
-  Widget productColorBox(productsModel.ProductsDetaileModel productsDetaile) {
+  Widget productColorBox(
+      productsModel.ProductsDetaileModel productsDetaile, controller) {
     return (productsDetaile.data.product.colors.length != 0)
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,7 +302,8 @@ class ProductDetailView extends StatelessWidget {
         : SizedBox.shrink();
   }
 
-  Widget productSizeBox(productsModel.ProductsDetaileModel productsDetaile) {
+  Widget productSizeBox(
+      productsModel.ProductsDetaileModel productsDetaile, controller) {
     return (productsDetaile.data.product.sizes.length != 0)
         ? Column(
             mainAxisAlignment: MainAxisAlignment.start,

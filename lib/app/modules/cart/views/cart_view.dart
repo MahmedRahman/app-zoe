@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomButton.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
@@ -20,6 +21,7 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: CustemAppBar(),
       body: ListView(
         children: [
           GetX<CartController>(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/user_provile.dart';
@@ -17,6 +18,7 @@ class AccountView extends StatelessWidget {
     );
     AccountController controller = Get.find<AccountController>();
     return Scaffold(
+        appBar: CustemAppBar(),
       body: Column(
         children: [
           FutureBuilder(

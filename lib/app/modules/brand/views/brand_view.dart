@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/model/brand_model.dart';
+import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/modules/brand/controllers/brand_controller.dart';
+import 'package:zoe/app/modules/product/views/product_brand_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
@@ -10,12 +12,14 @@ class BrandView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BrandController controller = Get.put(BrandController());
-    controller.getBrand();
-
+  controller.getBrand();
     return Scaffold(
+      appBar:  CustemAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GetX<BrandController>(builder: (builder) {
+        child: GetX<BrandController>(
+         
+          builder: (builder) {
           return FutureBuilder(
               future: controller.brandsList.value,
               builder: (context, snapshot) {
@@ -27,8 +31,19 @@ class BrandView extends StatelessWidget {
                       Brand brand = brands.elementAt(index);
                       return InkWell(
                         onTap: () {
+                          /*
                           Get.toNamed(Routes.ProductBrandView,
                               arguments: [brand.id.toString()]);
+*/
+
+   Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (BuildContext context) => new ProductBrandView(brand.id.toString()) 
+            ,
+          ),
+        );
+
                         },
                         child: Card(
                           child: Padding(

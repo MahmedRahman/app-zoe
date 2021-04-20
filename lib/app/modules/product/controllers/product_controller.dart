@@ -26,6 +26,8 @@ class ProductController extends GetxController {
 
   var ProductPrice = 0.0.obs;
 
+  final productsDetaileFutureModel = Future.value().obs;
+
   addproductQty() {
     productQty.value = productQty.value + 1;
   }
@@ -71,7 +73,7 @@ class ProductController extends GetxController {
 
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
-
+      productsDetaileFutureModel.value = Future.value(productsDetaileModel);
       return productsDetaileModel;
     }
   }

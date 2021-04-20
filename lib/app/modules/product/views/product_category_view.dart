@@ -9,14 +9,19 @@ import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class ProductCategoryView extends GetView<ProductController> {
-  // HomeController _homeController = Get.put<HomeController>(HomeController());
+  ProductCategoryView(this.categoryId);
+
+  final String categoryId;
+
+  ProductController _homeController =
+      Get.put<ProductController>(ProductController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustemAppBar(),
       body: FutureBuilder(
-        future: controller.getProductByCategory(Get.arguments[0].toString()),
+        future: controller.getProductByCategory(categoryId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Product> products = snapshot.data;
@@ -50,5 +55,4 @@ class ProductCategoryView extends GetView<ProductController> {
       ),
     );
   }
-
 }

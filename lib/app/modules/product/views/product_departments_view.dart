@@ -8,12 +8,17 @@ import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/api/model/category_products_model.dart';
 
 class ProductDepartmentsView extends GetView<ProductController> {
+  ProductDepartmentsView(this.departmentsId);
+  String departmentsId;
+
   @override
   Widget build(BuildContext context) {
+    ProductController controller = Get.put(ProductController());
+
     return Scaffold(
       appBar: CustemAppBar(),
       body: FutureBuilder(
-        future: controller.getProductByDepartments(Get.arguments[0].toString()),
+        future: controller.getProductByDepartments(departmentsId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<dynamic> products = snapshot.data;

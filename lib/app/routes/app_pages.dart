@@ -83,7 +83,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.ProductCategoryView,
-      page: () => ProductCategoryView(),
+      page: () => ProductCategoryView('1'),
       binding: ProductBinding(),
     ),
     GetPage(
@@ -108,12 +108,14 @@ class AppPages {
     ),
     GetPage(
       name: Routes.ProductDetailView,
-      page: () => ProductDetailView(),
+      page: () => ProductDetailView(
+        productId: '1',
+      ),
       binding: ProductBinding(),
     ),
     GetPage(
       name: Routes.ProductDepartmentsView,
-      page: () => ProductDepartmentsView(),
+      page: () => ProductDepartmentsView('1'),
       binding: ProductBinding(),
     ),
     GetPage(
@@ -128,7 +130,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.ProductBrandView,
-      page: () => ProductBrandView(),
+      page: () => ProductBrandView('1'),
       binding: ProductBinding(),
     ),
     GetPage(
@@ -149,6 +151,7 @@ class AppPages {
     ),
 
     GetPage(
+      
       name: Routes.ACCOUNT_ORDER_LIST,
       page: () => AccountOrderListView(),
       binding: AccountOrderListBinding(),

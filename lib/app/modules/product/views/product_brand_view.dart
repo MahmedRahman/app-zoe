@@ -8,12 +8,18 @@ import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class ProductBrandView extends GetView<ProductController> {
+
+ProductBrandView(this.brandId);
+final String brandId;
   @override
   Widget build(BuildContext context) {
+
+ ProductController controller = Get.put(ProductController());
+
     return Scaffold(
       appBar: CustemAppBar(),
       body: FutureBuilder(
-        future: controller.getProductByBrand(Get.arguments[0].toString()),
+        future: controller.getProductByBrand(brandId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Product> products = snapshot.data;

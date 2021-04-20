@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/model/home_model.dart';
+import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
+import 'package:zoe/app/modules/product/views/product_brand_view.dart';
+import 'package:zoe/app/modules/product/views/product_category_view.dart';
+import 'package:zoe/app/modules/product/views/product_departments_view.dart';
+import 'package:zoe/app/modules/product/views/product_detail_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
@@ -11,55 +16,58 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GetX<HomeController>(
-          init: HomeController(),
-          builder: (controller) {
-            return FutureBuilder(
-                future: controller.homeModelFuture.value,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    HomeModel homeModel = snapshot.data;
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Image.asset('assets/offer.png'),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Title(
-                            label: 'الاقسام',
-                          ),
-                          buildCategory(homeModel.data.departments),
-                          Title(
-                            label: 'الماركات',
-                          ),
-                          buildBrand(homeModel.data.brands),
-                          buildFeaturedCategory(
-                              homeModel.data.featuredCategories),
-                          SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
+    return Scaffold(
+      appBar: CustemAppBar(),
+      body: Container(
+        child: GetX<HomeController>(
+            init: HomeController(),
+            builder: (controller) {
+              return FutureBuilder(
+                  future: controller.homeModelFuture.value,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      HomeModel homeModel = snapshot.data;
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Image.asset('assets/offer.png'),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Title(
+                              label: 'الاقسام',
+                            ),
+                            buildCategory(homeModel.data.departments),
+                            Title(
+                              label: 'الماركات',
+                            ),
+                            buildBrand(homeModel.data.brands),
+                            buildFeaturedCategory(
+                                homeModel.data.featuredCategories),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: CustomIndicator(
+                          indicatorStatus: IndicatorStatus.error,
+                        ),
+                      );
+                    }
                     return Center(
                       child: CustomIndicator(
-                        indicatorStatus: IndicatorStatus.error,
+                        indicatorStatus: IndicatorStatus.wait,
                       ),
                     );
-                  }
-                  return Center(
-                    child: CustomIndicator(
-                      indicatorStatus: IndicatorStatus.wait,
-                    ),
-                  );
-                });
-          }),
+                  });
+            }),
+      ),
     );
   }
 
@@ -73,8 +81,20 @@ class HomePage extends StatelessWidget {
             BrandElement CategoryItem = brandElement.elementAt(index);
             return GestureDetector(
               onTap: () {
+                /*
                 Get.toNamed(Routes.ProductDepartmentsView,
                     arguments: [CategoryItem.id.toString()]);
+*/
+
+          Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        new ProductDepartmentsView(CategoryItem.id.toString()),
+                  ),
+                );
+
+
               },
               child: Padding(
                 padding:
@@ -125,8 +145,17 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GestureDetector(
               onTap: () {
+                /*
                 Get.toNamed(Routes.ProductBrandView,
                     arguments: [Brand.id.toString()]);
+*/
+                             Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        new ProductBrandView(Brand.id.toString()),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
@@ -204,9 +233,20 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        /*
         Get.toNamed(
           Routes.ProductDetailView,
           arguments: [product.id.toString()],
+        );
+*/
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (BuildContext context) =>
+                new ProductDetailView(
+                  productId: product.id.toString(),
+                ),
+          ),
         );
       },
       child: Container(
@@ -280,8 +320,23 @@ class Title extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        new ProductCategoryView(categoryId),
+                  ),
+                );
+
+                /*
                 Get.toNamed(Routes.ProductCategoryView,
                     arguments: [categoryId]);
+ new MaterialPageRoute(
+            builder: (BuildContext context) => new ProductCategoryView(
+              categoryId
+            ),
+          );
+                    */
               },
               child: Text(
                 sublabel ?? '',

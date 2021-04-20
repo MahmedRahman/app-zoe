@@ -4,6 +4,7 @@ import 'package:zoe/app/api/model/department_category_brand_model.dart';
 import 'package:zoe/app/api/model/department_model.dart';
 import 'package:zoe/app/data/BrandModel.dart';
 import 'package:zoe/app/data/CategoryModel.dart';
+import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 import 'package:zoe/app/data/productModel.dart';
@@ -25,6 +26,7 @@ class CategoryView extends GetView {
  categoryController = Get.find<CategoryController>();
 
     return Scaffold(
+        appBar: CustemAppBar(),
         body: Row(
       children: [
         Container(

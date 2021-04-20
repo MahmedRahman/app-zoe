@@ -17,11 +17,12 @@ import 'package:zoe/app/routes/app_pages.dart';
 class CartCheckOutView extends GetView<CartController> {
   String _character;
 
-  AccountController _accountController = Get.find();
+  AccountAdressListController _accountController = Get.find();
   var addressid = 3.obs;
 
   @override
   Widget build(BuildContext context) {
+    _accountController.getAccountAdress();
     return Scaffold(
       appBar: CustemAppBar(),
       body: ListView(
