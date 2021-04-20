@@ -46,7 +46,7 @@ class ProductController extends GetxController {
       Response response = responsModel.data;
       final categoryProductsModel =
           categoryProductsModelFromJson(response.bodyString);
-
+    productQty.value=1;
       return categoryProductsModel.data.products;
     }
   }

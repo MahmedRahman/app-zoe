@@ -100,6 +100,7 @@ final shopCount = 0.obs;
     String productSize = '';
     String productColor = '';
     var i = 0;
+     shopCount.value =0;
 
     listCartItem.forEach((CartItem _cartItem) {
       if (i == 0) {
