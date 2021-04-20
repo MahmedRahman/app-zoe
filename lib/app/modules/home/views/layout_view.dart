@@ -90,10 +90,10 @@ class LayoutView extends StatelessWidget {
         return IndexedStack(
           index: controller.selectindex.value,
           children: [
-            CategoryView(),
+          CategoryView(),
             BrandView(),
             HomePage(),
-            CartView(),
+           CartView(),
             (Get.find<UserAuth>().getUserToken() == null)
                 ? loginuser()
                 : AccountView(),

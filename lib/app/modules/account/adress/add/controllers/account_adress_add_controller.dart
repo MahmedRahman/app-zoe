@@ -5,6 +5,7 @@ import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
+import 'package:zoe/app/modules/account/adress/list/controllers/account_adress_list_controller.dart';
 
 class AccountAdressAddController extends GetxController {
   //TODO: Implement AccountAdressAddController
@@ -37,7 +38,10 @@ class AccountAdressAddController extends GetxController {
               buttonController.reset();
               cityid = -1;
               address.text = "";
-              //getAccountAdress();
+
+              Get.find<AccountAdressListController>().getAccountAdress();
+            
+            
               Get.back();
             });
       }

@@ -7,15 +7,23 @@ import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class BrandView extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
-    BrandController controller = Get.put(BrandController());
-    controller.getBrand();
-
+  //  BrandController controller = Get.put(BrandController());
+/*
+  Get.lazyPut<BrandController>(
+      () => BrandController(),
+    );
+Get.find<BrandController>().getBrand() ;
+   // controller.getBrand();
+*/
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GetX<BrandController>(builder: (builder) {
+        child: GetX<BrandController>(
+          init: BrandController() ,
+          builder: (controller) {
           return FutureBuilder(
               future: controller.brandsList.value,
               builder: (context, snapshot) {

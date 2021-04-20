@@ -19,7 +19,7 @@ class CartController extends GetxController {
   var shappingPrice = 30.obs;
   var totalPrice = 0.obs;
   int addressid = 1;
-
+final shopCount = 0.obs;
   void onInit() {
     updaetCartItem();
     buttonController = new RoundedLoadingButtonController();
@@ -27,6 +27,7 @@ class CartController extends GetxController {
   }
 
   updaetCartItem() {
+      cartCount();
     listCartItemFutter.value = Future.value(listCartItem);
   }
 
@@ -35,6 +36,7 @@ class CartController extends GetxController {
       listCartItem.add(cartItem);
     }
     updaetCartItem();
+  
   }
 
   bool isExitProduct(CartItem cartItem) {
@@ -66,7 +68,12 @@ class CartController extends GetxController {
   }
 
   int cartCount() {
-    return listCartItem.length;
+    int Qty = 0;
+    for (CartItem localCartItem in listCartItem) {
+      Qty = Qty + localCartItem.qty;
+    }
+    shopCount.value =Qty;
+    return Qty;
   }
 
   double cartTotalPrice() {

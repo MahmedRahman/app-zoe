@@ -6,8 +6,18 @@ import 'package:zoe/app/api/web_serives.dart';
 
 class BrandController extends GetxController {
   //TODO: Implement BrandController
+  //
+  
 
   final brandsList = Future.value().obs;
+
+
+  @override
+  void onInit() async {
+    await getBrand();
+    super.onInit();
+  }
+
 
   getBrand() async {
     ResponsModel responsModel = await WebServices().getbrand();

@@ -116,7 +116,7 @@ class Order {
     String city;
     int orderShippingFee;
     String orderNotes;
-    int orderSubTotal;
+    var orderSubTotal;
     String status;
 
     factory Order.fromJson(Map<String, dynamic> json) => Order(

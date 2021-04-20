@@ -6,8 +6,7 @@ class AppTheme {
   Color colorAccent = Color(0xFF2B2B2B);
 
   ThemeData themeData() {
-
-   /*
+    /*
    Size size
     double fontSizeLarge = size.width * .05;
     double fontSizeMediuam = size.width * .05;
@@ -33,6 +32,12 @@ class AppTheme {
         headline3: headline3,
         bodyText1: bodyText1,
         subtitle1: subtitle,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          primary: Colors.red,
+         
+        ),
       ),
       buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(

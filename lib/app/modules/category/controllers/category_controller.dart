@@ -3,6 +3,7 @@ import 'package:zoe/app/api/model/department_category_brand_model.dart';
 import 'package:zoe/app/api/model/department_model.dart';
 import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
+import 'package:zoe/app/modules/category/model/departments_page_model.dart';
 
 class CategoryController extends GetxController {
   //TODO: Implement CategoryController
@@ -10,6 +11,8 @@ class CategoryController extends GetxController {
   final count = 0.obs;
 
   var departments = Future.value().obs;
+
+
   var brands = Future.value().obs;
   var categories = Future.value().obs;
 
@@ -24,12 +27,14 @@ class CategoryController extends GetxController {
     ResponsModel responsModel = await WebServices().getDepartments();
     if (responsModel.success) {
       Response response = responsModel.data;
-      final departmentModel = departmentModelFromJson(response.bodyString);
-      departments.value = Future.value(departmentModel.data.departments);
-      getDepartmentCategoryandBrand(departmentModel.data.departments.first.id);
+     // final departmentModel = departmentModelFromJson(response.bodyString);
+      final departmentsPageModel = departmentsPageModelFromJson(response.bodyString);
+      departments.value = Future.value(departmentsPageModel);
+     // getDepartmentCategoryandBrand(departmentModel.data.departments.first.id);
     }
   }
 
+/*
   getDepartmentCategoryandBrand(int departmentId) async {
     ResponsModel responsModel =
         await WebServices().getDepartmentCategoryandBrand(departmentId);
@@ -42,4 +47,10 @@ class CategoryController extends GetxController {
           Future.value(departmentCategoryBrandModel.data.categories);
     }
   }
+
+*/
+
+
+
+
 }

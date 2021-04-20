@@ -63,6 +63,8 @@ class ProductController extends GetxController {
     }
   }
 
+  final productsDetaileModelFuture = Future.value().obs;
+
   Future getProductDetailes(String productId) async {
     ResponsModel responsModel =
         await WebServices().getProductDetailes(productId);
@@ -71,7 +73,7 @@ class ProductController extends GetxController {
 
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
-
+      productsDetaileModelFuture.value = Future.value(productsDetaileModel);
       return productsDetaileModel;
     }
   }
@@ -82,22 +84,30 @@ class ProductController extends GetxController {
       Response response = responsModel.data;
       final productsBrandModel =
           productsBrandModelFromJson(response.bodyString);
-      return productsBrandModel.data.products;
+      return productsBrandModel;
     }
   }
 
   void productAddToCart(ProductsDetaileModel productsDetaile) {
-    bntrest();
+   
 
-    Get.snackbar(appName, 'تم الاضافة الى سلة المشتريات',
-        barBlur: .9,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        messageText: Text(
-          'تم الاضافة الى سلة المشتريات',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        icon: LottieBuilder.asset('assets/productnotfound.json'));
+    Get.snackbar(
+      appName,
+      'تم الاضافة الى سلة المشتريات',
+      barBlur: .9,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      messageText: Text(
+        'تم الاضافة الى سلة المشتريات',
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+    );
+
+    // bntrest();
+
+
+    //icon: LottieBuilder.asset('assets/productnotfound.json'));
 
     Get.find<CartController>().addToCart(
       new CartItem(

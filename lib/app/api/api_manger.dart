@@ -53,10 +53,10 @@ class APIManger extends GetConnect {
 
         default:
           Get.to(ErrorView(
-            api_url: response.headers.toString(),
-            api_body: response.status.toString(),
+            api_url: url.toString(),
+            api_body: body.toString(),
             api_header: header.toString(),
-            api_status_code: '',
+            api_status_code: response.statusCode.toString(),
           ));
           return ResponsModel(
             code: response.statusCode,
@@ -101,10 +101,10 @@ class APIManger extends GetConnect {
 
         default:
           Get.to(ErrorView(
-            api_url: response.headers.toString(),
-            api_body: response.status.toString(),
+            api_url: url.toString(),
+            api_body: '',
             api_header: header.toString(),
-            api_status_code: '',
+            api_status_code: response.statusCode.toString(),
           ));
           return ResponsModel(
             code: response.statusCode,

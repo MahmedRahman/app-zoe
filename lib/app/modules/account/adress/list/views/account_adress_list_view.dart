@@ -21,7 +21,7 @@ controller.getAccountAdress();
       appBar: CustemAppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(Routes.AccountAddAdressView);
+          Get.toNamed(Routes.ACCOUNT_ADRESS_ADD);
         },
         child: Icon(Icons.add),
       ),

@@ -16,9 +16,9 @@ class ProductBrandView extends GetView<ProductController> {
         future: controller.getProductByBrand(Get.arguments[0].toString()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Product> products = snapshot.data;
+            ProductsBrandModel   productsBrandModel = snapshot.data;
 
-            if (products.length == 0) {
+            if (productsBrandModel.data.products.length == 0) {
               return Center(
                 child: CustomIndicator(
                   indicatorStatus: IndicatorStatus.NoProductFound,
@@ -32,9 +32,9 @@ class ProductBrandView extends GetView<ProductController> {
                 childAspectRatio: .6,
                 crossAxisCount: 2,
                 children: List.generate(
-                  products.length,
+                  productsBrandModel.data.products.length,
                   (index) => ProductItem(
-                    product: products.elementAt(index),
+                    product: productsBrandModel.data.products.elementAt(index),
                   ),
                 ),
               ),

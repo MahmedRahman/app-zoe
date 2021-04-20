@@ -17,132 +17,138 @@ import 'package:zoe/app/routes/app_pages.dart';
 class CartCheckOutView extends GetView<CartController> {
   String _character;
 
-  AccountController _accountController = Get.find();
+  
   var addressid = 3.obs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustemAppBar(),
-      body: ListView(
-        children: [
-          Card(
-            child: ListTile(
-              title: Text('عدد المنتجات'),
-              trailing: Text(controller.cartCount().toString()),
-              leading: Icon(
-                Icons.shopping_cart,
-                size: 32,
-                color: Colors.red,
+      body: Container(
+        child: ListView(
+          children: [
+            Card(
+              child: ListTile(
+                title: Text('عدد المنتجات'),
+                trailing: Text(controller.cartCount().toString()),
+                leading: Icon(
+                  Icons.shopping_cart,
+                  size: 32,
+                  color: Colors.red,
+                ),
               ),
             ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('السعر'),
+            Card(
+              child: ListTile(
+                title: Text('السعر'),
+                trailing: Text(
+                  controller.cartTotalProductPrice().toStringAsFixed(0) +
+                      ' ' +
+                      'ريال',
+                ),
+                leading: Icon(
+                  Icons.payment,
+                  size: 32,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('الشحن'),
+                trailing: Text(
+                    controller.shappingPrice.value.toString() + ' ' + 'ريال'),
+                leading: Icon(
+                  Icons.car_rental,
+                  size: 32,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('الضريبة'),
+                trailing: Text('0'),
+                leading: Icon(
+                  Icons.money_off,
+                  size: 32,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.money),
+              title: Text(
+                'الإجمالى',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               trailing: Text(
-                controller.cartTotalProductPrice().toStringAsFixed(0) +
-                    ' ' +
-                    'ريال',
-              ),
-              leading: Icon(
-                Icons.payment,
-                size: 32,
-                color: Colors.red,
+                controller.cartTotalPrice().toString() + ' ' + 'ريال',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('الشحن'),
-              trailing: Text(
-                  controller.shappingPrice.value.toString() + ' ' + 'ريال'),
-              leading: Icon(
-                Icons.car_rental,
-                size: 32,
-                color: Colors.red,
-              ),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('الضريبة'),
-              trailing: Text('0'),
-              leading: Icon(
-                Icons.money_off,
-                size: 32,
-                color: Colors.red,
-              ),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.money),
-            title: Text(
-              'الأجمالى',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(
-              controller.cartTotalPrice().toString() + ' ' + 'ريال',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'طريقة الدفع',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-            ),
-          ),
-          ListTile(
-            title: Text('الدفع عند الاستلام'),
-            leading: Image.asset('assets/payment/cash.png'),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'العنوان',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-            ),
-          ),
-          addressWidget(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
-                onPressed: () {
-                  Get.toNamed(Routes.AccountAddAdressView);
-                },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.centerRight,
                 child: Text(
-                  'أضافة عنون جديد',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    decoration: TextDecoration.underline,
-                  ),
-                )),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          CustomButton(
-            buttonController: controller.buttonController,
-            title: 'اتمام عملية الشراء',
-            onPressed: () {
-              controller.checkout();
-            },
-          )
-        ],
+                  'طريقة الدفع',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('الدفع عند الاستلام'),
+              leading: Image.asset('assets/payment/cash.png'),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'العنوان',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+            ),
+           addressWidget(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.ACCOUNT_ADRESS_ADD);
+                  },
+                  child: Text(
+                    'أضف عنون جديد',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      decoration: TextDecoration.underline,
+                    ),
+                  )),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            CustomButton(
+              buttonController: controller.buttonController,
+              title: 'اتمام عملية الشراء',
+              onPressed: () {
+                controller.checkout();
+              },
+            )
+          ],
+        ),
       ),
     );
   }
 
-  GetX<AccountAdressListController> addressWidget() {
-    return GetX<AccountAdressListController>(builder: (_accountController) {
+  Widget addressWidget() {
+    AccountAdressListController _accountController = Get.put(AccountAdressListController());
+    _accountController.getAccountAdress();
+    return GetX<AccountAdressListController>(
+
+      builder: (_accountController) {
       return FutureBuilder(
           future: _accountController.AdreesModel.value,
           builder: (context, snapshot) {
