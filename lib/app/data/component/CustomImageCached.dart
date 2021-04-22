@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
 
 class CustomImageCached extends StatelessWidget {
@@ -7,7 +8,9 @@ class CustomImageCached extends StatelessWidget {
   final String imageUrl;
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
+
+return GetUtils.isNullOrBlank(imageUrl) ? Container() : 
+ CachedNetworkImage(
       imageUrl: imageUrl,
       placeholder: (context, url) => Center(
         child: SizedBox(

@@ -15,7 +15,9 @@ import 'package:badges/badges.dart';
 
 class ProductDetailView extends StatelessWidget {
   ProductController controller = Get.put(ProductController());
+  PageController _pageController = PageController();
 //Get.arguments[0].toString()130
+
   @override
   Widget build(BuildContext context) {
     controller.getProductDetailes(Get.arguments[0].toString());
@@ -69,10 +71,11 @@ class ProductDetailView extends StatelessWidget {
                     child: Stack(
                       children: [
                         PageView(
-                            scrollDirection: Axis.horizontal,
-                            children: List.generate(
-                                productsDetaile.data.productImages.length,
-                                (index) {
+                          controller: _pageController,
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(
+                            productsDetaile.data.productImages.length,
+                            (index) {
                               return SizedBox(
                                 width: Get.width,
                                 height: Get.height * .4,
@@ -81,7 +84,9 @@ class ProductDetailView extends StatelessWidget {
                                       productsDetaile.data.productImages[index],
                                 ),
                               );
-                            }).toList()),
+                            },
+                          ).toList(),
+                        ),
                         Positioned(
                           top: 20,
                           right: 20,
@@ -215,7 +220,6 @@ class ProductDetailView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
                     child: ElevatedButton.icon(
-                      
                       onPressed: () {
                         controller.productAddToCart(productsDetaile);
                       },
@@ -268,59 +272,83 @@ class ProductDetailView extends StatelessWidget {
   Widget productColorBox(productsModel.ProductsDetaileModel productsDetaile) {
     return (productsDetaile.data.product.colors.length != 0)
         ? Container(
-          width: Get.width,
-          child: Row(
-               mainAxisAlignment: MainAxisAlignment.start,
-            children: List.generate(
-              productsDetaile.data.product.colors.length,
-              (index) {
-                return Obx(() {
-                  return InkWell(
-                    onTap: () {
-                      controller.productColorSelect.value = index;
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: 32,
-                        height: 32,
-                        child: SizedBox.shrink(),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Color(HexColorFormString()
-                                .getColorFromHex(productsDetaile
-                                    .data.product.colors
-                                    .elementAt(index)
-                                    .color)),
-                            border: controller.productColorSelect.value ==
-                                    index
-                                ? Border.all(color: Colors.black, width: 2)
-                                : Border.all(
-                                    color: Color(HexColorFormString()
-                                        .getColorFromHex(productsDetaile
-                                            .data.product.colors
-                                            .elementAt(index)
-                                            .color)),
-                                    width: 2),
-                            boxShadow: [
-                              controller.productColorSelect.value == index
-                                  ? BoxShadow(
-                                      color: Colors.grey.withOpacity(0.8),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(0,
-                                          3), // changes position of shadow
-                                    )
-                                  : BoxShadow()
-                            ]),
+            width: Get.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: List.generate(
+                productsDetaile.data.product.colors.length,
+                (index) {
+                  return Obx(() {
+                    return InkWell(
+                      onTap: () {
+                        // productsDetaile.data.product.colors.elementAt(index).image;
+                        int i = 0;
+                        double photoid = 0;
+                        productsDetaile.data.productImages.forEach((element) {
+                          if (element ==
+                              productsDetaile.data.product.colors
+                                  .elementAt(index)
+                                  .image) {
+                            photoid = i.toDouble();
+                          } else {
+                            i = i + 1;
+                          }
+                        });
+
+                        _pageController.animateTo(photoid,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeIn);
+
+                        // _pageController.;
+                        //
+                        //
+                        //
+                        //
+                        //
+                        //
+                        controller.productColorSelect.value = index;
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          child: SizedBox.shrink(),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Color(HexColorFormString().getColorFromHex(
+                                  productsDetaile.data.product.colors
+                                      .elementAt(index)
+                                      .color)),
+                              border: controller.productColorSelect.value ==
+                                      index
+                                  ? Border.all(color: Colors.black, width: 2)
+                                  : Border.all(
+                                      color: Color(HexColorFormString()
+                                          .getColorFromHex(productsDetaile
+                                              .data.product.colors
+                                              .elementAt(index)
+                                              .color)),
+                                      width: 2),
+                              boxShadow: [
+                                controller.productColorSelect.value == index
+                                    ? BoxShadow(
+                                        color: Colors.grey.withOpacity(0.8),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      )
+                                    : BoxShadow()
+                              ]),
+                        ),
                       ),
-                    ),
-                  );
-                });
-              },
+                    );
+                  });
+                },
+              ),
             ),
-          ),
-        )
+          )
         : SizedBox.shrink();
   }
 

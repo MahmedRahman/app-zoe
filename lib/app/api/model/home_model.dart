@@ -37,22 +37,54 @@ class Data {
         this.departments,
         this.brands,
         this.featuredCategories,
+        this.ads,
+        this.bannerOne,
+        this.bannerTwo,
+        this.bannerThree,
     });
 
     List<BrandElement> departments;
     List<BrandElement> brands;
     List<FeaturedCategory> featuredCategories;
+    List<Ad> ads;
+    String bannerOne;
+    String bannerTwo;
+    dynamic bannerThree;
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         departments: List<BrandElement>.from(json["departments"].map((x) => BrandElement.fromJson(x))),
         brands: List<BrandElement>.from(json["brands"].map((x) => BrandElement.fromJson(x))),
         featuredCategories: List<FeaturedCategory>.from(json["featured_categories"].map((x) => FeaturedCategory.fromJson(x))),
+        ads: List<Ad>.from(json["ads"].map((x) => Ad.fromJson(x))),
+        bannerOne: json["banner_one"],
+        bannerTwo: json["banner_two"],
+        bannerThree: json["banner_three"],
     );
 
     Map<String, dynamic> toJson() => {
         "departments": List<dynamic>.from(departments.map((x) => x.toJson())),
         "brands": List<dynamic>.from(brands.map((x) => x.toJson())),
         "featured_categories": List<dynamic>.from(featuredCategories.map((x) => x.toJson())),
+        "ads": List<dynamic>.from(ads.map((x) => x.toJson())),
+        "banner_one": bannerOne,
+        "banner_two": bannerTwo,
+        "banner_three": bannerThree,
+    };
+}
+
+class Ad {
+    Ad({
+        this.image,
+    });
+
+    String image;
+
+    factory Ad.fromJson(Map<String, dynamic> json) => Ad(
+        image: json["image"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "image": image,
     };
 }
 
@@ -215,15 +247,15 @@ class DefaultSize {
     });
 
     int id;
-    String size;
+    dynamic size;
 
     factory DefaultSize.fromJson(Map<String, dynamic> json) => DefaultSize(
         id: json["id"],
-        size: json["size"] == null ? null : json["size"],
+        size: json["size"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "size": size == null ? null : size,
+        "size": size,
     };
 }

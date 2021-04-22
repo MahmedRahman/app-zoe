@@ -46,7 +46,7 @@ class ProductController extends GetxController {
       Response response = responsModel.data;
       final categoryProductsModel =
           categoryProductsModelFromJson(response.bodyString);
-    productQty.value=1;
+      productQty.value = 1;
       return categoryProductsModel.data.products;
     }
   }
@@ -73,7 +73,17 @@ class ProductController extends GetxController {
 
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
-      productsDetaileModelFuture.value = Future.value(productsDetaileModel);
+
+      if (productsDetaileModel.data.product.colors.length == 0) {
+        productsDetaileModelFuture.value = Future.value(productsDetaileModel);
+      } else {
+        productsDetaileModel.data.product.colors.forEach((element) {
+          productsDetaileModel.data.productImages.add(element.image);
+        });
+
+        productsDetaileModelFuture.value = Future.value(productsDetaileModel);
+      }
+
       return productsDetaileModel;
     }
   }
@@ -89,8 +99,6 @@ class ProductController extends GetxController {
   }
 
   void productAddToCart(ProductsDetaileModel productsDetaile) {
-   
-
     Get.snackbar(
       appName,
       'تم الاضافة الى سلة المشتريات',
@@ -105,7 +113,6 @@ class ProductController extends GetxController {
     );
 
     // bntrest();
-
 
     //icon: LottieBuilder.asset('assets/productnotfound.json'));
 

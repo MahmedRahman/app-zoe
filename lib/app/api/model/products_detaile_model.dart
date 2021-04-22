@@ -181,22 +181,27 @@ class Color {
         this.id,
         this.title,
         this.color,
+         this.image,
     });
 
     int id;
     String title;
     String color;
+String image;
+    
 
     factory Color.fromJson(Map<String, dynamic> json) => Color(
         id: json["id"],
         title: json["title"],
         color: json["color"],
+           image: json["image"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "color": color,
+         "image": image,
     };
 }
 

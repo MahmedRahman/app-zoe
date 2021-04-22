@@ -26,18 +26,72 @@ class HomePage extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          Image.asset('assets/offer.png'),
                           SizedBox(
-                            height: 10,
+                            height: Get.height * .3,
+                            child: PageView(
+                              scrollDirection: Axis.horizontal,
+                              children: List.generate(
+                                homeModel.data.ads.length,
+                                (index) {
+                                  return SizedBox(
+                                    width: Get.width,
+                                    height: Get.height * .4,
+                                    child: CustomImageCached(
+                                      imageUrl: homeModel.data.ads
+                                          .elementAt(index)
+                                          .image,
+                                    ),
+                                  );
+                                },
+                              ).toList(),
+                            ),
                           ),
                           Title(
                             label: 'الاقسام',
                           ),
                           buildCategory(homeModel.data.departments),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomImageCached(
+                                    imageUrl: homeModel.data.bannerTwo,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomImageCached(
+                                    imageUrl: homeModel.data.bannerOne,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                           Title(
                             label: 'الماركات',
                           ),
                           buildBrand(homeModel.data.brands),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomImageCached(
+                                    imageUrl: homeModel.data.bannerThree,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           buildFeaturedCategory(
                               homeModel.data.featuredCategories),
                           SizedBox(
