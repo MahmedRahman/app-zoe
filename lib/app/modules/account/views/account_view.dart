@@ -24,12 +24,23 @@ class AccountView extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   UserProfileModel userProfileModel = snapshot.data;
-                  return Column(
-                    children: [
-                      Text(userProfileModel.data.name),
-                      Text(userProfileModel.data.email),
-                      Text(userProfileModel.data.mobile),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(userProfileModel.data.name),
+                              Text(userProfileModel.data.email),
+                           
+                            ],
+                          ),   Text(userProfileModel.data.mobile),
+                        ],
+                      ),
+                    ),
                   );
                 } else if (snapshot.hasError) {
                   return Center(
@@ -42,7 +53,7 @@ class AccountView extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text('طلباتى'),
-              leading: SvgPicture.asset('assets/order.svg'),
+              leading: SvgPicture.asset('assets/order.svg',color: Color(0xff4C1711),),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.toNamed(Routes.ACCOUNT_ORDER_LIST);
@@ -52,7 +63,7 @@ class AccountView extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text('عناوين'),
-              leading: SvgPicture.asset('assets/address.svg'),
+              leading: SvgPicture.asset('assets/address.svg',color: Color(0xff4C1711),),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.toNamed(Routes.ACCOUNT_ADRESS_LIST);
@@ -62,7 +73,7 @@ class AccountView extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text('المفضلة'),
-              leading: SvgPicture.asset('assets/favarit.svg'),
+              leading: SvgPicture.asset('assets/favarit.svg',color: Color(0xff4C1711),),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.toNamed(Routes.AccountWishListView);
@@ -72,14 +83,14 @@ class AccountView extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text('مركز المساعدة'),
-              leading: SvgPicture.asset('assets/helpcenter.svg'),
+              leading: SvgPicture.asset('assets/helpcenter.svg',color: Color(0xff4C1711),),
               trailing: Text('01000000000'),
             ),
           ),
           Card(
             child: ListTile(
               title: Text('حول زوي'),
-              leading: SvgPicture.asset('assets/about.svg'),
+              leading: SvgPicture.asset('assets/about.svg',color: Color(0xff4C1711),),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.toNamed(Routes.AccountAboutView);
@@ -89,7 +100,7 @@ class AccountView extends StatelessWidget {
           Card(
             child: ListTile(
               title: Text('تسجيل الخروج'),
-              leading: SvgPicture.asset('assets/signout.svg'),
+              leading: SvgPicture.asset('assets/signout.svg',color: Color(0xff4C1711),),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.find<UserAuth>().signout();

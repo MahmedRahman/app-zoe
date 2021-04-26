@@ -43,7 +43,7 @@ class AccountOrderListView extends GetView<AccountOrderListController> {
                                 color: Colors.white,
                               ),
                             ),
-                            backgroundColor: Colors.red,
+                            backgroundColor: Color(0xff4C1711),
                           ),
                           trailing: Text(orderItem.orderTotal.toStringAsFixed(0) + ' ' + 'ريال'),
                         ),

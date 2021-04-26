@@ -34,7 +34,7 @@ class CartCheckOutView extends GetView<CartController> {
                 leading: Icon(
                   Icons.shopping_cart,
                   size: 32,
-                  color: Colors.red,
+                  color: Color(0xff4C1711),
                 ),
               ),
             ),
@@ -49,7 +49,7 @@ class CartCheckOutView extends GetView<CartController> {
                 leading: Icon(
                   Icons.payment,
                   size: 32,
-                  color: Colors.red,
+                  color: Color(0xff4C1711),
                 ),
               ),
             ),
@@ -61,7 +61,7 @@ class CartCheckOutView extends GetView<CartController> {
                 leading: Icon(
                   Icons.car_rental,
                   size: 32,
-                  color: Colors.red,
+                  color:  Color(0xff4C1711),
                 ),
               ),
             ),
@@ -72,7 +72,7 @@ class CartCheckOutView extends GetView<CartController> {
                 leading: Icon(
                   Icons.money_off,
                   size: 32,
-                  color: Colors.red,
+                  color: Color(0xff4C1711),
                 ),
               ),
             ),
@@ -136,7 +136,9 @@ class CartCheckOutView extends GetView<CartController> {
               onPressed: () {
                 controller.checkout();
               },
-            )
+            ),   SizedBox(
+              height: 15,
+            ),
           ],
         ),
       ),

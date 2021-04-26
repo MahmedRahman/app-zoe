@@ -31,7 +31,7 @@ class ForgotpasswordView extends GetView {
                   child: Text(
                     'Forgot your password'.tr,
                     style: TextStyle(
-                      color: Colors.red,
+                      color: Color(0xff4C1711),
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),
@@ -73,7 +73,7 @@ class ForgotpasswordView extends GetView {
                             TextSpan(
                               text: ' ',
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Color(0xff4C1711),
                                 fontSize: 15,
                                 decoration: TextDecoration.underline,
                               ),
@@ -81,7 +81,7 @@ class ForgotpasswordView extends GetView {
                             TextSpan(
                               text: 'registration'.tr,
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Color(0xff4C1711),
                                 fontSize: 15,
                                 decoration: TextDecoration.underline,
                               ),

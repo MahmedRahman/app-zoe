@@ -116,7 +116,7 @@ class ProductDetailView extends StatelessWidget {
                             return IconButton(
                               icon: Icon(
                                 Icons.favorite,
-                                color: fav.value ? Colors.red : Colors.grey,
+                                color: fav.value ? Color(0xFF4C1711) : Colors.grey,
                                 size: 32,
                               ),
                               onPressed: () {
@@ -146,7 +146,7 @@ class ProductDetailView extends StatelessWidget {
                         controller.ProductPrice.toString() + ' ' + 'ريال',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                          color: Color(0xFF4C1711),
                         ),
                       );
                     }),
@@ -166,7 +166,7 @@ class ProductDetailView extends StatelessWidget {
                           'الكمية',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.red,
+                            color: Color(0xFF4C1711),
                             fontSize: 18,
                           ),
                         ),
@@ -182,7 +182,7 @@ class ProductDetailView extends StatelessWidget {
                           '+',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.red,
+                            color: Color(0xFF4C1711),
                             fontSize: 18,
                           ),
                         ),
@@ -210,7 +210,7 @@ class ProductDetailView extends StatelessWidget {
                           '-',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.red,
+                            color: Color(0xFF4C1711),
                           ),
                         ),
                       ),
@@ -282,6 +282,17 @@ class ProductDetailView extends StatelessWidget {
                     return InkWell(
                       onTap: () {
                         // productsDetaile.data.product.colors.elementAt(index).image;
+                        //
+                        //
+                        /*
+                         productsDetaile.data.productImages.where((element) => element ==
+                              productsDetaile.data.product.colors
+                                  .elementAt(index)
+                                  .image);
+
+*/
+
+/*
                         int i = 0;
                         double photoid = 0;
                         productsDetaile.data.productImages.forEach((element) {
@@ -290,12 +301,19 @@ class ProductDetailView extends StatelessWidget {
                                   .elementAt(index)
                                   .image) {
                             photoid = i.toDouble();
+                            
                           } else {
                             i = i + 1;
                           }
                         });
+                        */
 
-                        _pageController.animateTo(photoid,
+                        _pageController.animateTo(
+                            productsDetaile.data.productImages
+                                .indexOf(productsDetaile.data.product.colors
+                                    .elementAt(index)
+                                    .image)
+                                .toDouble(),
                             duration: Duration(milliseconds: 500),
                             curve: Curves.easeIn);
 
@@ -415,7 +433,7 @@ class ProductDetailView extends StatelessWidget {
         children: <Widget>[
           Container(
             child: TabBar(
-              labelColor: Colors.red,
+              labelColor: Color(0xFF4C1711),
               unselectedLabelColor: Colors.black,
               tabs: [
                 Tab(text: 'الوصف'),

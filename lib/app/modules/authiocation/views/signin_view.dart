@@ -43,7 +43,7 @@ class SigninView extends GetView<AuthiocationController> {
                     child: Text(
                       'Login'.tr,
                       style: TextStyle(
-                        color: Colors.red,
+                        color: Color(0xff4C1711),
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
                       ),
@@ -83,7 +83,7 @@ class SigninView extends GetView<AuthiocationController> {
                             child: Text(
                               'forget your password?'.tr,
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Color(0xff4C1711),
                                 fontSize: 15,
                                 fontWeight: FontWeight.normal,
                               ),
@@ -127,7 +127,7 @@ class SigninView extends GetView<AuthiocationController> {
                               TextSpan(
                                 text: ' ',
                                 style: TextStyle(
-                                  color: Colors.red,
+                                  color: Color(0xff4C1711),
                                   fontSize: 15,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -135,7 +135,7 @@ class SigninView extends GetView<AuthiocationController> {
                               TextSpan(
                                 text: 'registration'.tr,
                                 style: TextStyle(
-                                  color: Colors.red,
+                                  color: Color(0xff4C1711),
                                   fontSize: 15,
                                   decoration: TextDecoration.underline,
                                 ),

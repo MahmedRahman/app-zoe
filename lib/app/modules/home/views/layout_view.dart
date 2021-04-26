@@ -19,7 +19,7 @@ class LayoutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
+  /*    drawer: Drawer(
         child: ListView(
           children: [
             DrawerHeader(
@@ -31,7 +31,7 @@ class LayoutView extends StatelessWidget {
               ),
             ),
             Divider(
-              color: Colors.red,
+           
             ),
             ListTile(
               title: Text('الرئيسية'),
@@ -76,8 +76,10 @@ class LayoutView extends StatelessWidget {
           ],
         ),
       ),
+*/   
+   
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFFFFFFF),
         iconTheme: IconThemeData(color: Colors.black),
         title: SizedBox(
           height: 100,
@@ -121,7 +123,7 @@ class LayoutView extends StatelessWidget {
           index: controller.selectindex.value,
           animationDuration: const Duration(milliseconds: 400),
           backgroundColor: Colors.transparent,
-          buttonBackgroundColor: Colors.red,
+          buttonBackgroundColor: Color(0xFF4C1711),
           color: Colors.white,
           height: 75,
           items: [
@@ -130,35 +132,35 @@ class LayoutView extends StatelessWidget {
               width: controller.selectindex.value == 0 ? 32 : 20,
               color: controller.selectindex.value == 0
                   ? Colors.white
-                  : Colors.red,
+                  : Color(0xFF4C1711),
             ),
             SvgPicture.asset(
               'assets/menu/brands.svg',
               width: controller.selectindex.value == 1 ? 32 : 20,
               color: controller.selectindex.value == 1
                   ? Colors.white
-                  : Colors.red,
+                  : Color(0xFF4C1711),
             ),
             SvgPicture.asset(
               'assets/menu/home.svg',
               width: controller.selectindex.value == 2 ? 32 : 20,
               color: controller.selectindex.value == 2
                   ? Colors.white
-                  : Colors.red,
+                  : Color(0xFF4C1711),
             ),
             SvgPicture.asset(
               'assets/menu/shopping.svg',
               width: controller.selectindex.value == 3 ? 32 : 20,
               color: controller.selectindex.value == 3
                   ? Colors.white
-                  : Colors.red,
+                  : Color(0xFF4C1711),
             ),
             SvgPicture.asset(
               'assets/menu/user.svg',
               width: controller.selectindex.value == 4 ? 32 : 20,
               color: controller.selectindex.value == 4
                   ? Colors.white
-                  : Colors.red,
+                  : Color(0xff4C1711),
             ),
           ],
           onTap: (value) {

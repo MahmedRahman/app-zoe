@@ -68,7 +68,7 @@ class CartView extends StatelessWidget {
                                     trailing: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         primary:
-                                            Colors.red, // background
+                                            Color(0xff4C1711), // background
                                         // foreground
                                       ),
                                       onPressed: () {
@@ -124,7 +124,7 @@ class CartView extends StatelessWidget {
                           child: Icon(
                             Icons.monetization_on_sharp,
                             size: 32,
-                            color: Colors.red,
+                            color: Color(0xff4C1711),
                           ),
                         ),
                         title: Text('المجموع'),
@@ -143,7 +143,7 @@ class CartView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red, // background
+                            primary: Color(0xff4C1711), // background
                             onPrimary: Colors.white, // foreground
                           ),
                           onPressed: () {

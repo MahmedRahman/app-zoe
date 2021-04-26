@@ -48,7 +48,7 @@ class CustomTextFormFiled extends StatelessWidget {
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
-                borderSide: BorderSide(color: Colors.red, width: 2),
+                borderSide: BorderSide(color: Color(0xff4C1711), width: 2),
               ),
             ),
           ),

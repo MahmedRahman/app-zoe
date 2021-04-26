@@ -111,7 +111,7 @@ class SignupView extends GetView<AuthiocationController> {
                                 TextSpan(
                                   text: ' ',
                                   style: TextStyle(
-                                    color: Colors.red,
+                                    color: Color(0xff4C1711),
                                     fontSize: 15,
                                     decoration: TextDecoration.underline,
                                   ),
@@ -119,7 +119,7 @@ class SignupView extends GetView<AuthiocationController> {
                                 TextSpan(
                                   text: 'تسجيل دخول'.tr,
                                   style: TextStyle(
-                                    color: Colors.red,
+                                    color: Color(0xff4C1711),
                                     fontSize: 15,
                                     decoration: TextDecoration.underline,
                                   ),

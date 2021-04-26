@@ -104,11 +104,14 @@ class ProductController extends GetxController {
       'تم الاضافة الى سلة المشتريات',
       barBlur: .9,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
+      backgroundColor: Colors.grey,
+      colorText: Colors.black,
       messageText: Text(
         'تم الاضافة الى سلة المشتريات',
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
     );
 

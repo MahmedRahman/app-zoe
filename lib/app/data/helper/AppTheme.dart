@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  Color colorPrimary = Color(0xFFEA3A3C);
+  Color colorPrimary = Color(0xFF4C1711);
   Color colorSecondary = Color(0xFFF9F9F9);
   Color colorAccent = Color(0xFF2B2B2B);
 
@@ -35,7 +35,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: Colors.red,
+          primary: Color(0xFF4C1711),
          
         ),
       ),
@@ -50,7 +50,7 @@ class AppTheme {
   }
 }
 
-const TextStyle headline1 = TextStyle(fontSize: 25, color: Colors.red);
+const TextStyle headline1 = TextStyle(fontSize: 25, color: Color(0xFF4C1711));
 const TextStyle headline2 = TextStyle(fontSize: 25);
 const TextStyle headline3 = TextStyle(fontSize: 15);
 const TextStyle bodyText1 = TextStyle(fontSize: 15);

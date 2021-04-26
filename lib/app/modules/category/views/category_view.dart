@@ -35,7 +35,7 @@ class CategoryView extends GetView {
                 children: [
                   Container(
                     width: Get.width * .3,
-                    color: Colors.grey,
+                    color: Color(0xffBFBFBF),
                     child: department(Listdepartments),
                   ),
                   Container(
@@ -52,26 +52,28 @@ class CategoryView extends GetView {
                         padding: const EdgeInsets.all(8.0),
                         child: SingleChildScrollView(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
+                              /* Text(
                                 'الاقسام الفرعية',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                   decoration: TextDecoration.underline,
                                 ),
-                              ),
+                              ),*/
                               category(Listdepartments),
+                              Divider(),
                               Text(
-                                'الماركات',
+                                'أشهر الماركات',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    decoration: TextDecoration.underline),
+                                  color: Color(0xff4C1711),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
-                                 brand(Listdepartments),
+                              brand(Listdepartments),
                             ],
                           ),
                         ),
@@ -87,16 +89,16 @@ class CategoryView extends GetView {
     });
   }
 
-  Widget department( DepartmentsPageModel Listdepartments) {
+  Widget department(DepartmentsPageModel Listdepartments) {
     return ListView(
       children: List.generate(Listdepartments.data.departments.length, (index) {
         var department = Listdepartments.data.departments.elementAt(index);
         return Obx(() {
           return Container(
-            height: Get.height / Listdepartments.data.departments.length,
+            height: 50,
             color: categoryController.select_department.value == index
                 ? Colors.white
-                : Colors.grey,
+                : Color(0xffBFBFBF),
             child: InkWell(
               onTap: () {
                 categoryController.select_department.value = index;
@@ -107,21 +109,25 @@ class CategoryView extends GetView {
                 */
               },
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  /* SizedBox(
                     width: 32,
                     child: CustomImageCached(
                       imageUrl: department.image,
                     ),
-                  ),
-                  Text(
-                    department.name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                  ),*/
+                  Padding(
+                    padding: const EdgeInsets.only(right:8.0),
+                    child: Text(
+                      department.name,
+                      textAlign: TextAlign.right,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -134,57 +140,93 @@ class CategoryView extends GetView {
   }
 
   Widget category(DepartmentsPageModel Listdepartments) {
-    return Obx(
-      () {
-        return Column(
-          children: List.generate(
-            Listdepartments.data.departments.elementAt(categoryController.select_department.value).categories.length,
-            (index) => Container(
+    return Obx(() {
+      return GridView.count(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        children: List.generate(
+          Listdepartments.data.departments
+              .elementAt(categoryController.select_department.value)
+              .categories
+              .length,
+          (index) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
               width: Get.width,
-              child: ListTile(
+              decoration: BoxDecoration(color: Color(0xffBFBFBF)),
+              child: InkWell(
                 onTap: () {
-                  Get.toNamed(Routes.ProductCategoryView,
-                      arguments: [Listdepartments.data.departments.elementAt(categoryController.select_department.value).categories.elementAt(index).id.toString()]);
+                  Get.toNamed(Routes.ProductCategoryView, arguments: [
+                    Listdepartments.data.departments
+                        .elementAt(categoryController.select_department.value)
+                        .categories
+                        .elementAt(index)
+                        .id
+                        .toString()
+                  ]);
                 },
-                title: Text(
-                  Listdepartments.data.departments.elementAt(categoryController.select_department.value).categories.elementAt(index).name,
-                  textAlign: TextAlign.right,
+                child: Center(
+                  child: Text(
+                    Listdepartments.data.departments
+                        .elementAt(categoryController.select_department.value)
+                        .categories
+                        .elementAt(index)
+                        .name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color(0xff4C1711),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10),
+                  ),
                 ),
               ),
             ),
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 
   Widget brand(DepartmentsPageModel Listdepartments) {
-     return Obx(
-        () {
-         return GridView.count(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    children: List.generate(
-                      Listdepartments.data.departments.elementAt(categoryController.select_department.value).brands.length,
-                      (index) => Card(
-                        child: GestureDetector(
-                          onTap: () {
-                            // Get.toNamed(Routes.ProductCategoryView);
-                            Get.toNamed(Routes.ProductBrandView, arguments: [
-                              Listdepartments.data.departments.elementAt(categoryController.select_department.value).brands.elementAt(index).id.toString()
-                            ]);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: CustomImageCached(
-                                imageUrl: Listdepartments.data.departments.elementAt(categoryController.select_department.value).brands.elementAt(index).image ?? ''),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-       }
-     );
+    return Obx(() {
+      return GridView.count(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        children: List.generate(
+          Listdepartments.data.departments
+              .elementAt(categoryController.select_department.value)
+              .brands
+              .length,
+          (index) => Card(
+            child: GestureDetector(
+              onTap: () {
+                // Get.toNamed(Routes.ProductCategoryView);
+                Get.toNamed(Routes.ProductBrandView, arguments: [
+                  Listdepartments.data.departments
+                      .elementAt(categoryController.select_department.value)
+                      .brands
+                      .elementAt(index)
+                      .id
+                      .toString()
+                ]);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: CustomImageCached(
+                    imageUrl: Listdepartments.data.departments
+                            .elementAt(
+                                categoryController.select_department.value)
+                            .brands
+                            .elementAt(index)
+                            .image ??
+                        ''),
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

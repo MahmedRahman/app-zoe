@@ -48,7 +48,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -57,7 +57,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -75,7 +75,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -84,7 +84,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -102,7 +102,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -111,7 +111,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -129,7 +129,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -138,7 +138,7 @@ class OtpView extends GetView {
                               Radius.circular(20),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Color(0xff4C1711),
                               width: 2,
                             ),
                           ),
@@ -178,7 +178,7 @@ class OtpView extends GetView {
                               TextSpan(
                                 text: 'registration'.tr,
                                 style: TextStyle(
-                                  color: Colors.red,
+                                  color: Color(0xff4C1711),
                                   fontSize: 15,
                                   decoration: TextDecoration.underline,
                                 ),

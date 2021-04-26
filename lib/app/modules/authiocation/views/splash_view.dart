@@ -38,7 +38,7 @@ class SplashView extends GetView<AuthiocationController> {
               ),
               Container(
                 height: size.height * .4,
-                //color: Colors.red,
+         
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -46,7 +46,7 @@ class SplashView extends GetView<AuthiocationController> {
                     FittedBox(
                       child: ButtonTheme(
                           minWidth: size.width * .6,
-                          buttonColor: Colors.red,
+                          buttonColor: Color(0xff4C1711),
                           textTheme: ButtonTextTheme.primary,
                           child: CustomButton(
                             title: 'Enter by phone number'.tr,

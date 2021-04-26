@@ -14,7 +14,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RoundedLoadingButton(
       controller: buttonController,
-      color: Colors.red,
+      color:  Color(0xff4C1711),
       onPressed: () {
         FocusScope.of(context).unfocus();
         onPressed();

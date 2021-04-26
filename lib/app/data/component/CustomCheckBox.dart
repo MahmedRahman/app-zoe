@@ -17,7 +17,7 @@ class CustomCheckBox extends StatelessWidget {
     return Obx(
       () {
         return CheckboxListTile(
-          checkColor: Colors.red,
+          checkColor: Color(0xff4C1711),
           title: Text(
             labelCheckBox,
             style: TextStyle(

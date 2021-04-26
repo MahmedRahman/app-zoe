@@ -12,12 +12,12 @@ void showSnackBar({
       title,
       message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
+      backgroundColor: Color(0xFF4C1711),
       colorText: Colors.white,
       overlayBlur: 4,
       borderWidth: 2,
       margin: EdgeInsets.all(10),
-      borderColor: Colors.red,
+      borderColor: Colors.white,
       snackbarStatus: (value) {
 
 

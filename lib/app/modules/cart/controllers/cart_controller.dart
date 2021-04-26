@@ -19,7 +19,7 @@ class CartController extends GetxController {
   var shappingPrice = 30.obs;
   var totalPrice = 0.obs;
   int addressid = 1;
-final shopCount = 0.obs;
+  final shopCount = 0.obs;
   void onInit() {
     updaetCartItem();
     buttonController = new RoundedLoadingButtonController();
@@ -27,7 +27,7 @@ final shopCount = 0.obs;
   }
 
   updaetCartItem() {
-      cartCount();
+    cartCount();
     listCartItemFutter.value = Future.value(listCartItem);
   }
 
@@ -36,7 +36,6 @@ final shopCount = 0.obs;
       listCartItem.add(cartItem);
     }
     updaetCartItem();
-  
   }
 
   bool isExitProduct(CartItem cartItem) {
@@ -72,7 +71,7 @@ final shopCount = 0.obs;
     for (CartItem localCartItem in listCartItem) {
       Qty = Qty + localCartItem.qty;
     }
-    shopCount.value =Qty;
+    shopCount.value = Qty;
     return Qty;
   }
 
@@ -95,13 +94,53 @@ final shopCount = 0.obs;
   }
 
   checkout() async {
+
+
+   String productList = listCartItem
+        .fold(
+            '',
+            (previousValue, element) => previousValue =
+                previousValue + element.productid.toString() + ',').toString()
+        .replaceAll(RegExp(r'.$'), "");
+
+   String productQty = listCartItem
+        .fold(
+            '',
+            (previousValue, element) =>
+                previousValue = previousValue + element.qty.toString() + ',')
+        .toString()
+        .replaceAll(RegExp(r'.$'), "");
+
+   String productSize = listCartItem
+        .fold(
+            '',
+            (previousValue, element) => previousValue =
+                previousValue + element.productSize.toString() + ',')
+        .toString()
+        .replaceAll(RegExp(r'.$'), "");
+
+   String productColor = listCartItem
+        .fold(
+            '',
+            (previousValue, element) => previousValue =
+                previousValue + element.productColor.toString() + ',')
+        .toString()
+        .replaceAll(RegExp(r'.$'), "");
+
+
+
+
+/*
+    print('productid');
+    print(productList);
+    print('productid');
     String productList = '';
     String productQty = '';
     String productSize = '';
     String productColor = '';
-    var i = 0;
-     shopCount.value =0;
+    shopCount.value = 0;
 
+    var i = 0;
     listCartItem.forEach((CartItem _cartItem) {
       if (i == 0) {
         productList = productList.toString() + _cartItem.productid.toString();
@@ -120,6 +159,7 @@ final shopCount = 0.obs;
             productColor.toString() + ',' + _cartItem.productColor.toString();
       }
     });
+*/
 
     ResponsModel responsModel = await WebServices().checkout(
       addressid: addressid,

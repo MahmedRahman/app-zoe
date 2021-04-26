@@ -273,11 +273,8 @@ class ProductItem extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: 200,
-                    child: CustomImageCached(
-                      imageUrl: product.image ?? '',
-                    ),
+                  child: CustomImageCached(
+                    imageUrl: product.image ?? '',
                   ),
                 ),
               ),
@@ -339,8 +336,10 @@ class Title extends StatelessWidget {
               },
               child: Text(
                 sublabel ?? '',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Color(0xFF4C1711),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
           ],
