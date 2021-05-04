@@ -24,9 +24,6 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
                             height: Get.height * .3,
                             child: PageView(
                               scrollDirection: Axis.horizontal,

@@ -281,32 +281,7 @@ class ProductDetailView extends StatelessWidget {
                   return Obx(() {
                     return InkWell(
                       onTap: () {
-                        // productsDetaile.data.product.colors.elementAt(index).image;
-                        //
-                        //
-                        /*
-                         productsDetaile.data.productImages.where((element) => element ==
-                              productsDetaile.data.product.colors
-                                  .elementAt(index)
-                                  .image);
 
-*/
-
-/*
-                        int i = 0;
-                        double photoid = 0;
-                        productsDetaile.data.productImages.forEach((element) {
-                          if (element ==
-                              productsDetaile.data.product.colors
-                                  .elementAt(index)
-                                  .image) {
-                            photoid = i.toDouble();
-                            
-                          } else {
-                            i = i + 1;
-                          }
-                        });
-                        */
 
                         _pageController.animateTo(
                             productsDetaile.data.productImages
@@ -317,13 +292,7 @@ class ProductDetailView extends StatelessWidget {
                             duration: Duration(milliseconds: 500),
                             curve: Curves.easeIn);
 
-                        // _pageController.;
-                        //
-                        //
-                        //
-                        //
-                        //
-                        //
+               
                         controller.productColorSelect.value = index;
                       },
                       child: Padding(
