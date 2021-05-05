@@ -16,7 +16,7 @@ class AccountOrderListController extends GetxController {
           orderHistoryModel.data.groupBy((m) => m.orderDate.toString());
       OrderHistoryList.value = Future.value(groupData);
 
- OrderHistoryList.value = Future.value(orderHistoryModel.data);
+      OrderHistoryList.value = Future.value(orderHistoryModel.data);
 
       //print(groupData.);
 

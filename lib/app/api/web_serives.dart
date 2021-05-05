@@ -41,7 +41,8 @@ class WebServices extends APIManger {
   }
 
   Future<ResponsModel> getDepartmentCategoryandBrand(int departmentId) async {
-    ResponsModel response = await repGet('department/' + departmentId.toString());
+    ResponsModel response =
+        await repGet('department/' + departmentId.toString());
     return response;
   }
 
@@ -55,13 +56,18 @@ class WebServices extends APIManger {
     @required String email,
     @required String mobile,
     @required String password,
+    @required String code,
   }) async {
-    ResponsModel response = await repPost('register', {
-      "name": name,
-      "email": email,
-      "mobile": mobile,
-      "password": password,
-    });
+    ResponsModel response = await repPost(
+        'register',
+        {
+          "name": name,
+          "email": email,
+          "mobile": mobile,
+          "password": password,
+          "code": code,
+        },
+        showLoading: true);
 
     return response;
   }
@@ -73,7 +79,7 @@ class WebServices extends APIManger {
     ResponsModel response = await repPost('login', {
       "mobile": mobile,
       "password": password,
-    });
+    },showLoading: true);
 
     return response;
   }
@@ -138,6 +144,12 @@ class WebServices extends APIManger {
 
   Future<ResponsModel> getHomePage() async {
     ResponsModel response = await repGet('home');
+    return response;
+  }
+
+  Future<ResponsModel> setSmsCode(String mobile) async {
+    ResponsModel response =
+        await repPost('sms_code', {'mobile': mobile}, showLoading: true);
     return response;
   }
 }

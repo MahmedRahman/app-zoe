@@ -82,16 +82,24 @@ class SignupView extends GetView<AuthiocationController> {
                     SizedBox(
                       height: 10,
                     ),
-                    CustomButton(
-                      title: 'new registration'.tr,
-                      buttonController: controller.buttonController,
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          controller.createUser();
-                        } else {
-                          controller.restbnt();
-                        }
-                      },
+                    SizedBox(
+                      width: Get.width * .9,
+                      child: ElevatedButton(
+                        child: Text(
+                          'new registration'.tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        //title: ,
+                        // buttonController: controller.buttonController,
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            //FocusScope.of(context).unfocus();
+                            controller.createUser();
+                          }
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 10,

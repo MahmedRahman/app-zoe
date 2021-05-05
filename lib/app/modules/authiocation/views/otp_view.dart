@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zoe/app/modules/authiocation/controllers/authiocation_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/helper/AppTheme.dart';
 import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
 
 class OtpView extends GetView {
+  AuthiocationController controller = Get.put(AuthiocationController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,6 +15,17 @@ class OtpView extends GetView {
           children: [
             Container(
               child: Image.asset('assets/bg.png'),
+            ),
+            Positioned(
+              top: 40,
+              left: 10,
+              child: IconButton(
+                iconSize: 32,
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Get.back(result: false);
+                },
+              ),
             ),
             Column(
               children: [
@@ -34,157 +47,66 @@ class OtpView extends GetView {
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: Get.width * .2,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextFormField(
+                    controller:controller.codeSmsConfirem,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      filled: true,
+                      
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        borderSide: BorderSide(
+                          color: Color(0xff4C1711),
+                          width: 2,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        borderSide: BorderSide(
+                          color: Color(0xff4C1711),
+                          width: 2,
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: Get.width * .2,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: Get.width * .2,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: Get.width * .2,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xff4C1711),
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.HOME);
-                  },
-                  child: Text('send'.tr),
+                SizedBox(
+                  width: Get.width * .9,
+                  child: RaisedButton(
+                    onPressed: () {
+                        FocusScope.of(context).unfocus();
+                      controller.confiemSms();
+                      // Get.toNamed(Routes.HOME);
+                    },
+                    child: Text(
+                      'تأكيد',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed(Routes.SignupView);
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                            text: 'I dont have an account'.tr,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontFamily: 'cairo',
-                            ),
-                            children: [
-                              TextSpan(
-                                text: 'registration'.tr,
-                                style: TextStyle(
-                                  color: Color(0xff4C1711),
-                                  fontSize: 15,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              )
-                            ]),
-                      ),
+                SizedBox(
+                  width: Get.width * .9,
+                  child: RaisedButton(
+                    onPressed: () {
+                      controller.setSmsCode();
+                      // Get.toNamed(Routes.HOME);
+                    },
+                    child: Text(
+                      'أعادة الارسال',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 String baes_url = 'https://dev.matrixclouds.com/zoe/public/api/';
 String api_key = 'zoe_api_key';
@@ -35,8 +36,13 @@ class APIManger extends GetConnect {
     }
   }
 
-  Future<ResponsModel> repPost(url, body) async {
+  Future<ResponsModel> repPost(url, body, {bool showLoading = false}) async {
+    if (showLoading) {
+      EasyLoading.show(status: 'جارى التحميل ...');
+    }
+
     print("Api Request " + baes_url + url);
+
     login();
 
     Response response = await post(baes_url + url, body, headers: header);
@@ -44,6 +50,10 @@ class APIManger extends GetConnect {
     try {
       switch (response.statusCode) {
         case 200:
+          if (showLoading) {
+            EasyLoading.showSuccess('تم');
+          }
+
           return ResponsModel(
             code: response.statusCode,
             success: true,
@@ -52,6 +62,10 @@ class APIManger extends GetConnect {
           break;
 
         default:
+          if (showLoading) {
+            EasyLoading.showError('خطاء');
+          }
+
           Get.to(ErrorView(
             api_url: url.toString(),
             api_body: body.toString(),
@@ -64,6 +78,10 @@ class APIManger extends GetConnect {
           );
       }
     } catch (e) {
+      if (showLoading) {
+        EasyLoading.showError('خطاء');
+      }
+
       Get.to(ErrorView(
         api_url: response.headers.toString(),
         api_body: e.toString(),
@@ -75,13 +93,21 @@ class APIManger extends GetConnect {
         success: false,
       );
     }
-  
   }
 
-  Future<ResponsModel> repGet(url) async {
+  Future<ResponsModel> repGet(url, {bool showLoading = false}) async {
+    if (showLoading) {
+      EasyLoading.show(status: 'جارى التحميل');
+    }
+
     print("Api Request " + baes_url + url);
     login();
-    Response response = await get(baes_url + url, headers: header);
+    Response response;
+    if (GetUtils.isURL(url)) {
+      response = await get(url, headers: header);
+    } else {
+      response = await get(baes_url + url, headers: header);
+    }
 
     print("Api Request " +
         baes_url +
@@ -89,9 +115,12 @@ class APIManger extends GetConnect {
         " Api Request:: " +
         response.statusCode.toString());
 
-     try {
+    try {
       switch (response.statusCode) {
         case 200:
+          if (showLoading) {
+            EasyLoading.showSuccess('تم');
+          }
           return ResponsModel(
             code: response.statusCode,
             success: true,
@@ -100,18 +129,26 @@ class APIManger extends GetConnect {
           break;
 
         default:
-          Get.to(ErrorView(
-            api_url: url.toString(),
-            api_body: '',
-            api_header: header.toString(),
-            api_status_code: response.statusCode.toString(),
-          ));
+          if (showLoading) {
+            EasyLoading.showError('خطاء');
+          }
+          Get.to(
+            ErrorView(
+              api_url: url.toString(),
+              api_body: '',
+              api_header: header.toString(),
+              api_status_code: response.statusCode.toString(),
+            ),
+          );
           return ResponsModel(
             code: response.statusCode,
             success: false,
           );
       }
     } catch (e) {
+      if (showLoading) {
+        EasyLoading.showError('خطاء');
+      }
       Get.to(ErrorView(
         api_url: response.headers.toString(),
         api_body: e.toString(),

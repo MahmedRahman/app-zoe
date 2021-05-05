@@ -14,35 +14,43 @@ class EntryPointView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        width: Get.width,
-        height: Get.height,
-        decoration: BoxDecoration(
-          //color: Colors.red,
-          image: DecorationImage(
-            image: ExactAssetImage('assets/bg.jpg'),
-            fit: BoxFit.fitHeight,
-          ),
-        ),
-        child: Center(
+    return Stack(
+      children: [
+        Positioned.fill(
           child: Container(
-    
-            
-            width: Get.width * .5,
-            child: AnimatedDrawing.svg(
-              "assets/logo002.svg",
-              run: true,
-              duration: new Duration(seconds: 4),
-              onFinish: () {
-              Get.offAndToNamed(Routes.LayoutView);
-              },
+            decoration: BoxDecoration(
+              //color: Colors.red,
+              image: DecorationImage(
+                image: ExactAssetImage('assets/bg.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
-      ),
+        Positioned(
+          top: 1,
+          left: 1,
+          right: 1,
+          bottom: 1,
+          child: SizedBox(
+            height: 100,
+            width: Get.width * .5,
+            child: Container(
+              // color: Colors.red,
+
+              child: AnimatedDrawing.svg(
+                "assets/logo002.svg",
+                run: true,
+                width: Get.width * .5,
+                duration: new Duration(seconds: 4),
+                onFinish: () {
+                  Get.offAndToNamed(Routes.LayoutView);
+                },
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

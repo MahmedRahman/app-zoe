@@ -6,9 +6,12 @@ import 'package:zoe/auth.dart';
 class EntryPointController extends GetxController {
   @override
   void onInit() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
 
     super.onInit();
+
+    
+  // Start full screen
+    SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
   @override

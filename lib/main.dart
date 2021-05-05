@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
@@ -11,6 +12,7 @@ import 'app/data/helper/AppTranslation.dart';
 void main() async {
   await GetStorage.init();
   await initServices();
+  // EasyLoading.init();
   runApp(App());
 }
 
@@ -28,6 +30,7 @@ class App extends StatelessWidget {
       initialBinding: EntryPointBinding(),
       getPages: AppPages.routes,
       theme: AppTheme().themeData(),
+      builder: EasyLoading.init(),
     );
   }
 }

@@ -8,10 +8,13 @@ import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
 import 'package:zoe/app/api/model/user_model.dart';
+import 'package:zoe/app/modules/authiocation/views/otp_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
 class AuthiocationController extends GetxController {
+  var codeSms = '5555';
+  TextEditingController codeSmsConfirem = new TextEditingController();
   TextEditingController fullName = new TextEditingController();
   TextEditingController phone = new TextEditingController();
   TextEditingController email = new TextEditingController();
@@ -30,33 +33,40 @@ class AuthiocationController extends GetxController {
   }
 
   createUser() async {
-    ResponsModel responsModel = await WebServices().createUser(
+     setSmsCode();
+    var data = await Get.to(OtpView());
+   
+    if (data == true) {
+      ResponsModel responsModel = await WebServices().createUser(
         name: fullName.text,
         mobile: phone.text,
         email: email.text,
-        password: password.text);
+        password: password.text,
+        code:codeSmsConfirem.text
+      );
 
-    if (responsModel.success) {
-      Response response = responsModel.data;
-      if (response.body['success']) {
-        final userModel = userModelFromJson(response.bodyString);
+      if (responsModel.success) {
+        Response response = responsModel.data;
+        if (response.body['success']) {
+          final userModel = userModelFromJson(response.bodyString);
 
-        showSnackBar(
-          message: response.body['message'],
-          title: appName,
-          snackbarStatus: () {
-            Get.toNamed(Routes.SigninView);
-          },
-        );
-      } else {
-        showSnackBar(
-          message: response.body['errors'],
-          title: appName,
-          snackbarStatus: () {
-            restbnt();
-          },
-        );
+          showSnackBar(
+            message: response.body['message'],
+            title: appName,
+            snackbarStatus: () {
+              Get.toNamed(Routes.SigninView);
+            },
+          );
+        } else {
+          showSnackBar(
+            message: response.body['errors'],
+            title: appName,
+            snackbarStatus: () {},
+          );
+        }
       }
+    } else {
+      Get.snackbar(appName, 'برجاء كتابة كود الارسال');
     }
   }
 
@@ -85,6 +95,30 @@ class AuthiocationController extends GetxController {
       }
     } else {
       restbnt();
+    }
+  }
+
+  setSmsCode() async {
+    ResponsModel responsModel = await WebServices().setSmsCode(phone.text);
+
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      //print(response.body['errors']);
+
+      if (response.body['success']) {
+        codeSms = response.body['message'];
+        Get.snackbar('Sms', response.body['message']);
+      } else {
+        Get.snackbar('Sms', response.body['errors']);
+      }
+    }
+  }
+
+  confiemSms() {
+    if (codeSms == codeSmsConfirem.text) {
+      Get.back(result: true);
+    } else {
+      Get.snackbar(appName, 'برجاء كتابة كود صحيح');
     }
   }
 }
