@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/model/home_model.dart';
+import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
@@ -24,20 +25,16 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: Get.height * .3,
+                            height: Get.height * .25,
                             child: PageView(
                               scrollDirection: Axis.horizontal,
                               children: List.generate(
                                 homeModel.data.ads.length,
                                 (index) {
-                                  return SizedBox(
-                                    width: Get.width,
-                                    height: Get.height * .4,
-                                    child: CustomImageCached(
-                                      imageUrl: homeModel.data.ads
-                                          .elementAt(index)
-                                          .image,
-                                    ),
+                                  return CustomImageCached(
+                                    imageUrl: homeModel.data.ads
+                                        .elementAt(index)
+                                        .image,
                                   );
                                 },
                               ).toList(),
@@ -134,10 +131,13 @@ class HomePage extends StatelessWidget {
                   width: Get.width * .5,
                   height: Get.height * .2,
                   decoration: BoxDecoration(
-                      color: Color(0xffFEF2ED),
+                      color: KLightGrayColor,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
-                        BoxShadow(color: Colors.grey, blurRadius: 2)
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 2,
+                        )
                       ]),
                   child: Center(
                     child: ListTile(
@@ -153,7 +153,10 @@ class HomePage extends StatelessWidget {
                         CategoryItem.name,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.bold),
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -185,7 +188,7 @@ class HomePage extends StatelessWidget {
                     width: Get.width * .5,
                     height: Get.height * .2,
                     decoration: BoxDecoration(
-                        color: Color(0xffFEF2ED),
+                        color: Color(0xffE1E1E0),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(color: Colors.grey, blurRadius: 2)

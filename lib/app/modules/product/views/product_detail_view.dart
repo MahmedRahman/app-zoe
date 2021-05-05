@@ -4,6 +4,7 @@ import 'package:zoe/app/data/component/CustomAppBar.dart';
 import 'package:zoe/app/data/component/CustomButton.dart';
 import 'package:zoe/app/api/model/products_detaile_model.dart' as productsModel;
 import 'package:flutter_html/flutter_html.dart';
+import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/modules/cart/controllers/cart_controller.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/modules/home/views/home_view.dart';
@@ -33,8 +34,9 @@ class ProductDetailView extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.toNamed(Routes.LayoutView);
-              Get.find<HomeController>().selectindex.value = 3;
+                Kselectindex.value = 3;
+              Get.offAllNamed(Routes.LayoutView);
+            
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),

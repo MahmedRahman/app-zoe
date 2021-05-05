@@ -150,7 +150,7 @@ class CartCheckOutView extends GetView<CartController> {
     _accountController.getAccountAdress();
     return GetX<AccountAdressListController>(
 
-      builder: (_accountController) {
+      builder: (_) {
       return FutureBuilder(
           future: _accountController.AdreesModel.value,
           builder: (context, snapshot) {

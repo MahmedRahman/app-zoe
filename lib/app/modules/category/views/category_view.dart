@@ -6,6 +6,7 @@ import 'package:zoe/app/data/BrandModel.dart';
 import 'package:zoe/app/data/CategoryModel.dart';
 import 'package:zoe/app/data/component/CustomImageCached.dart';
 import 'package:zoe/app/data/component/CustomIndicator.dart';
+import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/productModel.dart';
 import 'package:zoe/app/modules/account/model/wish_list_model.dart';
 import 'package:zoe/app/modules/category/controllers/category_controller.dart';
@@ -35,7 +36,7 @@ class CategoryView extends GetView {
                 children: [
                   Container(
                     width: Get.width * .3,
-                    color: Color(0xffBFBFBF),
+                    color: KLightGrayColor,
                     child: department(Listdepartments),
                   ),
                   Container(
@@ -91,51 +92,45 @@ class CategoryView extends GetView {
 
   Widget department(DepartmentsPageModel Listdepartments) {
     return ListView(
-      children: List.generate(Listdepartments.data.departments.length, (index) {
-        var department = Listdepartments.data.departments.elementAt(index);
-        return Obx(() {
-          return Container(
-            height: 50,
-            color: categoryController.select_department.value == index
-                ? Colors.white
-                : Color(0xffBFBFBF),
-            child: InkWell(
-              onTap: () {
-                categoryController.select_department.value = index;
-                /*
-                categoryController.getDepartmentCategoryandBrand(
-                  department.id,
-                );
-                */
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  /* SizedBox(
-                    width: 32,
-                    child: CustomImageCached(
-                      imageUrl: department.image,
-                    ),
-                  ),*/
-                  Padding(
-                    padding: const EdgeInsets.only(right:8.0),
-                    child: Text(
-                      department.name,
-                      textAlign: TextAlign.right,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+      children: List.generate(
+        Listdepartments.data.departments.length,
+        (index) {
+          var department = Listdepartments.data.departments.elementAt(index);
+          return Obx(
+            () {
+              return Container(
+                height: 50,
+                color: categoryController.select_department.value == index
+                    ? Colors.white
+                    : KLightGrayColor,
+                child: InkWell(
+                  onTap: () {
+                    categoryController.select_department.value = index;
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Text(
+                          department.name,
+                          textAlign: TextAlign.right,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: KprimaryColor),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           );
-        });
-      }).toList(),
+        },
+      ).toList(),
     );
   }
 
@@ -154,7 +149,7 @@ class CategoryView extends GetView {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               width: Get.width,
-              decoration: BoxDecoration(color: Color(0xffBFBFBF)),
+              decoration: BoxDecoration(color: KLightGrayColor),
               child: InkWell(
                 onTap: () {
                   Get.toNamed(Routes.ProductCategoryView, arguments: [
@@ -166,19 +161,33 @@ class CategoryView extends GetView {
                         .toString()
                   ]);
                 },
-                child: Center(
-                  child: Text(
-                    Listdepartments.data.departments
-                        .elementAt(categoryController.select_department.value)
-                        .categories
-                        .elementAt(index)
-                        .name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Color(0xff4C1711),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10),
-                  ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: CustomImageCached(
+                          imageUrl: Listdepartments.data.departments
+                              .elementAt(
+                                  categoryController.select_department.value)
+                              .categories
+                              .elementAt(index)
+                              .image),
+                    ),
+                    Center(
+                      child: Text(
+                        Listdepartments.data.departments
+                            .elementAt(
+                                categoryController.select_department.value)
+                            .categories
+                            .elementAt(index)
+                            .name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color(0xff4C1711),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

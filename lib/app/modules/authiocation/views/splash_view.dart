@@ -25,6 +25,7 @@ class SplashView extends GetView<AuthiocationController> {
               Container(
                 height: size.height * .6,
                 width: size.width * .7,
+              
                 child: Center(
                   child: AnimatedDrawing.svg(
                     "assets/logo001.svg",

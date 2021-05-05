@@ -12,6 +12,7 @@ class CustomImageCached extends StatelessWidget {
 return GetUtils.isNullOrBlank(imageUrl) ? Container() : 
  CachedNetworkImage(
       imageUrl: imageUrl,
+      fit: BoxFit.contain,
       placeholder: (context, url) => Center(
         child: SizedBox(
           width: 50,

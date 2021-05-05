@@ -4,6 +4,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
+import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
 import 'package:zoe/app/api/model/user_model.dart';
@@ -60,7 +61,6 @@ class AuthiocationController extends GetxController {
   }
 
   Signin() async {
-    
     ResponsModel responsModel = await WebServices().signin(
       mobile: phone.text,
       password: password.text,
@@ -71,14 +71,9 @@ class AuthiocationController extends GetxController {
       if (response.body['success']) {
         Get.find<UserAuth>()
             .setUserToken(response.body['data']['access_token'].toString());
-        showSnackBar(
-          message: response.body['message'],
-          title: appName,
-          snackbarStatus: () {
-            buttonController.reset();
-            Get.toNamed(Routes.LayoutView);
-          },
-        );
+        buttonController.reset();
+        Kselectindex = 2.obs;
+        Get.offAllNamed(Routes.LayoutView);
       } else {
         showSnackBar(
           message: response.body['errors'],
@@ -91,6 +86,5 @@ class AuthiocationController extends GetxController {
     } else {
       restbnt();
     }
-
   }
 }

@@ -21,7 +21,7 @@ class AccountController extends GetxController {
   //TODO: Implement AccountController
   var cityName;
   int cityid = -1;
-  Future<UserProfileModel> userProfile;
+  var userProfile= Future.value().obs;
 
   TextEditingController address = new TextEditingController();
   
@@ -45,7 +45,7 @@ class AccountController extends GetxController {
     if (responsemodel.success) {
       Response response = responsemodel.data;
       final userProfileModel = userProfileModelFromJson(response.bodyString);
-      userProfile = Future.value(userProfileModel);
+      userProfile.value = Future.value(userProfileModel);
     }
   }
 

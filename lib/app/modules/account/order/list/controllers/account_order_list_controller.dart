@@ -11,7 +11,22 @@ class AccountOrderListController extends GetxController {
     if (responsemodel.success) {
       Response response = responsemodel.data;
       final orderHistoryModel = orderHistoryModelFromJson(response.bodyString);
-      OrderHistoryList.value = Future.value(orderHistoryModel.data);
+
+      Map<String, List<Datum>> groupData =
+          orderHistoryModel.data.groupBy((m) => m.orderDate.toString());
+      OrderHistoryList.value = Future.value(groupData);
+
+ OrderHistoryList.value = Future.value(orderHistoryModel.data);
+
+      //print(groupData.);
+
     }
   }
+}
+
+extension Iterables<E> on Iterable<E> {
+  Map<K, List<E>> groupBy<K>(K Function(E) keyFunction) => fold(
+      <K, List<E>>{},
+      (Map<K, List<E>> map, E element) =>
+          map..putIfAbsent(keyFunction(element), () => <E>[]).add(element));
 }

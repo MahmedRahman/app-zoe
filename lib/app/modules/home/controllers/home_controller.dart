@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show SystemChrome, rootBundle;
 
 import 'package:zoe/app/api/model/home_model.dart';
 
@@ -13,13 +14,20 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+
     await getHome();
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+  }
+
   Future getHome() async {
     HomeModel homeModel;
- 
+
     ResponsModel responsModel = await WebServices().getHomePage();
     if (responsModel.success) {
       Response response = responsModel.data;

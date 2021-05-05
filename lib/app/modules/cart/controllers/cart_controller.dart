@@ -3,6 +3,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
+import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
 import 'package:zoe/app/modules/cart/model/CartItem.dart';
@@ -197,13 +198,7 @@ class CartController extends GetxController {
     //buttonController.reset();
 
     if (Get.find<UserAuth>().getUserToken() == null) {
-      showSnackBar(
-        title: appName,
-        message: 'برجاء تسجيل الدخول لتمكن من اتمام الطلب',
-        snackbarStatus: () {
-          Get.toNamed(Routes.SigninView);
-        },
-      );
+      Kselectindex.value=4;
     } else {
       Get.toNamed(Routes.CartCheckOutView);
     }
