@@ -7,8 +7,12 @@ import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/component/CustomImageCached.dart';
 import 'package:zoe/app/component/CustomIndicator.dart';
 
+
+
 class BrandView extends StatelessWidget {
+
   BrandController controller = Get.put(BrandController());
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,4 +87,6 @@ class BrandView extends StatelessWidget {
           ),
         ),
       );
+
+
 }

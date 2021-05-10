@@ -83,7 +83,7 @@ class CartCheckOutView extends GetView<CartController> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: Text(
-                controller.cartTotalPrice().toString() + ' ' + 'ريال',
+                controller.cartTotalPrice().toStringAsFixed(0) + ' ' + 'ريال',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),

@@ -39,7 +39,6 @@ class ProductController extends GetxController {
     }
   }
 
-
   final productsDetaileModelFuture = Future.value().obs;
 
   Future getProductDetailes(String productId) async {
@@ -50,8 +49,6 @@ class ProductController extends GetxController {
 
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
-
-
 
       if (productsDetaileModel.data.product.colors.length == 0) {
         productsDetaileModelFuture.value = Future.value(productsDetaileModel);
@@ -90,7 +87,11 @@ class ProductController extends GetxController {
 
     Get.find<CartController>().addToCart(
       new CartItem(
-        productimage: productsDetaile.data.productImages[0],
+        productimage: productsDetaile.data.product.colors.length == 0
+            ? productsDetaile.data.productImages[0]
+            : productsDetaile.data.product.colors
+                .elementAt(productColorSelect.value)
+                .image,
         productid: productsDetaile.data.product.id,
         productName: productsDetaile.data.product.name,
         productPrice: productSizeSelect.value == 0

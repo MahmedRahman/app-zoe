@@ -24,8 +24,7 @@ class AuthiocationController extends GetxController {
 
   @override
   void onInit() {
-    phone.text = "0123456789";
-    password.text = "123123123";
+
   }
 
   restbnt() {

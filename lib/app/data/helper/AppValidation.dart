@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 class AppValidation {
   static String checkEmail(String value) {
     if (GetUtils.isEmail(value) == false) {
-      return 'Not vaild Email'.tr;
+      return 'خطاء فى البريد الالكترونى';
     } else {
       return null;
     }
@@ -11,7 +11,7 @@ class AppValidation {
 
   static String checkEmpty(String value) {
     if (value.isEmpty) {
-      return 'Empty String'.tr;
+      return 'مطلوب';
     }
     return null;
   }
@@ -20,21 +20,21 @@ class AppValidation {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = new RegExp(patttern);
     if (value.length == 0) {
-      return 'Please enter mobile number'.tr;
+      return 'الرجاء إدخال رقم هاتف محمول صحيح';
     } else if (!regExp.hasMatch(value)) {
-      return 'Please enter valid mobile number'.tr;
+      return 'الرجاء إدخال رقم هاتف محمول صحيح';
     }
     return null;
   }
 
   static String checklength(String value, int lenindex) {
     if (value.isEmpty) {
-      return 'This field is required';
+      return 'هذه الخانة مطلوبه';
     }
     if (value.length < lenindex) {
-      return 'A valid string should be of '.tr +
+      return 'برجا كتابة ارقام اكبر من '.tr +
           lenindex.toString() +
-          ' digits'.tr;
+          ' رقم'.tr;
     }
     return null;
   }

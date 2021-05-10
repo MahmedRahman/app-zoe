@@ -98,32 +98,36 @@ class CategoryView extends GetView {
           var department = Listdepartments.data.departments.elementAt(index);
           return Obx(
             () {
-              return Container(
-                height: 50,
-                color: categoryController.select_department.value == index
-                    ? Colors.white
-                    : KLightGrayColor,
-                child: InkWell(
-                  onTap: () {
-                    categoryController.select_department.value = index;
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Text(
-                          department.name,
-                          textAlign: TextAlign.right,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: KprimaryColor),
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Container(
+                 
+                  color: categoryController.select_department.value == index
+                      ? Colors.white
+                      : KLightGrayColor,
+                  child: InkWell(
+                    onTap: () {
+                      categoryController.select_department.value = index;
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0,top: 5,bottom: 5),
+                          child: Text(
+                            department.name,
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: KprimaryColor),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );

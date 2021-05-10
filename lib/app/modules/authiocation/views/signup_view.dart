@@ -58,7 +58,7 @@ class SignupView extends GetView<AuthiocationController> {
                       keyboardType: TextInputType.number,
                       inputController: controller.phone,
                       onValidator: (value) {
-                        return AppValidation.checkEmpty(value);
+                        return AppValidation.checkMobile(value);
                       },
                     ),
                     CustomTextFormFiled(
@@ -73,10 +73,11 @@ class SignupView extends GetView<AuthiocationController> {
                     CustomTextFormFiled(
                       inputHit: 'password'.tr,
                       inputLabel: 'password'.tr,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.visiblePassword,
                       inputController: controller.password,
+
                       onValidator: (value) {
-                        return AppValidation.checkEmpty(value);
+                        return AppValidation.checklength(value,7);
                       },
                     ),
                     SizedBox(

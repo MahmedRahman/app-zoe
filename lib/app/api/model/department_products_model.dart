@@ -95,9 +95,9 @@ class Product {
     String name;
     String image;
     Brand brand;
-    dynamic priceBeforeDiscount;
+    double priceBeforeDiscount;
     int discountRate;
-    dynamic price;
+    double price;
     int rating;
     int commentsCount;
     bool wishlist;
@@ -108,9 +108,9 @@ class Product {
         name: json["name"],
         image: json["image"] == null ? null : json["image"],
         brand: Brand.fromJson(json["brand"]),
-        priceBeforeDiscount: json["price_before_discount"],
+        priceBeforeDiscount: json["price_before_discount"].toDouble(),
         discountRate: json["discount_rate"],
-        price: json["price"],
+        price: json["price"].toDouble(),
         rating: json["rating"],
         commentsCount: json["comments_count"],
         wishlist: json["wishlist"],
