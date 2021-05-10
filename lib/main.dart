@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/AppTheme.dart';
+import 'package:zoe/app/modules/cart/controllers/cart_controller.dart';
 import 'package:zoe/auth.dart';
 import 'app/modules/entry_point/bindings/entry_point_binding.dart';
 import 'app/routes/app_pages.dart';
@@ -37,4 +38,5 @@ class App extends StatelessWidget {
 
 initServices() async {
   await Get.putAsync<UserAuth>(() async => await UserAuth());
+  await Get.putAsync<CartController>(() async => await CartController());
 }

@@ -33,13 +33,15 @@ class BrandController extends GetxController {
     if (GetUtils.isNullOrBlank(brandName)) {
       brandsList.value = Future.value(this.brands);
     } else {
-      brandsList.value = Future.value(
-        brands
-            .where(
-              (element) => element.name.contains(brandName),
-            )
-            .toList(),
-      );
+
+     List<Brand> temp = brands.where(
+        (element) => element.name.contains(brandName),
+      ).toList();
+
+
+
+
+      brandsList.value = Future.value(temp);
     }
   }
 }

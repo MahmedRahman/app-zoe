@@ -45,7 +45,7 @@ class APIManger extends GetConnect {
 
     login();
 
-    Response response = await post(baes_url + url, body, headers: header);
+    Response response = await post(GetUtils.isURL(url) ? url : '$baes_url$url', body, headers: header);
 
     try {
       switch (response.statusCode) {
@@ -101,7 +101,9 @@ class APIManger extends GetConnect {
     }
 
     print("Api Request " + baes_url + url);
+
     login();
+    
     Response response;
     if (GetUtils.isURL(url)) {
       response = await get(url, headers: header);

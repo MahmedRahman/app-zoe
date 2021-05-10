@@ -76,10 +76,13 @@ class WebServices extends APIManger {
     @required String mobile,
     @required String password,
   }) async {
-    ResponsModel response = await repPost('login', {
-      "mobile": mobile,
-      "password": password,
-    },showLoading: true);
+    ResponsModel response = await repPost(
+        'login',
+        {
+          "mobile": mobile,
+          "password": password,
+        },
+        showLoading: true);
 
     return response;
   }
@@ -152,4 +155,13 @@ class WebServices extends APIManger {
         await repPost('sms_code', {'mobile': mobile}, showLoading: true);
     return response;
   }
+
+  Future<ResponsModel> getVersion() async {
+    ResponsModel response = await repPost(
+        'https://dev.matrixclouds.com/zoe/public/api/api_version',
+        {'version': '1.0.0'});
+    return response;
+  }
+
+  
 }

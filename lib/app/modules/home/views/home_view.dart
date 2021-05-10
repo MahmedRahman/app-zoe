@@ -412,7 +412,7 @@ class ProductItem extends StatelessWidget {
   }
 
 
-  int DiscountRate(priceBeforeDiscount,price){
+  int DiscountRate(double priceBeforeDiscount,double price){
   if(priceBeforeDiscount >= price) {
     double discountPrice = priceBeforeDiscount - price ;
     int discountRate = ((discountPrice/ priceBeforeDiscount)*100).round() ;

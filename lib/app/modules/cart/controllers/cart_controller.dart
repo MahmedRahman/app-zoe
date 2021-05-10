@@ -10,7 +10,8 @@ import 'package:zoe/app/modules/cart/model/CartItem.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
-class CartController extends GetxController {
+class CartController extends GetxService {
+
   List<CartItem> listCartItem = List<CartItem>.empty(growable: true).obs;
 
   var listCartItemFutter = Future.value().obs;
@@ -20,7 +21,7 @@ class CartController extends GetxController {
   var shappingPrice = 30.obs;
   var totalPrice = 0.obs;
   int addressid = 1;
-  final shopCount = 0.obs;
+  var shopCount = 0.obs;
 
   void onInit() {
     updaetCartItem();
@@ -55,6 +56,7 @@ class CartController extends GetxController {
 
   clearCart() {
     listCartItem.clear();
+    shopCount.value=0;
   }
 
   carClearItem(int index) {

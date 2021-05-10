@@ -8,19 +8,16 @@ import 'package:zoe/app/component/CustomImageCached.dart';
 import 'package:zoe/app/component/CustomIndicator.dart';
 
 class BrandView extends StatelessWidget {
+  BrandController controller = Get.put(BrandController());
   @override
   Widget build(BuildContext context) {
-    BrandController controller = Get.put(BrandController());
-
     return Scaffold(
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: TextFormField(
             onChanged: (value) {
-               controller.getSerechBrand(value);
-            },
-            onFieldSubmitted: (value) {
+              print(value);
               controller.getSerechBrand(value);
             },
             decoration: InputDecoration(
@@ -38,13 +35,13 @@ class BrandView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GetX<BrandController>(
-          init: BrandController(),
-          builder: (controller) {
+          builder: (builder) {
             return FutureBuilder(
               future: controller.brandsList.value,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<Brand> brands = snapshot.data;
+                  print('Brand ${brands.length}');
                   return GridView.count(
                     crossAxisCount: 2,
                     children: List.generate(
@@ -74,8 +71,8 @@ class BrandView extends StatelessWidget {
 
   Widget bulidBrand(Brand brand) => InkWell(
         onTap: () {
-            Get.toNamed(Routes.PRODUCT_LIST,
-                    arguments: [brand.id.toString(), ProductCategory.Brand]);
+          Get.toNamed(Routes.PRODUCT_LIST,
+              arguments: [brand.id.toString(), ProductCategory.Brand]);
         },
         child: Card(
           child: Padding(
