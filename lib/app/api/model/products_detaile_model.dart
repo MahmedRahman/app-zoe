@@ -135,9 +135,9 @@ class Product {
     int id;
     String name;
     String desc;
-    dynamic priceBeforeDiscount;
+    double priceBeforeDiscount;
     dynamic discountRate;
-    dynamic price;
+    double price;
     dynamic rating;
     int commentsCount;
     bool wishlist;
@@ -149,9 +149,9 @@ class Product {
         id: json["id"],
         name: json["name"],
         desc: json["desc"],
-        priceBeforeDiscount: json["price_before_discount"],
+        priceBeforeDiscount: json["price_before_discount"].toDouble(),
         discountRate: json["discount_rate"],
-        price: json["price"],
+        price: json["price"].toDouble(),
         rating: json["rating"],
         commentsCount: json["comments_count"],
         wishlist: json["wishlist"],

@@ -1,7 +1,7 @@
 import 'package:drawing_animation/drawing_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/data/component/CustomButton.dart';
+import 'package:zoe/app/component/CustomButton.dart';
 import 'package:zoe/app/modules/authiocation/controllers/authiocation_controller.dart';
 import 'package:zoe/app/modules/authiocation/views/signin_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';

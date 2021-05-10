@@ -21,6 +21,7 @@ class CartController extends GetxController {
   var totalPrice = 0.obs;
   int addressid = 1;
   final shopCount = 0.obs;
+
   void onInit() {
     updaetCartItem();
     buttonController = new RoundedLoadingButtonController();
@@ -95,16 +96,15 @@ class CartController extends GetxController {
   }
 
   checkout() async {
-
-
-   String productList = listCartItem
+    String productList = listCartItem
         .fold(
             '',
             (previousValue, element) => previousValue =
-                previousValue + element.productid.toString() + ',').toString()
+                previousValue + element.productid.toString() + ',')
+        .toString()
         .replaceAll(RegExp(r'.$'), "");
 
-   String productQty = listCartItem
+    String productQty = listCartItem
         .fold(
             '',
             (previousValue, element) =>
@@ -112,7 +112,7 @@ class CartController extends GetxController {
         .toString()
         .replaceAll(RegExp(r'.$'), "");
 
-   String productSize = listCartItem
+    String productSize = listCartItem
         .fold(
             '',
             (previousValue, element) => previousValue =
@@ -120,47 +120,13 @@ class CartController extends GetxController {
         .toString()
         .replaceAll(RegExp(r'.$'), "");
 
-   String productColor = listCartItem
+    String productColor = listCartItem
         .fold(
             '',
             (previousValue, element) => previousValue =
                 previousValue + element.productColor.toString() + ',')
         .toString()
         .replaceAll(RegExp(r'.$'), "");
-
-
-
-
-/*
-    print('productid');
-    print(productList);
-    print('productid');
-    String productList = '';
-    String productQty = '';
-    String productSize = '';
-    String productColor = '';
-    shopCount.value = 0;
-
-    var i = 0;
-    listCartItem.forEach((CartItem _cartItem) {
-      if (i == 0) {
-        productList = productList.toString() + _cartItem.productid.toString();
-        productQty = productQty.toString() + _cartItem.qty.toString();
-        productSize = productSize.toString() + _cartItem.productSize.toString();
-        productColor =
-            productColor.toString() + _cartItem.productColor.toString();
-        i = 1;
-      } else {
-        productList =
-            productList.toString() + ',' + _cartItem.productid.toString();
-        productQty = productQty.toString() + ',' + _cartItem.qty.toString();
-        productSize =
-            productSize.toString() + ',' + _cartItem.productSize.toString();
-        productColor =
-            productColor.toString() + ',' + _cartItem.productColor.toString();
-      }
-    });
-*/
 
     ResponsModel responsModel = await WebServices().checkout(
       addressid: addressid,
@@ -174,13 +140,14 @@ class CartController extends GetxController {
       Response response = responsModel.data;
       if (response.body['success']) {
         showSnackBar(
-            title: appName,
-            message: response.body['message'],
-            snackbarStatus: () {
-              buttonController.stop();
-              clearCart();
-              Get.toNamed(Routes.LayoutView);
-            });
+          title: appName,
+          message: response.body['message'],
+          snackbarStatus: () {
+            buttonController.stop();
+            clearCart();
+            Get.toNamed(Routes.LayoutView);
+          },
+        );
       } else {
         showSnackBar(
             title: appName,
@@ -195,10 +162,8 @@ class CartController extends GetxController {
   }
 
   void cartComplete() {
-    //buttonController.reset();
-
     if (Get.find<UserAuth>().getUserToken() == null) {
-      Kselectindex.value=4;
+      Kselectindex.value = 4;
     } else {
       Get.toNamed(Routes.CartCheckOutView);
     }

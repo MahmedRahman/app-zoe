@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:zoe/app/data/component/CustomAppBar.dart';
+import 'package:zoe/app/component/CustomAppBar.dart';
 
 class AccountAboutView extends GetView {
   @override

@@ -12,57 +12,60 @@ class AuthiocationView extends GetView<AuthiocationController> {
         title: Text('AuthiocationView'),
         centerTitle: true,
       ),
-      body: OrientationBuilder(builder: (context, orientation) {
-        return orientation == Orientation.portrait
-            ? Column(
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Center(
-                      child: Text(
-                        'AuthiocationView is working',
-                        style: TextStyle(fontSize: size.height * .05),
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return orientation == Orientation.portrait
+              ? Column(
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      child: Center(
+                        child: Text(
+                          'AuthiocationView is working',
+                          style: TextStyle(fontSize: size.height * .05),
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Center(
-                          child: Text(
-                            'AuthiocationView is working',
-                            style: TextStyle(fontSize: size.height * .05),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Center(
+                            child: Text(
+                              'AuthiocationView is working',
+                              style: TextStyle(fontSize: size.height * .05),
+                            ),
                           ),
                         ),
-                      ), Flexible(
-                        child: Center(
-                          child: Text(
-                            'AuthiocationView is working',
-                            style: TextStyle(fontSize: size.height * .05),
+                        Flexible(
+                          child: Center(
+                            child: Text(
+                              'AuthiocationView is working',
+                              style: TextStyle(fontSize: size.height * .05),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Flexible(
-                    child: Center(
-                      child: Text(
-                        'AuthiocationView is working',
-                        style: TextStyle(fontSize: size.height * .05),
-                      ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              )
-            : Column(
-                children: [
-                  Text(
-                    'AuthiocationView is working',
-                    style: TextStyle(fontSize: size.height * .05),
-                  )
-                ],
-              );
-      }),
+                    Flexible(
+                      child: Center(
+                        child: Text(
+                          'AuthiocationView is working',
+                          style: TextStyle(fontSize: size.height * .05),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              : Column(
+                  children: [
+                    Text(
+                      'AuthiocationView is working',
+                      style: TextStyle(fontSize: size.height * .05),
+                    )
+                  ],
+                );
+        },
+      ),
     );
   }
 }

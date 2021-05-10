@@ -39,4 +39,5 @@ abstract class Routes {
   static const ACCOUNT_ORDER_DETAIL = '/account/order/detail';
   static const ACCOUNT_ADRESS_LIST = '/account/adress/list';
   static const ACCOUNT_ADRESS_ADD = '/account/adress/add';
+  static const PRODUCT_LIST = '/product/list';
 }

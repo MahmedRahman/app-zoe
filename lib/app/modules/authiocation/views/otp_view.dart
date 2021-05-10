@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:zoe/app/modules/authiocation/controllers/authiocation_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/helper/AppTheme.dart';
-import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
+import 'package:zoe/app/component/CustomTextFormFiled.dart';
 
 class OtpView extends GetView {
   AuthiocationController controller = Get.put(AuthiocationController());

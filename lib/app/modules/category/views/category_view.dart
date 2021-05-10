@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/model/department_category_brand_model.dart';
 import 'package:zoe/app/api/model/department_model.dart';
-import 'package:zoe/app/data/BrandModel.dart';
-import 'package:zoe/app/data/CategoryModel.dart';
-import 'package:zoe/app/data/component/CustomImageCached.dart';
-import 'package:zoe/app/data/component/CustomIndicator.dart';
+import 'package:zoe/app/api/model/BrandModel.dart';
+import 'package:zoe/app/api/model/category_model.dart';
+import 'package:zoe/app/component/CustomImageCached.dart';
+import 'package:zoe/app/component/CustomIndicator.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
-import 'package:zoe/app/data/productModel.dart';
+import 'package:zoe/app/api/model/product_model.dart';
 import 'package:zoe/app/modules/account/model/wish_list_model.dart';
 import 'package:zoe/app/modules/category/controllers/category_controller.dart';
 import 'package:zoe/app/modules/category/model/departments_page_model.dart';
@@ -152,13 +152,14 @@ class CategoryView extends GetView {
               decoration: BoxDecoration(color: KLightGrayColor),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed(Routes.ProductCategoryView, arguments: [
+                  Get.toNamed(Routes.PRODUCT_LIST, arguments: [
                     Listdepartments.data.departments
                         .elementAt(categoryController.select_department.value)
                         .categories
                         .elementAt(index)
                         .id
-                        .toString()
+                        .toString(),
+                    ProductCategory.Category
                   ]);
                 },
                 child: Column(
@@ -212,13 +213,15 @@ class CategoryView extends GetView {
             child: GestureDetector(
               onTap: () {
                 // Get.toNamed(Routes.ProductCategoryView);
-                Get.toNamed(Routes.ProductBrandView, arguments: [
+
+                Get.toNamed(Routes.PRODUCT_LIST, arguments: [
                   Listdepartments.data.departments
                       .elementAt(categoryController.select_department.value)
                       .brands
                       .elementAt(index)
                       .id
-                      .toString()
+                      .toString(),
+                  ProductCategory.Brand
                 ]);
               },
               child: Padding(

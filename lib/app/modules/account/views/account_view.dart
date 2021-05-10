@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/data/component/CustomIndicator.dart';
+import 'package:zoe/app/component/CustomIndicator.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/user_provile.dart';

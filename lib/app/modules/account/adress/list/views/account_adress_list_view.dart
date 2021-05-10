@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:zoe/app/data/component/CustomAppBar.dart';
-import 'package:zoe/app/data/component/CustomIndicator.dart';
+import 'package:zoe/app/component/CustomAppBar.dart';
+import 'package:zoe/app/component/CustomIndicator.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/account_adrees_model.dart';
 import 'package:zoe/app/routes/app_pages.dart';

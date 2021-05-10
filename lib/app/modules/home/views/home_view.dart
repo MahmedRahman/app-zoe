@@ -4,8 +4,8 @@ import 'package:zoe/app/api/model/home_model.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
-import 'package:zoe/app/data/component/CustomImageCached.dart';
-import 'package:zoe/app/data/component/CustomIndicator.dart';
+import 'package:zoe/app/component/CustomImageCached.dart';
+import 'package:zoe/app/component/CustomIndicator.dart';
 
 class HomePage extends StatelessWidget {
   // HomeController controller = Get.put(HomeController());
@@ -14,104 +14,126 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: GetX<HomeController>(
-          init: HomeController(),
-          builder: (controller) {
-            return FutureBuilder(
-                future: controller.homeModelFuture.value,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    HomeModel homeModel = snapshot.data;
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: Get.height * .25,
-                            child: PageView(
-                              scrollDirection: Axis.horizontal,
-                              children: List.generate(
-                                homeModel.data.ads.length,
-                                (index) {
-                                  return CustomImageCached(
-                                    imageUrl: homeModel.data.ads
-                                        .elementAt(index)
-                                        .image,
-                                  );
-                                },
-                              ).toList(),
-                            ),
-                          ),
-                          Title(
-                            label: 'الاقسام',
-                          ),
-                          buildCategory(homeModel.data.departments),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: CustomImageCached(
-                                    imageUrl: homeModel.data.bannerTwo,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: CustomImageCached(
-                                    imageUrl: homeModel.data.bannerOne,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Title(
-                            label: 'الماركات',
-                          ),
-                          buildBrand(homeModel.data.brands),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: CustomImageCached(
-                                    imageUrl: homeModel.data.bannerThree,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          buildFeaturedCategory(
-                              homeModel.data.featuredCategories),
-                          SizedBox(
-                            height: 20,
-                          ),
-                        ],
+        init: HomeController(),
+        builder: (controller) {
+          return FutureBuilder(
+            future: controller.homeModelFuture.value,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                HomeModel homeModel = snapshot.data;
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: Get.height * .25,
+                        child: PageView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(
+                            homeModel.data.ads.length,
+                            (index) {
+                              return CustomImageCached(
+                                imageUrl:
+                                    homeModel.data.ads.elementAt(index).image,
+                              );
+                            },
+                          ).toList(),
+                        ),
                       ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: CustomIndicator(
-                        indicatorStatus: IndicatorStatus.error,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: SizedBox(
+                          width: Get.width,
+                          child: Text(
+                            'الاقسام',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: KprimaryColor,
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  }
-                  return Center(
-                    child: CustomIndicator(
-                      indicatorStatus: IndicatorStatus.wait,
-                    ),
-                  );
-                });
-          }),
+                      buildDepartment(homeModel.data.departments),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: CustomImageCached(
+                                imageUrl: homeModel.data.bannerTwo,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: CustomImageCached(
+                                imageUrl: homeModel.data.bannerOne,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: SizedBox(
+                          width: Get.width,
+                          child: Text(
+                            'الماركات',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: KprimaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      buildBrand(homeModel.data.brands),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: CustomImageCached(
+                                imageUrl: homeModel.data.bannerThree,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      buildFeaturedCategory(homeModel.data.featuredCategories),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: CustomIndicator(
+                    indicatorStatus: IndicatorStatus.error,
+                  ),
+                );
+              }
+              return Center(
+                child: CustomIndicator(
+                  indicatorStatus: IndicatorStatus.wait,
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
-  Widget buildCategory(List<BrandElement> brandElement) {
+  Widget buildDepartment(List<BrandElement> brandElement) {
     return SizedBox(
         height: Get.height * .1,
         child: ListView.builder(
@@ -121,8 +143,10 @@ class HomePage extends StatelessWidget {
             BrandElement CategoryItem = brandElement.elementAt(index);
             return GestureDetector(
               onTap: () {
-                Get.toNamed(Routes.ProductDepartmentsView,
-                    arguments: [CategoryItem.id.toString()]);
+                Get.toNamed(Routes.PRODUCT_LIST, arguments: [
+                  CategoryItem.id.toString(),
+                  ProductCategory.Department
+                ]);
               },
               child: Padding(
                 padding:
@@ -174,13 +198,13 @@ class HomePage extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: brandElement.length,
         itemBuilder: (context, index) {
-          BrandElement Brand = brandElement.elementAt(index);
+          BrandElement brand = brandElement.elementAt(index);
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GestureDetector(
               onTap: () {
-                Get.toNamed(Routes.ProductBrandView,
-                    arguments: [Brand.id.toString()]);
+                Get.toNamed(Routes.PRODUCT_LIST,
+                    arguments: [brand.id.toString(), ProductCategory.Brand]);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
@@ -196,7 +220,7 @@ class HomePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CustomImageCached(
-                        imageUrl: Brand.image.toString(),
+                        imageUrl: brand.image.toString(),
                       ),
                     )),
               ),
@@ -214,11 +238,40 @@ class HomePage extends StatelessWidget {
         (indexCategory) {
           return Column(
             children: [
-              Title(
-                label: featuredCategories.elementAt(indexCategory).name,
-                sublabel: 'المزيد',
-                categoryId:
-                    featuredCategories.elementAt(indexCategory).id.toString(),
+              Container(
+                width: Get.width * .9,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        featuredCategories.elementAt(indexCategory).name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                        textAlign: TextAlign.right,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.PRODUCT_LIST, arguments: [
+                            featuredCategories
+                                .elementAt(indexCategory)
+                                .id
+                                .toString(),
+                            ProductCategory.Category
+                          ]);
+                        },
+                        child: Text(
+                          'المزيد' ?? '',
+                          style: TextStyle(
+                            color: Color(0xFF4C1711),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
               SizedBox(
                 height: Get.height * .4,
@@ -263,88 +316,109 @@ class ProductItem extends StatelessWidget {
           arguments: [product.id.toString()],
         );
       },
-      child: Container(
-        width: Get.width / 2,
-        child: Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomImageCached(
-                    imageUrl: product.image ?? '',
+      child: Stack(
+        alignment: Alignment.topLeft,
+        children: [
+          Container(
+            width: Get.width / 2,
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomImageCached(
+                          imageUrl: product.image ?? '',
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  product.name.toString(),
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      product.name.toString(),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.right,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    ),
                   ),
-                ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        product.price.toString() + ' ' + 'ريال',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: KprimaryColor),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                       DiscountRate(product.priceBeforeDiscount , product.price) == 0
+                          ? SizedBox.shrink()
+                          : Text(
+                              product.priceBeforeDiscount.toString() +
+                                  ' ' +
+                                  'ريال',
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                         DiscountRate(product.priceBeforeDiscount , product.price)  == 0
+                      ? SizedBox(
+                          height: 30,
+                        )
+                      : Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: KprimaryColor,
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              'خصم  ${DiscountRate(product.priceBeforeDiscount , product.price)} %',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                ],
               ),
-              Text(
-                product.price.toInt().toString() + ' ' + 'ريال',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+   
+        ],
       ),
     );
+  }
+
+
+  int DiscountRate(priceBeforeDiscount,price){
+  if(priceBeforeDiscount >= price) {
+    double discountPrice = priceBeforeDiscount - price ;
+    int discountRate = ((discountPrice/ priceBeforeDiscount)*100).round() ;
+   return discountRate;
+  } else{
+    return 0;
   }
 }
-
-class Title extends StatelessWidget {
-  const Title({
-    this.label,
-    this.sublabel,
-    this.categoryId,
-  });
-
-  final String label;
-  final String sublabel;
-  final String categoryId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: Get.width * .9,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              textAlign: TextAlign.right,
-            ),
-            InkWell(
-              onTap: () {
-                Get.toNamed(Routes.ProductCategoryView,
-                    arguments: [categoryId]);
-              },
-              child: Text(
-                sublabel ?? '',
-                style: TextStyle(
-                  color: Color(0xFF4C1711),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }

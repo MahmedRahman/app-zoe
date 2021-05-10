@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
-import 'package:zoe/app/data/component/CustomAppBar.dart';
-import 'package:zoe/app/data/component/CustomButton.dart';
-import 'package:zoe/app/data/component/CustomIndicator.dart';
+import 'package:zoe/app/component/CustomAppBar.dart';
+import 'package:zoe/app/component/CustomButton.dart';
+import 'package:zoe/app/component/CustomIndicator.dart';
 import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
 import 'package:zoe/app/modules/account/adress/list/controllers/account_adress_list_controller.dart';

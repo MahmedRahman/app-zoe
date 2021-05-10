@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:zoe/app/data/component/CustemDropdown.dart';
-import 'package:zoe/app/data/component/CustomAppBar.dart';
-import 'package:zoe/app/data/component/CustomButton.dart';
+import 'package:zoe/app/component/CustemDropdown.dart';
+import 'package:zoe/app/component/CustomAppBar.dart';
+import 'package:zoe/app/component/CustomButton.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/helper/AppValidation.dart';
 

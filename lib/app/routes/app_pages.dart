@@ -10,7 +10,6 @@ import 'package:zoe/app/modules/account/order/detail/views/account_order_detail_
 import 'package:zoe/app/modules/account/order/list/bindings/account_order_list_binding.dart';
 import 'package:zoe/app/modules/account/order/list/views/account_order_list_view.dart';
 import 'package:zoe/app/modules/account/views/account_about_view.dart';
-
 import 'package:zoe/app/modules/account/views/account_view.dart';
 import 'package:zoe/app/modules/account/views/account_wish_list_view.dart';
 import 'package:zoe/app/modules/authiocation/bindings/authiocation_binding.dart';
@@ -34,9 +33,8 @@ import 'package:zoe/app/modules/home/views/home_view.dart';
 import 'package:zoe/app/modules/home/views/layout_view.dart';
 import 'package:zoe/app/modules/product/bindings/product_binding.dart';
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
-import 'package:zoe/app/modules/product/views/product_brand_view.dart';
-import 'package:zoe/app/modules/product/views/product_category_view.dart';
-import 'package:zoe/app/modules/product/views/product_departments_view.dart';
+import 'package:zoe/app/modules/product/list/bindings/product_list_binding.dart';
+import 'package:zoe/app/modules/product/list/views/product_list_view.dart';
 import 'package:zoe/app/modules/product/views/product_detail_view.dart';
 import 'package:zoe/app/modules/product/views/product_view.dart';
 
@@ -81,11 +79,7 @@ class AppPages {
       page: () => ForgotpasswordView(),
       binding: AuthiocationBinding(),
     ),
-    GetPage(
-      name: Routes.ProductCategoryView,
-      page: () => ProductCategoryView(),
-      binding: ProductBinding(),
-    ),
+
     GetPage(
       name: Routes.BRAND,
       page: () => BrandView(),
@@ -111,11 +105,7 @@ class AppPages {
       page: () => ProductDetailView(),
       binding: ProductBinding(),
     ),
-    GetPage(
-      name: Routes.ProductDepartmentsView,
-      page: () => ProductDepartmentsView(),
-      binding: ProductBinding(),
-    ),
+
     GetPage(
       name: Routes.CartCheckOutView,
       page: () => CartCheckOutView(),
@@ -126,17 +116,12 @@ class AppPages {
       page: () => EntryPointView(),
       binding: EntryPointBinding(),
     ),
-    GetPage(
-      name: Routes.ProductBrandView,
-      page: () => ProductBrandView(),
-      binding: ProductBinding(),
-    ),
+
     GetPage(
       name: Routes.ServererroView,
       page: () => EntryPointView(),
       binding: EntryPointBinding(),
     ),
-
     GetPage(
       name: Routes.AccountAboutView,
       page: () => AccountAboutView(),
@@ -147,7 +132,6 @@ class AppPages {
       page: () => AccountWishListView(),
       binding: AccountBinding(),
     ),
-
     GetPage(
       name: Routes.ACCOUNT_ORDER_LIST,
       page: () => AccountOrderListView(),
@@ -167,6 +151,11 @@ class AppPages {
       name: Routes.ACCOUNT_ADRESS_ADD,
       page: () => AccountAdressAddView(),
       binding: AccountAdressAddBinding(),
+    ),
+    GetPage(
+      name: Routes.PRODUCT_LIST,
+      page: () => ProductListView(),
+      binding: ProductListBinding(),
     ),
   ];
 }

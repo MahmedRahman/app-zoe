@@ -39,29 +39,6 @@ class ProductController extends GetxController {
     }
   }
 
-  Future getProductByCategory(String categoryId) async {
-    ResponsModel responsModel =
-        await WebServices().getProductByCategory(categoryId);
-    if (responsModel.success) {
-      Response response = responsModel.data;
-      final categoryProductsModel =
-          categoryProductsModelFromJson(response.bodyString);
-      productQty.value = 1;
-      return categoryProductsModel.data.products;
-    }
-  }
-
-  Future getProductByDepartments(String departmentsId) async {
-    ResponsModel responsModel =
-        await WebServices().getProductByDepartments(departmentsId);
-    if (responsModel.success) {
-      Response response = responsModel.data;
-      final departmentProductsModel =
-          departmentProductsModelFromJson(response.bodyString);
-
-      return departmentProductsModel.data.products;
-    }
-  }
 
   final productsDetaileModelFuture = Future.value().obs;
 
@@ -74,6 +51,8 @@ class ProductController extends GetxController {
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
 
+
+
       if (productsDetaileModel.data.product.colors.length == 0) {
         productsDetaileModelFuture.value = Future.value(productsDetaileModel);
       } else {
@@ -85,16 +64,6 @@ class ProductController extends GetxController {
       }
 
       return productsDetaileModel;
-    }
-  }
-
-  Future getProductByBrand(String brandId) async {
-    ResponsModel responsModel = await WebServices().getProductByBrand(brandId);
-    if (responsModel.success) {
-      Response response = responsModel.data;
-      final productsBrandModel =
-          productsBrandModelFromJson(response.bodyString);
-      return productsBrandModel;
     }
   }
 
@@ -152,10 +121,6 @@ class ProductController extends GetxController {
         qty: productQty.value,
       ),
     );
-  }
-
-  bntrest() {
-    buttonController.reset();
   }
 
   Future SetFavoraitProduct(String brandId) async {

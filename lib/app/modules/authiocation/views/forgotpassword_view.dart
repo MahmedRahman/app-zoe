@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/data/component/CustomButton.dart';
+import 'package:zoe/app/component/CustomButton.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/helper/AppTheme.dart';
-import 'package:zoe/app/data/component/CustomTextFormFiled.dart';
+import 'package:zoe/app/component/CustomTextFormFiled.dart';
 
 class ForgotpasswordView extends GetView {
   @override
