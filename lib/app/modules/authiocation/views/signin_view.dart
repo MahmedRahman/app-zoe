@@ -8,10 +8,11 @@ import 'package:zoe/app/data/helper/AppTheme.dart';
 import 'package:zoe/app/component/CustomTextFormFiled.dart';
 
 class SigninView extends GetView<AuthiocationController> {
+     var _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    final _formKey = GlobalKey<FormState>();
+ 
     return Scaffold(
       body: Container(
         height: screenSize.height,
@@ -78,6 +79,7 @@ class SigninView extends GetView<AuthiocationController> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
+                                  FocusScope.of(context).unfocus();
                               Get.toNamed(Routes.ForgotpasswordView);
                             },
                             child: Text(
@@ -97,6 +99,7 @@ class SigninView extends GetView<AuthiocationController> {
                           title: 'Login'.tr,
                           buttonController: controller.buttonController,
                           onPressed: () {
+                            FocusScope.of(context).unfocus();
                             if (_formKey.currentState.validate()) {
                               controller.Signin();
                             }
@@ -113,6 +116,7 @@ class SigninView extends GetView<AuthiocationController> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
+                                FocusScope.of(context).unfocus();
                           Get.toNamed(Routes.SignupView);
                         },
                         child: RichText(
@@ -151,6 +155,7 @@ class SigninView extends GetView<AuthiocationController> {
                   ),
                   InkWell(
                     onTap: () {
+                          FocusScope.of(context).unfocus();
                       Get.toNamed(Routes.LayoutView);
                     },
                     child: Text(

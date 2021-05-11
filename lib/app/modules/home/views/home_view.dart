@@ -311,6 +311,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        FocusScope.of(context).unfocus();
         Get.toNamed(
           Routes.ProductDetailView,
           arguments: [product.id.toString()],

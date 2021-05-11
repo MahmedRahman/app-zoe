@@ -114,10 +114,12 @@ class ProductDetailView extends StatelessWidget {
                             right: 20,
                             child: InkWell(
                               onTap: () {
-                                Get.toNamed(Routes.ProductBrandView,
-                                    arguments: [
-                                      productsDetaile.data.brand.id.toString()
-                                    ]);
+                                print('object');
+
+                                Get.offAndToNamed(Routes.PRODUCT_LIST, arguments: [
+                                  productsDetaile.data.brand.id.toString(),
+                                  ProductCategory.Brand,
+                                ]);
                               },
                               child: Column(
                                 children: [
@@ -188,64 +190,63 @@ class ProductDetailView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Obx(
-                      () {
-                        return ListTile(
-                          title: Text(
-                            controller.ProductPrice.toString() + ' ' + 'ريال',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF4C1711),
-                            ),
+                    Obx(() {
+                      return ListTile(
+                        title: Text(
+                          controller.ProductPrice.toString() + ' ' + 'ريال',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF4C1711),
                           ),
-                          subtitle: discountRate(
-                                      productsDetaile
-                                          .data.product.priceBeforeDiscount,
-                                      productsDetaile.data.product.price) ==
-                                  0
-                              ? SizedBox.shrink()
-                              : Row(
-                                  children: [
-                                    Text(
-                                      productsDetaile
-                                              .data.product.priceBeforeDiscount
-                                              .toString() +
-                                          ' ' +
-                                          'ريال',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
+                        ),
+                        subtitle: discountRate(
+                                    productsDetaile
+                                        .data.product.priceBeforeDiscount,
+                                    productsDetaile.data.product.price) ==
+                                0
+                            ? SizedBox.shrink()
+                            : Row(
+                                children: [
+                                  Text(
+                                    productsDetaile
+                                            .data.product.priceBeforeDiscount
+                                            .toString() +
+                                        ' ' +
+                                        'ريال',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.lineThrough,
                                     ),
-                                    SizedBox(
-                                      width: 5,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: KprimaryColor,
                                     ),
-                                    Container(
-                                      height: 30,
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
                                       decoration: BoxDecoration(
-                                        color: KprimaryColor,
-                                      ),
-                                      child: Container(
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: 10),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Text(
-                                          'خصم ${discountRate(productsDetaile.data.product.priceBeforeDiscount, productsDetaile.data.product.price)} %',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Text(
+                                        'خصم ${discountRate(productsDetaile.data.product.priceBeforeDiscount, productsDetaile.data.product.price)} %',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                        );
-                      }
-                    ),
+                                  ),
+                                ],
+                              ),
+                      );
+                    }),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

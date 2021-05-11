@@ -9,9 +9,10 @@ import 'package:zoe/app/component/CustomCheckBox.dart';
 import 'package:zoe/app/component/CustomTextFormFiled.dart';
 
 class SignupView extends GetView<AuthiocationController> {
+  var _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    
     return Scaffold(
       body: SingleChildScrollView(
         child: SingleChildScrollView(
@@ -95,6 +96,7 @@ class SignupView extends GetView<AuthiocationController> {
                         //title: ,
                         // buttonController: controller.buttonController,
                         onPressed: () async {
+                          FocusScope.of(context).unfocus();
                           if (_formKey.currentState.validate()) {
                             //FocusScope.of(context).unfocus();
                             controller.createUser();
@@ -110,6 +112,7 @@ class SignupView extends GetView<AuthiocationController> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
+                             FocusScope.of(context).unfocus();
                             Get.toNamed(Routes.SigninView);
                           },
                           child: RichText(

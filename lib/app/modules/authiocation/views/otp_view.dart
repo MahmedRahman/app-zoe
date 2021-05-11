@@ -101,6 +101,7 @@ class OtpView extends GetView {
                   width: Get.width * .9,
                   child: RaisedButton(
                     onPressed: () {
+                       FocusScope.of(context).unfocus();
                       controller.setSmsCode();
                       // Get.toNamed(Routes.HOME);
                     },
