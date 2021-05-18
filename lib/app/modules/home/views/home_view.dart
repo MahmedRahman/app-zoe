@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:zoe/app/api/model/home_model.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/modules/home/controllers/home_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/component/CustomImageCached.dart';
 import 'package:zoe/app/component/CustomIndicator.dart';
+
 
 class HomePage extends StatelessWidget {
   // HomeController controller = Get.put(HomeController());
@@ -423,3 +426,4 @@ class ProductItem extends StatelessWidget {
   }
 }
 }
+

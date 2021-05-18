@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:zoe/app/api/response_model.dart';
@@ -7,21 +8,20 @@ import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/helper/AppUtils.dart';
 import 'package:zoe/app/data/helper/showSnackBar.dart';
 import 'package:zoe/app/modules/cart/model/CartItem.dart';
+import 'package:zoe/app/modules/cart/views/cart_address_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
 class CartController extends GetxService {
-
   List<CartItem> listCartItem = List<CartItem>.empty(growable: true).obs;
-
   var listCartItemFutter = Future.value().obs;
-
   RoundedLoadingButtonController buttonController;
-
   var shappingPrice = 30.obs;
   var totalPrice = 0.obs;
   int addressid = 1;
   var shopCount = 0.obs;
+  TextEditingController PromoCode = new TextEditingController();
+  var discount = 0.obs;
 
   void onInit() {
     updaetCartItem();
@@ -56,7 +56,7 @@ class CartController extends GetxService {
 
   clearCart() {
     listCartItem.clear();
-    shopCount.value=0;
+    shopCount.value = 0;
   }
 
   carClearItem(int index) {
@@ -85,7 +85,7 @@ class CartController extends GetxService {
       price = price + localCartItem.totalprice;
     }
 
-    price = price + shappingPrice.value;
+    price = (price + shappingPrice.value) - discount.value;
     return price;
   }
 
@@ -136,10 +136,15 @@ class CartController extends GetxService {
       qtyList: productQty,
       productsList: productList,
       sizes: productSize,
+      discount_code: PromoCode.text,
     );
+
+    PromoCode.clear();
+    discount.value = 0;
 
     if (responsModel.success) {
       Response response = responsModel.data;
+
       if (response.body['success']) {
         showSnackBar(
           title: appName,
@@ -158,9 +163,9 @@ class CartController extends GetxService {
               buttonController.stop();
             });
       }
+    } else {
+      buttonController.stop();
     }
-
-    buttonController.stop();
   }
 
   void cartComplete() {
@@ -168,6 +173,28 @@ class CartController extends GetxService {
       Kselectindex.value = 4;
     } else {
       Get.toNamed(Routes.CartCheckOutView);
+    }
+  }
+
+  void cartAddress() {
+    if (Get.find<UserAuth>().getUserToken() == null) {
+      Kselectindex.value = 4;
+    } else {
+      Get.to(AddressView());
+    }
+  }
+
+  void getPromoCodeChecker() async {
+    ResponsModel responsModel =
+        await WebServices().getPromoCodeChecker(PromoCode.text);
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      if (response.body['success']) {
+        print(response.body['data']['discount']);
+        discount.value = response.body['data']['discount'];
+      } else {
+        Get.snackbar(appName, 'خطا فى استخدام كود الخصم');
+      }
     }
   }
 }

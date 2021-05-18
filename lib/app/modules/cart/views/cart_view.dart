@@ -147,9 +147,10 @@ class CartView extends StatelessWidget {
                             onPrimary: Colors.white, // foreground
                           ),
                           onPressed: () {
-                            controller.cartComplete();
+                            controller.cartAddress();
+                            Kaddress.value='';
                           },
-                          child: Text('أنهاء الطلب'),
+                          child: Text('متابعة'),
                         ),
                       ),  SizedBox(
                         height: 15,

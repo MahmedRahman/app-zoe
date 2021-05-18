@@ -98,6 +98,7 @@ class WebServices extends APIManger {
     @required int addressid,
     @required String colors,
     @required String sizes,
+    String discount_code
   }) async {
     ResponsModel response = await repPost(
       'checkout',
@@ -107,7 +108,8 @@ class WebServices extends APIManger {
         'pay_method': '1',
         'address': addressid,
         'colors': colors,
-        'sizes': sizes
+        'sizes': sizes,
+        GetUtils.isNullOrBlank(discount_code) ? '' : 'discount_code' : discount_code,
       },
     );
     return response;
@@ -163,5 +165,10 @@ class WebServices extends APIManger {
     return response;
   }
 
-  
+  Future<ResponsModel> getPromoCodeChecker(String discount_code) async {
+    ResponsModel response = await repPost('promo_code', {
+      'discount_code': discount_code,
+    },showLoading: true);
+    return response;
+  }
 }
