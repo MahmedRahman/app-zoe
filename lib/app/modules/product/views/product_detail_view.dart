@@ -114,7 +114,7 @@ class ProductDetailView extends StatelessWidget {
                             right: 20,
                             child: InkWell(
                               onTap: () {
-                                print('object');
+                             
 
                                 Get.offAndToNamed(Routes.PRODUCT_LIST, arguments: [
                                   productsDetaile.data.brand.id.toString(),
@@ -178,6 +178,7 @@ class ProductDetailView extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Share.share(
+                                          
                                           '${KwebSite}/ar/Product/${productsDetaile.data.product.id.toString()}',
                                         );
                                       },

@@ -14,42 +14,43 @@ class AccountAdressAddController extends GetxController {
   int cityid = -1;
 
   TextEditingController address = new TextEditingController();
-   RoundedLoadingButtonController buttonController =
-      new RoundedLoadingButtonController();
+
+  TextEditingController land_mark = new TextEditingController();
+  TextEditingController district = new TextEditingController();
+  TextEditingController building = new TextEditingController();
+  TextEditingController house_number = new TextEditingController();
+
+
 
   addAccountAdress() async {
-    if (cityid == -1) {
-      showSnackBar(
-          title: appName,
-          message: 'برجاء اختيار المدينة',
-          snackbarStatus: () {
-            buttonController.reset();
-          });
-    } else {
-      ResponsModel responsModel =
-          await WebServices().addAccountAdress(address.text, cityid);
+    ResponsModel responsModel = await WebServices().addAccountAdress(
+        address.text,
+        cityid,
+        land_mark.text,
+        district.text,
+        building.text,
+        house_number.text);
 
-      if (responsModel.success) {
-        Response response = responsModel.data;
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      if (response.body['success']) {
         showSnackBar(
-            title: appName,
-            message: response.body['message'],
-            snackbarStatus: () {
-              buttonController.reset();
-              cityid = -1;
-              address.text = "";
-
-              Get.find<AccountAdressListController>().getAccountAdress();
-            
-            
-              Get.back();
-            });
+          title: appName,
+          message: response.body['message'],
+          snackbarStatus: () {
+           
+            cityid = -1;
+            address.text = "";
+            Get.find<AccountAdressListController>().getAccountAdress();
+            Get.back();
+          },
+        );
+      } else {
+        
+        print(response.body['errors']);
       }
     }
   }
 
- void bntrest() {
-    buttonController.reset();
-  }
 
 }

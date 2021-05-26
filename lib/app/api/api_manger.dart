@@ -10,7 +10,7 @@ import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-String baes_url = 'https://dev.matrixclouds.com/zoe/public/api/';
+String baes_url = 'https://zoe.com.sa/api/';
 String api_key = 'zoe_api_key';
 String Language = 'ar';
 
@@ -41,17 +41,20 @@ class APIManger extends GetConnect {
       EasyLoading.show(status: 'جارى التحميل ...');
     }
 
-    print("Api Request " + baes_url + url);
+    print("Api Request Post " + baes_url + url);
 
     login();
 
     Response response = await post(GetUtils.isURL(url) ? url : '$baes_url$url', body, headers: header);
 
+
+print("Api Request Post ${baes_url}${url} ${response.statusCode} " );
+
     try {
       switch (response.statusCode) {
         case 200:
           if (showLoading) {
-            EasyLoading.showSuccess('تم');
+            EasyLoading.dismiss();
           }
 
           return ResponsModel(
@@ -100,7 +103,7 @@ class APIManger extends GetConnect {
       EasyLoading.show(status: 'جارى التحميل');
     }
 
-    print("Api Request " + baes_url + url);
+    print("Api Request Get " + baes_url + url);
 
     login();
     
@@ -121,7 +124,7 @@ class APIManger extends GetConnect {
       switch (response.statusCode) {
         case 200:
           if (showLoading) {
-            EasyLoading.showSuccess('تم');
+            EasyLoading.dismiss();
           }
           return ResponsModel(
             code: response.statusCode,

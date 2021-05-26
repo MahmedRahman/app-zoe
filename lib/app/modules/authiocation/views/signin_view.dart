@@ -98,10 +98,11 @@ class SigninView extends GetView<AuthiocationController> {
                         CustomButton(
                           title: 'Login'.tr,
                           buttonController: controller.buttonController,
+                          
                           onPressed: () {
                             FocusScope.of(context).unfocus();
                             if (_formKey.currentState.validate()) {
-                              controller.Signin();
+                              controller.signin();
                             }
                           },
                         ),

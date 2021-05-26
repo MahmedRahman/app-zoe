@@ -23,53 +23,13 @@ class AuthiocationController extends GetxController {
       new RoundedLoadingButtonController();
 
   @override
-  void onInit() {
-
-  }
+  void onInit() {}
 
   restbnt() {
     buttonController.stop();
   }
 
-  createUser() async {
-     setSmsCode();
-    var data = await Get.to(OtpView());
-   
-    if (data == true) {
-      ResponsModel responsModel = await WebServices().createUser(
-        name: fullName.text,
-        mobile: phone.text,
-        email: email.text,
-        password: password.text,
-        code:codeSmsConfirem.text
-      );
-
-      if (responsModel.success) {
-        Response response = responsModel.data;
-        if (response.body['success']) {
-          final userModel = userModelFromJson(response.bodyString);
-
-          showSnackBar(
-            message: response.body['message'],
-            title: appName,
-            snackbarStatus: () {
-              Get.toNamed(Routes.SigninView);
-            },
-          );
-        } else {
-          showSnackBar(
-            message: response.body['errors'],
-            title: appName,
-            snackbarStatus: () {},
-          );
-        }
-      }
-    } else {
-      Get.snackbar(appName, 'برجاء كتابة كود الارسال');
-    }
-  }
-
-  Signin() async {
+  signin() async {
     ResponsModel responsModel = await WebServices().signin(
       mobile: phone.text,
       password: password.text,
@@ -97,7 +57,48 @@ class AuthiocationController extends GetxController {
     }
   }
 
-  setSmsCode() async {
+  createUser() async {
+    var data;
+    if (await setSmsCode()) {
+      data = await Get.to(OtpView());
+    } else {
+      data = false;
+    }
+
+    if (data == true) {
+      ResponsModel responsModel = await WebServices().createUser(
+          name: fullName.text,
+          mobile: phone.text,
+          email: email.text,
+          password: password.text,
+          code: codeSmsConfirem.text);
+
+      if (responsModel.success) {
+        Response response = responsModel.data;
+        if (response.body['success']) {
+          final userModel = userModelFromJson(response.bodyString);
+
+          showSnackBar(
+            message: response.body['message'],
+            title: appName,
+            snackbarStatus: () {
+              Get.toNamed(Routes.SigninView);
+            },
+          );
+        } else {
+          showSnackBar(
+            message: response.body['errors'],
+            title: appName,
+            snackbarStatus: () {},
+          );
+        }
+      }
+    } else {
+      //Get.snackbar(appName, 'برجاء كتابة كود الارسال');
+    }
+  }
+
+  Future<bool> setSmsCode() async {
     ResponsModel responsModel = await WebServices().setSmsCode(phone.text);
 
     if (responsModel.success) {
@@ -107,8 +108,10 @@ class AuthiocationController extends GetxController {
       if (response.body['success']) {
         codeSms = response.body['message'];
         Get.snackbar('Sms', response.body['message']);
+        return true;
       } else {
         Get.snackbar('Sms', response.body['errors']);
+        return false;
       }
     }
   }

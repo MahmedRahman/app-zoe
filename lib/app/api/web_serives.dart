@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/api/api_manger.dart';
 import 'package:zoe/app/api/response_model.dart';
+import 'package:zoe/app/data/helper/AppConstant.dart';
 
 class WebServices extends APIManger {
   Future<ResponsModel> getProfile() async {
@@ -29,9 +30,28 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<ResponsModel> addAccountAdress(String address, int city) async {
-    ResponsModel response =
-        await repPost('user_address', {'address': address, 'city': city});
+  Future<ResponsModel> addAccountAdress(
+    String address,
+    int city,
+    String land_mark,
+    String district,
+    String building,
+    String house_number,
+  
+  ) async {
+    ResponsModel response = await repPost('user_address', {
+      'address': address,
+      'city': city,
+      'land_mark': land_mark,
+      'district': district,
+      'building': building,
+      'house_number': house_number,
+       'lat': Klatitude,
+        'lang': Klongitude,
+    },showLoading: true);
+
+    print(response);
+
     return response;
   }
 
@@ -92,14 +112,13 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<ResponsModel> checkout({
-    @required String productsList,
-    @required String qtyList,
-    @required int addressid,
-    @required String colors,
-    @required String sizes,
-    String discount_code
-  }) async {
+  Future<ResponsModel> checkout(
+      {@required String productsList,
+      @required String qtyList,
+      @required int addressid,
+      @required String colors,
+      @required String sizes,
+      String discount_code}) async {
     ResponsModel response = await repPost(
       'checkout',
       {
@@ -109,7 +128,8 @@ class WebServices extends APIManger {
         'address': addressid,
         'colors': colors,
         'sizes': sizes,
-        GetUtils.isNullOrBlank(discount_code) ? '' : 'discount_code' : discount_code,
+        GetUtils.isNullOrBlank(discount_code) ? '' : 'discount_code':
+            discount_code,
       },
     );
     return response;
@@ -166,9 +186,12 @@ class WebServices extends APIManger {
   }
 
   Future<ResponsModel> getPromoCodeChecker(String discount_code) async {
-    ResponsModel response = await repPost('promo_code', {
-      'discount_code': discount_code,
-    },showLoading: true);
+    ResponsModel response = await repPost(
+        'promo_code',
+        {
+          'discount_code': discount_code,
+        },
+        showLoading: true);
     return response;
   }
 }

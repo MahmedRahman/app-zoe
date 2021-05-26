@@ -29,12 +29,14 @@ class CustomTextFormFiled extends StatelessWidget {
             controller: inputController,
             keyboardType: keyboardType,
             validator: onValidator,
+            obscureText:keyboardType==TextInputType.visiblePassword ? true : false  ,
             decoration: InputDecoration(
               errorStyle: TextStyle(fontSize: 14),
               labelText: inputLabel,
               labelStyle: TextStyle(color: Colors.grey),
               isDense: true,
               filled: true,
+              
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               fillColor: Colors.white,
               hintText: inputHit,
