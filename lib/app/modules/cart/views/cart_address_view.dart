@@ -99,8 +99,6 @@ class AddressView extends GetView<CartController> {
                   (index) {
                     Datum Address = AddressList.elementAt(index);
 
-               
-
                     return Obx(
                       () {
                         return RadioListTile(
@@ -116,7 +114,9 @@ class AddressView extends GetView<CartController> {
                             Kaddress.value =
                                 "${Address.address.toString()} ${Address.city.toString()} ${Address.district.toString()} ${Address.building.toString()} ${Address.houseNumber} ${Address.landMark} ";
 
-    
+                            Kaddress.value = Kaddress.value
+                                .toString()
+                                .replaceAll('null', '');
                           },
                         );
                       },

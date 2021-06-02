@@ -82,7 +82,7 @@ class MapScreen extends StatelessWidget {
           children: [
             Expanded(
               child: GoogleMap(
-                mapType: MapType.hybrid,
+                mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
                   target: LatLng(Klatitude, Klongitude),
                   zoom: 14.4746,

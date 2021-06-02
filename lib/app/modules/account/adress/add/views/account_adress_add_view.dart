@@ -114,9 +114,7 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                         hintText: 'المعالم الرئيسية',
                         border: OutlineInputBorder(),
                       ),
-                      validator: (value) {
-                        return AppValidation.checkEmpty(value);
-                      },
+                   
                     ),
                     SizedBox(
                       height: 10,
