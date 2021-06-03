@@ -46,7 +46,7 @@ class ProductController extends GetxController {
         await WebServices().getProductDetailes(productId);
     if (responsModel.success) {
       Response response = responsModel.data;
-
+      productQty.value = 1;
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
 
@@ -81,8 +81,7 @@ class ProductController extends GetxController {
       ),
     );
 
-    // bntrest();
-
+    //bntrest();
     //icon: LottieBuilder.asset('assets/productnotfound.json'));
 
     Get.find<CartController>().addToCart(

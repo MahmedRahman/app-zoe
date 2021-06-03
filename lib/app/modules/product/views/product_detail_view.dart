@@ -24,7 +24,7 @@ class ProductDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.getProductDetailes(Get.arguments[0].toString());
     var fav = true.obs;
-
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -72,21 +72,23 @@ class ProductDetailView extends StatelessWidget {
 
                 return ListView(
                   children: [
-                    Obx(() {
-                      return ListTile(
-                        title: Text(productsDetaile.data.brand.name),
-                        subtitle: Text(
-                          productsDetaile.data.product.colors.length == 0
-                              ? '${productsDetaile.data.product.name} ${controller.productColorSelect.value.toString().replaceAll(RegExp(r'0'), '')}'
-                              : '${productsDetaile.data.product.name} - ${productsDetaile.data.product.colors.elementAt(controller.productColorSelect.value).title}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: KprimaryColor),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      );
-                    }),
+                    Obx(
+                      () {
+                        return ListTile(
+                          title: Text(productsDetaile.data.brand.name),
+                          subtitle: Text(
+                            productsDetaile.data.product.colors.length == 0
+                                ? '${productsDetaile.data.product.name} ${controller.productColorSelect.value.toString().replaceAll(RegExp(r'0'), '')}'
+                                : '${productsDetaile.data.product.name} - ${productsDetaile.data.product.colors.elementAt(controller.productColorSelect.value).title}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: KprimaryColor),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        );
+                      },
+                    ),
                     SizedBox(
                       width: Get.width,
                       height: Get.height * .4,
@@ -114,12 +116,11 @@ class ProductDetailView extends StatelessWidget {
                             right: 20,
                             child: InkWell(
                               onTap: () {
-                             
-
-                                Get.offAndToNamed(Routes.PRODUCT_LIST, arguments: [
-                                  productsDetaile.data.brand.id.toString(),
-                                  ProductCategory.Brand,
-                                ]);
+                                Get.offAndToNamed(Routes.PRODUCT_LIST,
+                                    arguments: [
+                                      productsDetaile.data.brand.id.toString(),
+                                      ProductCategory.Brand,
+                                    ]);
                               },
                               child: Column(
                                 children: [
@@ -178,7 +179,6 @@ class ProductDetailView extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Share.share(
-                                          
                                           '${KwebSite}/ar/Product/${productsDetaile.data.product.id.toString()}',
                                         );
                                       },
@@ -359,65 +359,68 @@ class ProductDetailView extends StatelessWidget {
     return (productsDetaile.data.product.colors.length != 0)
         ? Container(
             width: Get.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: List.generate(
-                productsDetaile.data.product.colors.length,
-                (index) {
-                  return Obx(() {
-                    return InkWell(
-                      onTap: () {
-                        var colorImageIndex = productsDetaile.data.productImages
-                            .indexOf(productsDetaile.data.product.colors
-                                .elementAt(index)
-                                .image);
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: List.generate(
+                  productsDetaile.data.product.colors.length,
+                  (index) {
+                    return Obx(() {
+                      return InkWell(
+                        onTap: () {
+                          var colorImageIndex = productsDetaile.data.productImages
+                              .indexOf(productsDetaile.data.product.colors
+                                  .elementAt(index)
+                                  .image);
 
-                        _pageController.animateToPage(
-                          colorImageIndex,
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.easeIn,
-                        );
+                          _pageController.animateToPage(
+                            colorImageIndex,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeIn,
+                          );
 
-                        controller.productColorSelect.value = index;
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 32,
-                          height: 32,
-                          child: SizedBox.shrink(),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Color(HexColorFormString().getColorFromHex(
-                                productsDetaile.data.product.colors
-                                    .elementAt(index)
-                                    .color)),
-                            border: controller.productColorSelect.value == index
-                                ? Border.all(color: Colors.black, width: 2)
-                                : Border.all(
-                                    color: Color(HexColorFormString()
-                                        .getColorFromHex(productsDetaile
-                                            .data.product.colors
-                                            .elementAt(index)
-                                            .color)),
-                                    width: 2),
-                            boxShadow: [
-                              controller.productColorSelect.value == index
-                                  ? BoxShadow(
-                                      color: Colors.grey.withOpacity(0.8),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  : BoxShadow()
-                            ],
+                          controller.productColorSelect.value = index;
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            child: SizedBox.shrink(),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Color(HexColorFormString().getColorFromHex(
+                                  productsDetaile.data.product.colors
+                                      .elementAt(index)
+                                      .color)),
+                              border: controller.productColorSelect.value == index
+                                  ? Border.all(color: Colors.black, width: 2)
+                                  : Border.all(
+                                      color: Color(HexColorFormString()
+                                          .getColorFromHex(productsDetaile
+                                              .data.product.colors
+                                              .elementAt(index)
+                                              .color)),
+                                      width: 2),
+                              boxShadow: [
+                                controller.productColorSelect.value == index
+                                    ? BoxShadow(
+                                        color: Colors.grey.withOpacity(0.8),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      )
+                                    : BoxShadow()
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  });
-                },
+                      );
+                    });
+                  },
+                ),
               ),
             ),
           )
