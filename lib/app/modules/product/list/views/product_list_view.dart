@@ -90,12 +90,13 @@ class ProductListView extends GetView<ProductListController> {
                     shrinkWrap: true,
                     childAspectRatio: .6,
                     crossAxisCount: 2,
-                    children: List.generate(
-                      products.length,
-                      (index) => ProductItem(
+                    children: List.generate(products.length, (index) {
+                      print('xxxxxxxxxxxx');
+                      products.elementAt(index);
+                      return ProductItem(
                         product: products.elementAt(index),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                 );
               } else if (snapshot.hasError) {

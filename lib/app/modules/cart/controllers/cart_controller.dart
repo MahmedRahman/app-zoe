@@ -17,6 +17,7 @@ class CartController extends GetxService {
   var listCartItemFutter = Future.value().obs;
   RoundedLoadingButtonController buttonController;
   var shappingPrice = 30.obs;
+  var deliveryDays = ''.obs;
   var totalPrice = 0.obs;
   int addressid = 1;
   var shopCount = 0.obs;
@@ -60,14 +61,23 @@ class CartController extends GetxService {
   }
 
   carClearItem(int index) {
-    listCartItem.removeAt(index);
-
-    showSnackBar(
-        title: appName,
-        message: 'تم حذف العنصر',
-        snackbarStatus: () {
-          updaetCartItem();
-        });
+    if (listCartItem.elementAt(index).qty == 1) {
+      listCartItem.removeAt(index);
+      showSnackBar(
+          title: appName,
+          message: 'تم حذف العنصر',
+          snackbarStatus: () {
+            updaetCartItem();
+          });
+    } else {
+      listCartItem.elementAt(index).qty = listCartItem.elementAt(index).qty - 1;
+      showSnackBar(
+          title: appName,
+          message: 'تم حذف عنصر واحد',
+          snackbarStatus: () {
+            updaetCartItem();
+          });
+    }
   }
 
   int cartCount() {
@@ -84,8 +94,14 @@ class CartController extends GetxService {
     for (CartItem localCartItem in listCartItem) {
       price = price + localCartItem.totalprice;
     }
-
-    price = (price + shappingPrice.value) - discount.value;
+    print('xxxxxxxxxx');
+    print(price);
+    print('xxxxxxxxxx');
+    var taxprice = price / tax;
+    print(taxprice);
+    print(tax);
+    print('xxxxxxxxxx');
+    price = price + taxprice + 20 + shappingPrice.value - discount.value;
     return price;
   }
 

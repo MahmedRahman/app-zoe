@@ -86,6 +86,7 @@ class SignupView extends GetView<AuthiocationController> {
                     ),
                     SizedBox(
                       width: Get.width * .9,
+                      height: 60,
                       child: ElevatedButton(
                         child: Text(
                           'new registration'.tr,

@@ -12,6 +12,9 @@ class AccountAdressAddController extends GetxController {
 
   var cityName;
   int cityid = -1;
+  int provinance = -1;
+
+  var cityMap = [].obs;
 
   TextEditingController address = new TextEditingController();
 
@@ -20,16 +23,13 @@ class AccountAdressAddController extends GetxController {
   TextEditingController building = new TextEditingController();
   TextEditingController house_number = new TextEditingController();
 
-
-
   addAccountAdress() async {
     ResponsModel responsModel = await WebServices().addAccountAdress(
-        address.text,
-        cityid,
-        land_mark.text,
-        district.text,
-        building.text,
-        house_number.text);
+      Kaddress.value,
+      cityid,
+      provinance,
+      landMark: land_mark.text,
+    );
 
     if (responsModel.success) {
       Response response = responsModel.data;
@@ -38,7 +38,6 @@ class AccountAdressAddController extends GetxController {
           title: appName,
           message: response.body['message'],
           snackbarStatus: () {
-           
             cityid = -1;
             address.text = "";
             Get.find<AccountAdressListController>().getAccountAdress();
@@ -46,11 +45,12 @@ class AccountAdressAddController extends GetxController {
           },
         );
       } else {
-        
-        print(response.body['errors']);
+        showSnackBar(
+          title: appName,
+          message: 'برجا اختيار منطقة صحيحة',
+          snackbarStatus: () {},
+        );
       }
     }
   }
-
-
 }

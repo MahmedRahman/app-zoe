@@ -23,7 +23,7 @@ class OtpView extends GetView {
                 iconSize: 32,
                 icon: Icon(Icons.close),
                 onPressed: () {
-                  Get.back(result: false);
+                  Get.back();
                 },
               ),
             ),
@@ -82,11 +82,12 @@ class OtpView extends GetView {
                 ),
                 SizedBox(
                   width: Get.width * .9,
+                  height: 60,
                   child: RaisedButton(
                     onPressed: () {
                         FocusScope.of(context).unfocus();
                       controller.confiemSms();
-                      // Get.toNamed(Routes.HOME);
+                     
                     },
                     child: Text(
                       'تأكيد',
@@ -95,15 +96,16 @@ class OtpView extends GetView {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 SizedBox(
                   width: Get.width * .9,
+                  height: 60,
                   child: RaisedButton(
                     onPressed: () {
                        FocusScope.of(context).unfocus();
-                      controller.setSmsCode();
-                      // Get.toNamed(Routes.HOME);
+                      controller.SendSmsCode();
+                      
                     },
                     child: Text(
                       'أعادة الارسال',

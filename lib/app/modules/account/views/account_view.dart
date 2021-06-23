@@ -13,11 +13,6 @@ class AccountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
- 
-
-    //AccountController controller = Get.find<AccountController>();
-
     return Scaffold(
       body: ListView(
         children: [

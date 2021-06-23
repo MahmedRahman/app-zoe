@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:zoe/app/data/helper/AppEnumeration.dart';
 
 import 'helper/AppConstant.dart';
 
@@ -66,15 +66,6 @@ class MapScreen extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                _showSearchDialog();
-              },
-            ),
-          ),
         ],
       ),
       body: Obx(() {
@@ -103,13 +94,24 @@ class MapScreen extends StatelessWidget {
                 markers: Set.from(allMarker),
               ),
             ),
+            SizedBox(
+              height: 60,
+              width: Get.width,
+              child: ElevatedButton(
+                onPressed: () {
+                  setLocation();
+                },
+                child: Text('تحديد العنوان'),
+              ),
+            )
           ],
         );
       }),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
         child: Icon(
           Icons.location_pin,
-          color: Colors.white,
+          color: KprimaryColor,
         ),
         onPressed: () {
           setLocation();

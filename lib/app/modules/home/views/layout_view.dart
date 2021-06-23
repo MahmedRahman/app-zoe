@@ -132,31 +132,38 @@ class LayoutView extends StatelessWidget {
   }
 
   Widget loginuser() {
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'برجاء تسجيل الدخول',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'برجاء تسجيل الدخول',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: KprimaryColor, // background
-            onPrimary: Colors.white, // foreground
+          SizedBox(
+            height: 30,
           ),
-          onPressed: () {
-            Get.toNamed(Routes.SigninView);
-          },
-          child: Text('تسجيل دخول'),
-        )
-      ],
-    ));
+          SizedBox(
+            height: 60,
+            width: Get.width,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: KprimaryColor, // background
+                onPrimary: Colors.white, // foreground
+              ),
+              onPressed: () {
+                Get.toNamed(Routes.SigninView);
+              },
+              child: Text('تسجيل دخول'),
+            ),
+          )
+        ],
+      )),
+    );
   }
 }

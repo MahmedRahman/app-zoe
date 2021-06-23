@@ -360,13 +360,13 @@ class ProductItem extends StatelessWidget {
                         product.price.toString() + ' ' + 'ريال',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            fontSize: 12,
                             color: KprimaryColor),
                       ),
                       SizedBox(
                         width: 5,
                       ),
-                       DiscountRate(product.priceBeforeDiscount , product.price) == 0
+                       DiscountRate(product.priceBeforeDiscount , product.price) == '0'
                           ? SizedBox.shrink()
                           : Text(
                               product.priceBeforeDiscount.toString() +
@@ -383,7 +383,7 @@ class ProductItem extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                         DiscountRate(product.priceBeforeDiscount , product.price)  == 0
+                         DiscountRate(product.priceBeforeDiscount , product.price)  == '0'
                       ? SizedBox(
                           height: 30,
                         )
@@ -416,13 +416,17 @@ class ProductItem extends StatelessWidget {
   }
 
 
-  int DiscountRate(double priceBeforeDiscount,double price){
+  String DiscountRate(double priceBeforeDiscount,double price){
   if(priceBeforeDiscount >= price) {
     double discountPrice = priceBeforeDiscount - price ;
-    int discountRate = ((discountPrice/ priceBeforeDiscount)*100).round() ;
-   return discountRate;
+    //return discountPrice.toStringAsFixed(2);
+    
+    //(( priceBeforeDiscount/discountPrice)*100).round().toString() 
+  
+   //return '$priceBeforeDiscount $discountPrice'; //
+   return ((discountPrice/priceBeforeDiscount)*100).round().toString() ;
   } else{
-    return 0;
+    return '0';
   }
 }
 }

@@ -8,11 +8,11 @@ import 'package:zoe/app/data/helper/AppTheme.dart';
 import 'package:zoe/app/component/CustomTextFormFiled.dart';
 
 class SigninView extends GetView<AuthiocationController> {
-     var _formKey = GlobalKey<FormState>();
+  var _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
- 
+
     return Scaffold(
       body: Container(
         height: screenSize.height,
@@ -79,8 +79,8 @@ class SigninView extends GetView<AuthiocationController> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                                  FocusScope.of(context).unfocus();
-                              Get.toNamed(Routes.ForgotpasswordView);
+                              FocusScope.of(context).unfocus();
+                              //Get.toNamed(Routes.ForgotpasswordView);
                             },
                             child: Text(
                               'forget your password?'.tr,
@@ -95,17 +95,18 @@ class SigninView extends GetView<AuthiocationController> {
                         SizedBox(
                           height: 10,
                         ),
-                        CustomButton(
-                          title: 'Login'.tr,
-                          buttonController: controller.buttonController,
-                          
-                          onPressed: () {
-                            FocusScope.of(context).unfocus();
-                            if (_formKey.currentState.validate()) {
-                              controller.signin();
-                            }
-                          },
-                        ),
+                        SizedBox(
+                          height: 60,
+                          width: Get.width,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                if (_formKey.currentState.validate()) {
+                                  controller.signin();
+                                }
+                              },
+                              child: Text('Login'.tr),),
+                        )
                       ],
                     ),
                   ),
@@ -117,7 +118,7 @@ class SigninView extends GetView<AuthiocationController> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                                FocusScope.of(context).unfocus();
+                          FocusScope.of(context).unfocus();
                           Get.toNamed(Routes.SignupView);
                         },
                         child: RichText(
@@ -156,16 +157,14 @@ class SigninView extends GetView<AuthiocationController> {
                   ),
                   InkWell(
                     onTap: () {
-                          FocusScope.of(context).unfocus();
+                      FocusScope.of(context).unfocus();
                       Get.toNamed(Routes.LayoutView);
                     },
                     child: Text(
                       'دخول كزائر',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline
-                      ),
-                      
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline),
                     ),
                   )
                 ],

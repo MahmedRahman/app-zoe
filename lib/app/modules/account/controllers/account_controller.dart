@@ -36,7 +36,7 @@ class AccountController extends GetxController {
   void onInit() {
     getProfile();
     
-    getCity();
+    //getCity();
   }
 
   getProfile() async {
@@ -69,6 +69,8 @@ class AccountController extends GetxController {
     }
   }
 
+
+/*
   getCity() async {
     ResponsModel responsemodel = await WebServices().getCity();
     if (responsemodel.success) {
@@ -76,6 +78,8 @@ class AccountController extends GetxController {
       Cityllist = response.body['data'];
     }
   }
+*/
+
 
 
   void bntrest() {

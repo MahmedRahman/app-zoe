@@ -54,6 +54,34 @@ class CartCheckOutView extends GetView<CartController> {
               ),
               Card(
                 child: ListTile(
+                  title: Text('نسبة الضريبة'),
+                  trailing: Text('${tax.toString()} %'),
+                  leading: Icon(
+                    Icons.payment,
+                    size: 32,
+                    color: Color(0xff4C1711),
+                  ),
+                ),
+              ),
+             /* Card(
+                child: ListTile(
+                  title: Text('مبلغ الضريبة'),
+                  trailing: Text(
+                    '${((controller.cartTotalProductPrice() / tax)).roundToDouble().toStringAsFixed(0)} ريال',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.payment,
+                    size: 32,
+                    color: Color(0xff4C1711),
+                  ),
+                ),
+              ),*/
+              Card(
+                child: ListTile(
                   title: Text('الشحن'),
                   trailing: Text(
                       controller.shappingPrice.value.toString() + ' ' + 'ريال'),
@@ -81,9 +109,9 @@ class CartCheckOutView extends GetView<CartController> {
                       ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.money),
+                    
                       title: Text(
-                        'الإجمالى',
+                        'الاجمالى شامل الضريبة',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
@@ -93,6 +121,7 @@ class CartCheckOutView extends GetView<CartController> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
+                 
                   ],
                 );
               }),
@@ -108,7 +137,24 @@ class CartCheckOutView extends GetView<CartController> {
               ),
               ListTile(
                 title: Text('الدفع عند الاستلام'),
-                leading: Image.asset('assets/payment/cash.png'),
+                leading: Icon(Icons.fact_check),
+                trailing: Text(
+                  '20 ريال',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'وقت التوصيل',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(controller.deliveryDays.value),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

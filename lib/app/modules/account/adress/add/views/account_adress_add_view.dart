@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:zoe/app/component/CustemDropdown.dart';
 import 'package:zoe/app/component/CustomAppBar.dart';
 import 'package:zoe/app/component/CustomButton.dart';
+import 'package:zoe/app/data/helper/AppConstant.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/data/helper/AppValidation.dart';
 import 'package:zoe/app/data/map.dart';
@@ -41,7 +43,7 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'المدينة',
+                      'المنطقة',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
@@ -49,25 +51,30 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                     ),
                     DropdownButtonFormField(
                       onChanged: (index) {
-                        controller.cityid = index;
+                        Map provinances = index;
+
+                        controller.cityMap.value = provinances['cities'];
+
+                        controller.provinance = provinances["id"];
                       },
                       validator: (v) {
                         if (v == null) {
-                          return 'برجاء اختيار المدينة المناسبة';
+                          return 'برجاء المنطقة المناسبة';
                         } else {
                           return null;
                         }
                       },
                       decoration: InputDecoration(
                         isDense: true,
-                        hintText: 'اختيار من المدينة',
+                        hintText: 'اختيار من المنطقة',
                         border: OutlineInputBorder(),
                       ),
                       items: List.generate(
-                        Cityllist.length,
+                        provinances.length,
                         (index) => DropdownMenuItem(
-                          value: Cityllist.elementAt(index)['id'],
-                          child: Text('${Cityllist.elementAt(index)['title']}'),
+                          value: provinances.elementAt(index),
+                          child:
+                              Text('${provinances.elementAt(index)['title']}'),
                         ),
                       ),
                     ),
@@ -75,34 +82,49 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                       height: 10,
                     ),
                     Text(
-                      'ألعنوان',
+                      'المدينة',
                       style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 5,
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      controller: controller.address,
-                      minLines: 1,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'التفاصيل',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        return AppValidation.checkEmpty(value);
-                      },
-                    ),
+                    Obx(() {
+                      return DropdownButtonFormField(
+                        onChanged: (index) {
+                          controller.cityid = index;
+                        },
+                        validator: (v) {
+                          if (v == null) {
+                            return 'برجاء المدينة المناسبة';
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          isDense: true,
+                          hintText: 'اختيار من المدينة',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: List.generate(
+                          controller.cityMap.value.length,
+                          (index) => DropdownMenuItem(
+                            //print(controller.cityMap['cities'][0]['id']);
+                            value: controller.cityMap.elementAt(index)['id'],
+                            child: Text(
+                              '${controller.cityMap.elementAt(index)['title']}',
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
                       'المعالم الرئيسية',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(
                       height: 10,
@@ -114,70 +136,21 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                         hintText: 'المعالم الرئيسية',
                         border: OutlineInputBorder(),
                       ),
-                   
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'ألمنطقة',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: controller.district,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'ألمنطقة',
-                        border: OutlineInputBorder(),
+                      'العنوان',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                      validator: (value) {
-                        return AppValidation.checkEmpty(value);
-                      },
                     ),
-                    Text(
-                      'بناء',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: controller.building,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'بناء',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        return AppValidation.checkEmpty(value);
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'رقم الدار',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: controller.house_number,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'رقم الدار',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        return AppValidation.checkEmpty(value);
-                      },
-                    ),
+                    Obx(() {
+                      return Text(
+                        Kaddress.value,
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -188,7 +161,9 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                 width: double.infinity,
                 height: 60,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 25,
+                  ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xff4C1711), // background
@@ -197,7 +172,9 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                     onPressed: () {
                       Get.to(MapScreen());
                     },
-                    child: Text('الموقع على الخريطة'),
+                    child: Text(
+                      'الموقع على الخريطة',
+                    ),
                   ),
                 ),
               ),
@@ -205,7 +182,9 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 25,
+                ),
                 child: Container(
                   width: double.infinity,
                   height: 60,

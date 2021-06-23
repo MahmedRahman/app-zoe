@@ -36,50 +36,46 @@ class Datum {
     Datum({
         this.id,
         this.address,
+        this.provinance,
         this.city,
+        this.deliveryDays,
         this.shippingFees,
         this.lat,
         this.lang,
-        this.district,
-        this.building,
-        this.houseNumber,
         this.landMark,
     });
 
     int id;
     String address;
+    String provinance;
     String city;
+    String deliveryDays;
     int shippingFees;
     String lat;
     String lang;
-    String district;
-    String building;
-    String houseNumber;
     String landMark;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         address: json["address"],
+        provinance: json["provinance"],
         city: json["city"],
+        deliveryDays: json["delivery_days"],
         shippingFees: json["shipping_fees"],
         lat: json["lat"] == null ? null : json["lat"],
         lang: json["lang"] == null ? null : json["lang"],
-        district: json["district"] == null ? null : json["district"],
-        building: json["building"] == null ? null : json["building"],
-        houseNumber: json["house_number"] == null ? null : json["house_number"],
         landMark: json["land_mark"] == null ? null : json["land_mark"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "address": address,
+        "provinance": provinance,
         "city": city,
+        "delivery_days": deliveryDays,
         "shipping_fees": shippingFees,
         "lat": lat == null ? null : lat,
         "lang": lang == null ? null : lang,
-        "district": district == null ? null : district,
-        "building": building == null ? null : building,
-        "house_number": houseNumber == null ? null : houseNumber,
         "land_mark": landMark == null ? null : landMark,
     };
 }

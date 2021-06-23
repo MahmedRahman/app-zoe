@@ -31,26 +31,19 @@ class WebServices extends APIManger {
   }
 
   Future<ResponsModel> addAccountAdress(
-    String address,
-    int city,
-    String land_mark,
-    String district,
-    String building,
-    String house_number,
-  
-  ) async {
-    ResponsModel response = await repPost('user_address', {
-      'address': address,
-      'city': city,
-      'land_mark': land_mark,
-      'district': district,
-      'building': building,
-      'house_number': house_number,
-       'lat': Klatitude,
-        'lang': Klongitude,
-    },showLoading: true);
-
-    print(response);
+      String address, int city, int provinance,
+      {String landMark = ''}) async {
+    ResponsModel response = await repPost(
+        'user_address',
+        {
+          'address': address,
+          'city': city,
+          'provinance': provinance,
+          'lat': Klatitude,
+          'lang': Klongitude,
+          'land_mark': landMark
+        },
+        showLoading: true);
 
     return response;
   }
@@ -66,8 +59,23 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<ResponsModel> getCity() async {
-    ResponsModel response = await repGet('cities');
+  // Future<ResponsModel> getCity() async {
+  //  ResponsModel response = await repGet('cities');
+  //  return response;
+  // }
+
+  Future<ResponsModel> getProvinances() async {
+    ResponsModel response = await repGet('provinances');
+    return response;
+  }
+
+  Future<ResponsModel> getOrderExtraInfo() async {
+    ResponsModel response = await repGet('order_extra_info');
+    return response;
+  }
+
+  Future<ResponsModel> getPayMethods() async {
+    ResponsModel response = await repGet('pay_methods');
     return response;
   }
 
@@ -76,7 +84,6 @@ class WebServices extends APIManger {
     @required String email,
     @required String mobile,
     @required String password,
-    @required String code,
   }) async {
     ResponsModel response = await repPost(
         'register',
@@ -85,7 +92,6 @@ class WebServices extends APIManger {
           "email": email,
           "mobile": mobile,
           "password": password,
-          "code": code,
         },
         showLoading: true);
 
@@ -119,19 +125,30 @@ class WebServices extends APIManger {
       @required String colors,
       @required String sizes,
       String discount_code}) async {
+
+
     ResponsModel response = await repPost(
       'checkout',
       {
         'products': productsList,
         'qty': qtyList,
-        'pay_method': '1',
+        'pay_method': '3',
         'address': addressid,
         'colors': colors,
         'sizes': sizes,
         GetUtils.isNullOrBlank(discount_code) ? '' : 'discount_code':
             discount_code,
       },
+
+
     );
+    print('xxxxxxxxx');
+
+print(response.data.body['errors']);
+
+
+    print('xxxxxxxxxxx');
+
     return response;
   }
 
@@ -178,10 +195,20 @@ class WebServices extends APIManger {
     return response;
   }
 
+  Future<ResponsModel> vertificationCode(String mobile, String code) async {
+    ResponsModel response = await repPost(
+      'vertification_code',
+      {'mobile': mobile, 'code': code},
+      showLoading: true,
+    );
+    return response;
+  }
+
   Future<ResponsModel> getVersion() async {
     ResponsModel response = await repPost(
-        'https://dev.matrixclouds.com/zoe/public/api/api_version',
-        {'version': '1.0.0'});
+      'https://dev.matrixclouds.com/zoe/public/api/api_version',
+      {'version': '1.0.0'},
+    );
     return response;
   }
 

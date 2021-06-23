@@ -21,10 +21,10 @@ class ProductController extends GetxController {
 
   var productSizeSelect = 0.obs;
   var productColorSelect = 0.obs;
-
   var productQty = 1.obs;
-
   var ProductPrice = 0.0.obs;
+
+    var price_before_discount = 0.0.obs;
 
   addproductQty() {
     productQty.value = productQty.value + 1;
@@ -50,12 +50,17 @@ class ProductController extends GetxController {
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
 
+
+          price_before_discount.value = productsDetaileModel.data.product.priceBeforeDiscount;
+
       if (productsDetaileModel.data.product.colors.length == 0) {
         productsDetaileModelFuture.value = Future.value(productsDetaileModel);
       } else {
-        productsDetaileModel.data.product.colors.forEach((element) {
-          productsDetaileModel.data.productImages.add(element.image);
-        });
+        productsDetaileModel.data.product.colors.forEach(
+          (element) {
+            productsDetaileModel.data.productImages.add(element.image);
+          },
+        );
 
         productsDetaileModelFuture.value = Future.value(productsDetaileModel);
       }

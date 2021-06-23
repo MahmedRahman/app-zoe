@@ -17,67 +17,61 @@ class AddressView extends GetView<CartController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustemAppBar(),
-        body: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextButton(
-                    onPressed: () {
-                      Get.toNamed(Routes.ACCOUNT_ADRESS_ADD);
-                    },
-                    child: Text(
-                      ' عنون جديد',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        decoration: TextDecoration.underline,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.ACCOUNT_ADRESS_ADD);
+                      },
+                      child: Text(
+                        ' أضافة عنوان جديد',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          decoration: TextDecoration.underline,
+                        ),
+                      )),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                addressWidget(),
+                SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xff4C1711), // background
+                        onPrimary: Colors.white, // foreground
                       ),
-                    )),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              addressWidget(),
-              SizedBox(
-                height: 15,
-              ),
-              Obx(
-                () {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      Kaddress.toString(),
-                      textAlign: TextAlign.center,
+                      onPressed: () {
+                        if (addressid.value == 0) {
+                          Get.snackbar(appName, 'برجاء اختيار عنوان التواصيل');
+                        } else {
+                          controller.cartComplete();
+                        }
+                      },
+                      child: Text('متابعة'),
                     ),
-                  );
-                },
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xff4C1711), // background
-                      onPrimary: Colors.white, // foreground
-                    ),
-                    onPressed: () {
-                      if (addressid.value == 0) {
-                        Get.snackbar(appName, 'برجاء اختيار عنوان التواصيل');
-                      } else {
-                        controller.cartComplete();
-                      }
-                    },
-                    child: Text('متابعة'),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
           ),
         ));
   }
@@ -111,12 +105,11 @@ class AddressView extends GetView<CartController> {
                             controller.addressid = value;
                             controller.shappingPrice.value =
                                 Address.shippingFees;
-                            Kaddress.value =
-                                "${Address.address.toString()} ${Address.city.toString()} ${Address.district.toString()} ${Address.building.toString()} ${Address.houseNumber} ${Address.landMark} ";
 
-                            Kaddress.value = Kaddress.value
-                                .toString()
-                                .replaceAll('null', '');
+                            controller.deliveryDays.value =
+                                Address.deliveryDays;
+
+                            Kaddress.value = "${Address.address.toString()} ";
                           },
                         );
                       },

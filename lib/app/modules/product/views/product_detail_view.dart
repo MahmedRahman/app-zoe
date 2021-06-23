@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zoe/app/component/CustomAppBar.dart';
-import 'package:zoe/app/component/CustomButton.dart';
+
 import 'package:zoe/app/api/model/products_detaile_model.dart' as productsModel;
 import 'package:flutter_html/flutter_html.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/modules/cart/controllers/cart_controller.dart';
-import 'package:zoe/app/modules/home/controllers/home_controller.dart';
-import 'package:zoe/app/modules/home/views/home_view.dart';
+
 import 'package:zoe/app/modules/product/controllers/product_controller.dart';
 import 'package:zoe/app/component/CustomImageCached.dart';
 import 'package:zoe/app/component/CustomIndicator.dart';
@@ -24,7 +22,7 @@ class ProductDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.getProductDetailes(Get.arguments[0].toString());
     var fav = true.obs;
-    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -210,8 +208,7 @@ class ProductDetailView extends StatelessWidget {
                             : Row(
                                 children: [
                                   Text(
-                                    productsDetaile
-                                            .data.product.priceBeforeDiscount
+                                    controller.price_before_discount.value
                                             .toString() +
                                         ' ' +
                                         'ريال',
@@ -223,7 +220,7 @@ class ProductDetailView extends StatelessWidget {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Container(
+                                  /*Container(
                                     height: 30,
                                     decoration: BoxDecoration(
                                       color: KprimaryColor,
@@ -242,8 +239,9 @@ class ProductDetailView extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                   
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                       );
@@ -369,7 +367,8 @@ class ProductDetailView extends StatelessWidget {
                     return Obx(() {
                       return InkWell(
                         onTap: () {
-                          var colorImageIndex = productsDetaile.data.productImages
+                          var colorImageIndex = productsDetaile
+                              .data.productImages
                               .indexOf(productsDetaile.data.product.colors
                                   .elementAt(index)
                                   .image);
@@ -394,7 +393,8 @@ class ProductDetailView extends StatelessWidget {
                                   productsDetaile.data.product.colors
                                       .elementAt(index)
                                       .color)),
-                              border: controller.productColorSelect.value == index
+                              border: controller.productColorSelect.value ==
+                                      index
                                   ? Border.all(color: Colors.black, width: 2)
                                   : Border.all(
                                       color: Color(HexColorFormString()
@@ -445,6 +445,12 @@ class ProductDetailView extends StatelessWidget {
                           .data.product.sizes
                           .elementAt(index)
                           .price
+                          .toDouble();
+
+                      controller.price_before_discount.value = productsDetaile
+                          .data.product.sizes
+                          .elementAt(index)
+                          .priceBeforeDiscount
                           .toDouble();
                     },
                     child: Padding(
@@ -639,13 +645,20 @@ class ProductDetailView extends StatelessWidget {
           );
   }
 
-  int discountRate(priceBeforeDiscount, price) {
+  String discountRate(priceBeforeDiscount, price) {
     if (priceBeforeDiscount >= price) {
+      //double discountPrice = priceBeforeDiscount - price;
+      //int discountRate = discountPrice.toInt() ;
+
       double discountPrice = priceBeforeDiscount - price;
-      int discountRate = ((discountPrice / priceBeforeDiscount) * 100).round();
-      return discountRate;
+      //return discountPrice.toStringAsFixed(2);
+
+      //(( priceBeforeDiscount/discountPrice)*100).round().toString()
+
+      //return '$priceBeforeDiscount $discountPrice'; //
+      return ((discountPrice / priceBeforeDiscount) * 100).round().toString();
     } else {
-      return 0;
+      return '0';
     }
   }
 }

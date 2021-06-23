@@ -11,14 +11,11 @@ import 'app/routes/app_pages.dart';
 import 'app/data/helper/AppTranslation.dart';
 
 
-
 void main() async {
   await GetStorage.init();
   await initServices();
-  // EasyLoading.init();
   runApp(App());
 }
-
 
 class App extends StatelessWidget {
   @override
