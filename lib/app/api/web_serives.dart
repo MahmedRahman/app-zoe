@@ -30,15 +30,13 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<ResponsModel> addAccountAdress(
-      String address, int city, int provinance,
+  Future<ResponsModel> addAccountAdress(String address, int city,
       {String landMark = ''}) async {
     ResponsModel response = await repPost(
         'user_address',
         {
           'address': address,
           'city': city,
-          'provinance': provinance,
           'lat': Klatitude,
           'lang': Klongitude,
           'land_mark': landMark
@@ -59,11 +57,6 @@ class WebServices extends APIManger {
     return response;
   }
 
-  // Future<ResponsModel> getCity() async {
-  //  ResponsModel response = await repGet('cities');
-  //  return response;
-  // }
-
   Future<ResponsModel> getProvinances() async {
     ResponsModel response = await repGet('provinances');
     return response;
@@ -71,6 +64,49 @@ class WebServices extends APIManger {
 
   Future<ResponsModel> getOrderExtraInfo() async {
     ResponsModel response = await repGet('order_extra_info');
+    return response;
+  }
+
+  Future<ResponsModel> sendEmailForgetPassword(String email) async {
+    ResponsModel response = await repPost(
+        'forgot_password',
+        {
+          "mobile": email,
+        },
+        showLoading: true);
+    return response;
+  }
+
+  Future<ResponsModel> setResetPassword(String code) async {
+    ResponsModel response = await repPost(
+        'reset_password',
+        {
+          "code": code,
+        },
+        showLoading: true);
+    return response;
+  }
+
+  Future<ResponsModel> updateProfile(String name, String email) async {
+    ResponsModel response = await repPost(
+        'update_profile',
+        {
+          "name": name,
+          "email": email,
+        },
+        showLoading: true);
+    return response;
+  }
+
+
+   Future<ResponsModel> changePassword(String password, String passwordConfirmation) async {
+    ResponsModel response = await repPost(
+        'change_password',
+        {
+          "password": password,
+          "password_confirmation": passwordConfirmation,
+        },
+        showLoading: true);
     return response;
   }
 
@@ -124,28 +160,24 @@ class WebServices extends APIManger {
       @required int addressid,
       @required String colors,
       @required String sizes,
+      @required int payMethod,
       String discount_code}) async {
-
-
     ResponsModel response = await repPost(
-      'checkout',
-      {
-        'products': productsList,
-        'qty': qtyList,
-        'pay_method': '3',
-        'address': addressid,
-        'colors': colors,
-        'sizes': sizes,
-        GetUtils.isNullOrBlank(discount_code) ? '' : 'discount_code':
-            discount_code,
-      },
-
-
-    );
+        'checkout',
+        {
+          'products': productsList,
+          'qty': qtyList,
+          'pay_method': payMethod,
+          'address': addressid,
+          'colors': colors,
+          'sizes': sizes,
+          GetUtils.isNullOrBlank(discount_code) ? '' : 'discount_code':
+              discount_code,
+        },
+        showLoading: true);
     print('xxxxxxxxx');
 
-print(response.data.body['errors']);
-
+    print(response.data.bodyString);
 
     print('xxxxxxxxxxx');
 
@@ -154,6 +186,11 @@ print(response.data.body['errors']);
 
   Future<ResponsModel> getProductByCategory(String categoryId) async {
     ResponsModel response = await repGet('category/$categoryId');
+    return response;
+  }
+
+  Future<ResponsModel> getProductOffers() async {
+    ResponsModel response = await repGet('offers');
     return response;
   }
 

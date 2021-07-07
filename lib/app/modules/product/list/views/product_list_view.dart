@@ -20,6 +20,10 @@ class ProductListView extends GetView<ProductListController> {
     if (data[1] == ProductCategory.Category) {
       controller.getProductByCategory(data[0]);
     }
+
+     if (data[1] == ProductCategory.Offers) {
+      controller.getProductOffers();
+    }
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:zoe/app/api/model/category_products_model.dart';
 import 'package:zoe/app/api/model/department_products_model.dart';
+import 'package:zoe/app/api/model/offers_model.dart';
 import 'package:zoe/app/api/model/products_brand_model.dart';
 import 'package:zoe/app/api/response_model.dart';
 import 'package:zoe/app/api/web_serives.dart';
@@ -54,6 +55,20 @@ class ProductListController extends GetxController {
     }
   }
 
+   Future getProductOffers() async {
+    ResponsModel responsModel =
+        await WebServices().getProductOffers();
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      final departmentProductsModel =
+          offersListModelFromJson(response.bodyString);
+           serectProductsList =departmentProductsModel.data;
+      productsList.value = Future.value(departmentProductsModel.data);
+    }
+  }
+
+
+ 
 
 
     getSerechProduct(String productName) async {

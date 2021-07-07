@@ -11,6 +11,7 @@ import 'package:zoe/app/modules/cart/model/CartItem.dart';
 import 'package:zoe/app/modules/cart/views/cart_address_view.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CartController extends GetxService {
   List<CartItem> listCartItem = List<CartItem>.empty(growable: true).obs;
@@ -23,7 +24,8 @@ class CartController extends GetxService {
   var shopCount = 0.obs;
   TextEditingController PromoCode = new TextEditingController();
   var discount = 0.obs;
-
+  var delivaryfeed = 0.obs;
+  int paymethods = 0;
   void onInit() {
     updaetCartItem();
     buttonController = new RoundedLoadingButtonController();
@@ -94,14 +96,23 @@ class CartController extends GetxService {
     for (CartItem localCartItem in listCartItem) {
       price = price + localCartItem.totalprice;
     }
-    print('xxxxxxxxxx');
+
     print(price);
     print('xxxxxxxxxx');
-    var taxprice = price / tax;
-    print(taxprice);
-    print(tax);
+    var price_before_tax = 100 * (price / (100 + tax));
     print('xxxxxxxxxx');
-    price = price + taxprice + 20 + shappingPrice.value - discount.value;
+    print(price_before_tax);
+    print('xxxxxxxxxx');
+    var taxprice = price - price_before_tax;
+    print(taxprice);
+
+    print('xxxxxxxxxx');
+
+    var price_before_discount = price_before_tax + taxprice;
+    price = price_before_discount -
+        ((price_before_discount * discount.value) / 100) +
+        delivaryfeed.value +
+        shappingPrice.value;
     return price;
   }
 
@@ -114,73 +125,93 @@ class CartController extends GetxService {
   }
 
   checkout() async {
-    String productList = listCartItem
-        .fold(
-            '',
-            (previousValue, element) => previousValue =
-                previousValue + element.productid.toString() + ',')
-        .toString()
-        .replaceAll(RegExp(r'.$'), "");
-
-    String productQty = listCartItem
-        .fold(
-            '',
-            (previousValue, element) =>
-                previousValue = previousValue + element.qty.toString() + ',')
-        .toString()
-        .replaceAll(RegExp(r'.$'), "");
-
-    String productSize = listCartItem
-        .fold(
-            '',
-            (previousValue, element) => previousValue =
-                previousValue + element.productSize.toString() + ',')
-        .toString()
-        .replaceAll(RegExp(r'.$'), "");
-
-    String productColor = listCartItem
-        .fold(
-            '',
-            (previousValue, element) => previousValue =
-                previousValue + element.productColor.toString() + ',')
-        .toString()
-        .replaceAll(RegExp(r'.$'), "");
-
-    ResponsModel responsModel = await WebServices().checkout(
-      addressid: addressid,
-      colors: productColor,
-      qtyList: productQty,
-      productsList: productList,
-      sizes: productSize,
-      discount_code: PromoCode.text,
-    );
-
-    PromoCode.clear();
-    discount.value = 0;
-
-    if (responsModel.success) {
-      Response response = responsModel.data;
-
-      if (response.body['success']) {
-        showSnackBar(
-          title: appName,
-          message: response.body['message'],
-          snackbarStatus: () {
-            buttonController.stop();
-            clearCart();
-            Get.toNamed(Routes.LayoutView);
-          },
-        );
-      } else {
-        showSnackBar(
-            title: appName,
-            message: response.body,
-            snackbarStatus: () {
-              buttonController.stop();
-            });
-      }
+    if (paymethods == 0) {
+      showSnackBar(
+        title: appName,
+        message: 'برجاء اختيار طريقة الدفع',
+        snackbarStatus: () {
+      
+        },
+      );
     } else {
-      buttonController.stop();
+      String productList = listCartItem
+          .fold(
+              '',
+              (previousValue, element) => previousValue =
+                  previousValue + element.productid.toString() + ',')
+          .toString()
+          .replaceAll(RegExp(r'.$'), "");
+
+      String productQty = listCartItem
+          .fold(
+              '',
+              (previousValue, element) =>
+                  previousValue = previousValue + element.qty.toString() + ',')
+          .toString()
+          .replaceAll(RegExp(r'.$'), "");
+
+      String productSize = listCartItem
+          .fold(
+              '',
+              (previousValue, element) => previousValue =
+                  previousValue + element.productSize.toString() + ',')
+          .toString()
+          .replaceAll(RegExp(r'.$'), "");
+
+      String productColor = listCartItem
+          .fold(
+              '',
+              (previousValue, element) => previousValue =
+                  previousValue + element.productColor.toString() + ',')
+          .toString()
+          .replaceAll(RegExp(r'.$'), "");
+
+      ResponsModel responsModel = await WebServices().checkout(
+        addressid: addressid,
+        colors: productColor,
+        qtyList: productQty,
+        productsList: productList,
+        sizes: productSize,
+        payMethod: paymethods,
+        discount_code: PromoCode.text,
+      );
+
+      PromoCode.clear();
+      discount.value = 0;
+
+      if (responsModel.success) {
+        Response response = responsModel.data;
+
+        if (response.body['success']) {
+          if (GetUtils.isNull(response.body['iframe_url'])) {
+            showSnackBar(
+              title: appName,
+              message: response.body['message'],
+              snackbarStatus: () {
+                clearCart();
+                Get.offAllNamed(Routes.LayoutView);
+              },
+            );
+          } else {
+
+           launch(response.body['iframe_url']).then((value) {
+               showSnackBar(
+              title: appName,
+              message: 'تم ارسال الطلب',
+              snackbarStatus: () {
+                clearCart();
+                Get.offAllNamed(Routes.LayoutView);
+              },
+            );
+           });
+
+      
+          }
+        } else {
+          showSnackBar(
+              title: appName, message: response.body, snackbarStatus: () {});
+        }
+      }
     }
   }
 
@@ -209,6 +240,7 @@ class CartController extends GetxService {
         print(response.body['data']['discount']);
         discount.value = response.body['data']['discount'];
       } else {
+        discount.value = 0;
         Get.snackbar(appName, 'خطا فى استخدام كود الخصم');
       }
     }

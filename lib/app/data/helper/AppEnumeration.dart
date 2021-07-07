@@ -14,5 +14,6 @@ const KwebSite ="https://zoe.com.sa/";
 enum ProductCategory{
 Brand,
 Department,
-Category
+Category,
+Offers
 }

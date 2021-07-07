@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoe/app/component/CustomButton.dart';
+import 'package:zoe/app/modules/authiocation/controllers/authiocation_controller.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/helper/AppTheme.dart';
 import 'package:zoe/app/component/CustomTextFormFiled.dart';
 
 class ForgotpasswordView extends GetView {
+  AuthiocationController controller = Get.put(AuthiocationController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +42,24 @@ class ForgotpasswordView extends GetView {
                   ),
                 ),
                 CustomTextFormFiled(
-                  inputHit: 'phone number'.tr,
-                  inputLabel: 'phone number'.tr,
+                  inputController: controller.phone,
+                  inputHit: 'رقم الهاتف',
+                  inputLabel: 'رقم الهاتف',
+                  keyboardType: TextInputType.number ,
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                CustomButton(
-                  title: 'send'.tr,
-                  onPressed: () {
-                    Get.toNamed(Routes.OtpView);
-                  },
+                SizedBox(
+                  width: Get.width * .9,
+                  height: 60,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+
+                        controller.sendemailForgetPassword();
+                      },
+                      child: Text('send'.tr)),
                 ),
                 SizedBox(
                   height: 10,

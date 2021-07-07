@@ -141,16 +141,19 @@ class CartView extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xff4C1711), // background
-                            onPrimary: Colors.white, // foreground
+                        child: SizedBox(
+                          height: 60,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff4C1711), // background
+                              onPrimary: Colors.white, // foreground
+                            ),
+                            onPressed: () {
+                              controller.cartAddress();
+                              Kaddress.value='';
+                            },
+                            child: Text('متابعة'),
                           ),
-                          onPressed: () {
-                            controller.cartAddress();
-                            Kaddress.value='';
-                          },
-                          child: Text('متابعة'),
                         ),
                       ),  SizedBox(
                         height: 15,

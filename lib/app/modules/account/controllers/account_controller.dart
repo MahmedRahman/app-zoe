@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -21,11 +22,17 @@ class AccountController extends GetxController {
   //TODO: Implement AccountController
   var cityName;
   int cityid = -1;
-  var userProfile= Future.value().obs;
+  var userProfile = Future.value().obs;
 
   TextEditingController address = new TextEditingController();
-  
 
+  TextEditingController name = new TextEditingController();
+
+  TextEditingController email = new TextEditingController();
+
+  TextEditingController password = new TextEditingController();
+
+  TextEditingController passwordConfirmation = new TextEditingController();
 
   final wishListModelFuture = Future.value().obs;
 
@@ -35,7 +42,7 @@ class AccountController extends GetxController {
   @override
   void onInit() {
     getProfile();
-    
+
     //getCity();
   }
 
@@ -45,6 +52,8 @@ class AccountController extends GetxController {
     if (responsemodel.success) {
       Response response = responsemodel.data;
       final userProfileModel = userProfileModelFromJson(response.bodyString);
+      name.text = userProfileModel.data.name.toString();
+      email.text = userProfileModel.data.email.toString();
       userProfile.value = Future.value(userProfileModel);
     }
   }
@@ -69,21 +78,35 @@ class AccountController extends GetxController {
     }
   }
 
-
-/*
-  getCity() async {
-    ResponsModel responsemodel = await WebServices().getCity();
+  updateProfile() async {
+    ResponsModel responsemodel =
+        await WebServices().updateProfile(name.text, email.text);
     if (responsemodel.success) {
       Response response = responsemodel.data;
-      Cityllist = response.body['data'];
+      if (response.body['success']) {
+        Get.snackbar(appName, response.body['message']);
+        getProfile();
+      } else {
+        Get.snackbar(appName, 'خطاء فى التحديث');
+      }
     }
   }
-*/
 
-
+  changePassword() async {
+    ResponsModel responsemodel =
+        await WebServices().changePassword(password.text, passwordConfirmation.text);
+    if (responsemodel.success) {
+      Response response = responsemodel.data;
+      if (response.body['success']) {
+        Get.snackbar(appName, response.body['message']);
+        getProfile();
+      } else {
+        Get.snackbar(appName, 'خطاء فى التحديث');
+      }
+    }
+  }
 
   void bntrest() {
     buttonController.reset();
   }
-
 }

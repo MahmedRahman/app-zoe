@@ -5,6 +5,7 @@ import 'package:zoe/app/component/CustomIndicator.dart';
 import 'package:zoe/app/data/helper/AppEnumeration.dart';
 import 'package:zoe/app/modules/account/controllers/account_controller.dart';
 import 'package:zoe/app/modules/account/model/user_provile.dart';
+import 'package:zoe/app/modules/account/views/acount_profile.dart';
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/auth.dart';
 
@@ -31,15 +32,40 @@ class AccountView extends StatelessWidget {
                             width: Get.width,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'بيانات شخصية',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                                ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'بيانات شخصية',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: KprimaryColor,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(
+                                        AcountProfile(
+                                          //Name: userProfileModel.data.name,
+                                         // Email: userProfileModel.data.email,
+                                        ),
+                                        fullscreenDialog: true,
+                                      );
+                                    },
+                                    child: Text(
+                                      'تعديل',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                          ),Divider(),
+                          ),
+                          Divider(),
                           ListTile(
                             leading: Text(
                               'الاسم',
@@ -79,20 +105,18 @@ class AccountView extends StatelessWidget {
                   return Center(child: CustomIndicator());
                 });
           }),
-
-                    SizedBox(
-                            width: Get.width,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
-                              child: Text(
-                                'إعدادات عامة',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                          ),Divider(),
+          SizedBox(
+            width: Get.width,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                'إعدادات عامة',
+                textAlign: TextAlign.right,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Divider(),
           Card(
             child: ListTile(
               title: Text('طلباتى'),
@@ -132,7 +156,7 @@ class AccountView extends StatelessWidget {
               },
             ),
           ),
-        /*  Card(
+          /*  Card(
             child: ListTile(
               title: Text('مركز المساعدة'),
               leading: SvgPicture.asset(
@@ -165,7 +189,7 @@ class AccountView extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Get.find<UserAuth>().setUserToken(null);
-                 Kselectindex.value = 2;
+                Kselectindex.value = 2;
                 //setUserToken(null);
                 //Get.offAndToNamed(Routes.SigninView);
               },

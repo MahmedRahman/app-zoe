@@ -41,6 +41,7 @@ class Data {
         this.bannerOne,
         this.bannerTwo,
         this.bannerThree,
+        this.offers,
     });
 
     List<BrandElement> departments;
@@ -49,7 +50,8 @@ class Data {
     List<Ad> ads;
     String bannerOne;
     String bannerTwo;
-    dynamic bannerThree;
+    String bannerThree;
+    List<Offer> offers;
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         departments: List<BrandElement>.from(json["departments"].map((x) => BrandElement.fromJson(x))),
@@ -59,6 +61,7 @@ class Data {
         bannerOne: json["banner_one"],
         bannerTwo: json["banner_two"],
         bannerThree: json["banner_three"],
+        offers: List<Offer>.from(json["offers"].map((x) => Offer.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -69,6 +72,7 @@ class Data {
         "banner_one": bannerOne,
         "banner_two": bannerTwo,
         "banner_three": bannerThree,
+        "offers": List<dynamic>.from(offers.map((x) => x.toJson())),
     };
 }
 
@@ -102,13 +106,13 @@ class BrandElement {
     factory BrandElement.fromJson(Map<String, dynamic> json) => BrandElement(
         id: json["id"],
         name: json["name"],
-        image: json["image"] == null ? null : json["image"],
+        image: json["image"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "image": image == null ? null : image,
+        "image": image,
     };
 }
 
@@ -121,12 +125,12 @@ class FeaturedCategory {
 
     int id;
     String name;
-    List<Product> products;
+    List<Offer> products;
 
     factory FeaturedCategory.fromJson(Map<String, dynamic> json) => FeaturedCategory(
         id: json["id"],
         name: json["name"],
-        products: List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
+        products: List<Offer>.from(json["products"].map((x) => Offer.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -136,8 +140,8 @@ class FeaturedCategory {
     };
 }
 
-class Product {
-    Product({
+class Offer {
+    Offer({
         this.id,
         this.name,
         this.image,
@@ -155,29 +159,29 @@ class Product {
     int id;
     String name;
     String image;
-    double priceBeforeDiscount;
-    double price;
+    var priceBeforeDiscount;
+    var price;
     bool wishlist;
     int discountRate;
     int rating;
     int commentsCount;
-    DefaultSize defaultSize;
-    DefaultColor defaultColor;
-    ProductBrand brand;
+    Default defaultSize;
+    Default defaultColor;
+    OfferBrand brand;
 
-    factory Product.fromJson(Map<String, dynamic> json) => Product(
+    factory Offer.fromJson(Map<String, dynamic> json) => Offer(
         id: json["id"],
         name: json["name"],
         image: json["image"],
-        priceBeforeDiscount: json["price_before_discount"].toDouble(),
-        price: json["price"].toDouble(),
+        priceBeforeDiscount: json["price_before_discount"],
+        price: json["price"],
         wishlist: json["wishlist"],
         discountRate: json["discount_rate"],
         rating: json["rating"],
         commentsCount: json["comments_count"],
-        defaultSize: DefaultSize.fromJson(json["default_size"]),
-        defaultColor: DefaultColor.fromJson(json["default_color"]),
-        brand: ProductBrand.fromJson(json["brand"]),
+        defaultSize: Default.fromJson(json["default_size"]),
+        defaultColor: Default.fromJson(json["default_color"]),
+        brand: OfferBrand.fromJson(json["brand"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -196,8 +200,8 @@ class Product {
     };
 }
 
-class ProductBrand {
-    ProductBrand({
+class OfferBrand {
+    OfferBrand({
         this.id,
         this.name,
     });
@@ -205,7 +209,7 @@ class ProductBrand {
     int id;
     String name;
 
-    factory ProductBrand.fromJson(Map<String, dynamic> json) => ProductBrand(
+    factory OfferBrand.fromJson(Map<String, dynamic> json) => OfferBrand(
         id: json["id"],
         name: json["name"],
     );
@@ -216,46 +220,22 @@ class ProductBrand {
     };
 }
 
-class DefaultColor {
-    DefaultColor({
-        this.id,
-        this.color,
-        this.size,
-    });
-
-    int id;
-    String color;
-    dynamic size;
-
-    factory DefaultColor.fromJson(Map<String, dynamic> json) => DefaultColor(
-        id: json["id"],
-        color: json["color"] == null ? null : json["color"],
-        size: json["size"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "color": color == null ? null : color,
-        "size": size,
-    };
-}
-
-class DefaultSize {
-    DefaultSize({
+class Default {
+    Default({
         this.id,
         this.size,
     });
 
     int id;
-    dynamic size;
+    String size;
 
-    factory DefaultSize.fromJson(Map<String, dynamic> json) => DefaultSize(
+    factory Default.fromJson(Map<String, dynamic> json) => Default(
         id: json["id"],
-        size: json["size"],
+        size: json["size"] == null ? null : json["size"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "size": size,
+        "size": size == null ? null : size,
     };
 }

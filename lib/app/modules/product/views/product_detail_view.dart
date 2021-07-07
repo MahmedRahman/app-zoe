@@ -203,7 +203,7 @@ class ProductDetailView extends StatelessWidget {
                                     productsDetaile
                                         .data.product.priceBeforeDiscount,
                                     productsDetaile.data.product.price) ==
-                                0
+                                '0'
                             ? SizedBox.shrink()
                             : Row(
                                 children: [
@@ -314,14 +314,17 @@ class ProductDetailView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 10),
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          controller.productAddToCart(productsDetaile);
-                        },
-                        icon: Icon(Icons.shopping_cart_rounded),
-                        label: Text(
-                          'أضف للسلة',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                      child: SizedBox(
+                        height: 60,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            controller.productAddToCart(productsDetaile);
+                          },
+                          icon: Icon(Icons.shopping_cart_rounded),
+                          label: Text(
+                            'أضف للسلة',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),

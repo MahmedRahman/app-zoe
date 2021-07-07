@@ -9,7 +9,6 @@ import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/component/CustomImageCached.dart';
 import 'package:zoe/app/component/CustomIndicator.dart';
 
-
 class HomePage extends StatelessWidget {
   // HomeController controller = Get.put(HomeController());
 
@@ -108,6 +107,60 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                      ),
+                     
+                     
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                            
+                              child: Text(
+                                'افضل العروض',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: KprimaryColor,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed(
+                                    Routes.PRODUCT_LIST,arguments: ['', ProductCategory.Offers]);
+                              },
+                              child: Text(
+                                'المزيد' ?? '',
+                                style: TextStyle(
+                                  color: Color(0xFF4C1711),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    
+                    
+                    
+                      SizedBox(
+                        height: Get.height * .4,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(
+                            homeModel.data.offers.length,
+                            (index) {
+                              Offer product =
+                                  homeModel.data.offers.elementAt(index);
+
+                              return ProductItem(
+                                product: product,
+                              );
+                            },
+                          ),
                         ),
                       ),
                       buildFeaturedCategory(homeModel.data.featuredCategories),
@@ -251,7 +304,9 @@ class HomePage extends StatelessWidget {
                       Text(
                         featuredCategories.elementAt(indexCategory).name,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                         textAlign: TextAlign.right,
                       ),
                       InkWell(
@@ -261,7 +316,7 @@ class HomePage extends StatelessWidget {
                                 .elementAt(indexCategory)
                                 .id
                                 .toString(),
-                            ProductCategory.Category
+                            ProductCategory.Department
                           ]);
                         },
                         child: Text(
@@ -283,10 +338,11 @@ class HomePage extends StatelessWidget {
                   children: List.generate(
                     featuredCategories.elementAt(indexCategory).products.length,
                     (indexproducts) {
-                      Product product = featuredCategories
+                      Offer product = featuredCategories
                           .elementAt(indexCategory)
                           .products
                           .elementAt(indexproducts);
+
                       return ProductItem(
                         product: product,
                       );
@@ -366,7 +422,9 @@ class ProductItem extends StatelessWidget {
                       SizedBox(
                         width: 5,
                       ),
-                       DiscountRate(product.priceBeforeDiscount , product.price) == '0'
+                      DiscountRate(
+                                  product.priceBeforeDiscount, product.price) ==
+                              '0'
                           ? SizedBox.shrink()
                           : Text(
                               product.priceBeforeDiscount.toString() +
@@ -383,7 +441,8 @@ class ProductItem extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                         DiscountRate(product.priceBeforeDiscount , product.price)  == '0'
+                  DiscountRate(product.priceBeforeDiscount, product.price) ==
+                          '0'
                       ? SizedBox(
                           height: 30,
                         )
@@ -397,7 +456,7 @@ class ProductItem extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
-                              'خصم  ${DiscountRate(product.priceBeforeDiscount , product.price)} %',
+                              'خصم  ${DiscountRate(product.priceBeforeDiscount, product.price)} %',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -409,25 +468,18 @@ class ProductItem extends StatelessWidget {
               ),
             ),
           ),
-   
         ],
       ),
     );
   }
 
-
-  String DiscountRate(double priceBeforeDiscount,double price){
-  if(priceBeforeDiscount >= price) {
-    double discountPrice = priceBeforeDiscount - price ;
-    //return discountPrice.toStringAsFixed(2);
-    
-    //(( priceBeforeDiscount/discountPrice)*100).round().toString() 
-  
-   //return '$priceBeforeDiscount $discountPrice'; //
-   return ((discountPrice/priceBeforeDiscount)*100).round().toString() ;
-  } else{
-    return '0';
+  String DiscountRate(var priceBeforeDiscount, var price) {
+    if (priceBeforeDiscount >= price) {
+      var discountPrice = priceBeforeDiscount - price;
+      return ((discountPrice / priceBeforeDiscount) * 100).round().toString();
+    } else {
+      return '0';
+    }
   }
-}
-}
 
+}

@@ -30,7 +30,7 @@ class EntryPointController extends GetxController {
         }
       }
     });
-
+/*
     WebServices().getProvinances().then((value) {
       if (value.success) {
         Response response = value.data;
@@ -38,7 +38,7 @@ class EntryPointController extends GetxController {
           provinances = response.body['data'];
         }
       }
-    });
+    });*/
   }
 
   @override

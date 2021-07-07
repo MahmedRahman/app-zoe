@@ -42,7 +42,7 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    /*   Text(
                       'المنطقة',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -81,6 +81,7 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                     SizedBox(
                       height: 10,
                     ),
+                  */
                     Text(
                       'المدينة',
                       style: TextStyle(fontWeight: FontWeight.bold),
@@ -88,35 +89,33 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                     SizedBox(
                       height: 10,
                     ),
-                    Obx(() {
-                      return DropdownButtonFormField(
-                        onChanged: (index) {
-                          controller.cityid = index;
-                        },
-                        validator: (v) {
-                          if (v == null) {
-                            return 'برجاء المدينة المناسبة';
-                          } else {
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                          isDense: true,
-                          hintText: 'اختيار من المدينة',
-                          border: OutlineInputBorder(),
-                        ),
-                        items: List.generate(
-                          controller.cityMap.value.length,
-                          (index) => DropdownMenuItem(
-                            //print(controller.cityMap['cities'][0]['id']);
-                            value: controller.cityMap.elementAt(index)['id'],
-                            child: Text(
-                              '${controller.cityMap.elementAt(index)['title']}',
-                            ),
+                    DropdownButtonFormField(
+                      onChanged: (index) {
+                        controller.cityid = index;
+                      },
+                      validator: (v) {
+                        if (v == null) {
+                          return 'برجاء المدينة المناسبة';
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: 'اختيار من المدينة',
+                        border: OutlineInputBorder(),
+                      ),
+                      items: List.generate(
+                        city.length,
+                        (index) => DropdownMenuItem(
+                          //print(controller.cityMap['cities'][0]['id']);
+                          value: city.elementAt(index)['id'],
+                          child: Text(
+                            '${city.elementAt(index)['title']}',
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
                     SizedBox(
                       height: 10,
                     ),

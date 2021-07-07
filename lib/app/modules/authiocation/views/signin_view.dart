@@ -80,7 +80,7 @@ class SigninView extends GetView<AuthiocationController> {
                           child: InkWell(
                             onTap: () {
                               FocusScope.of(context).unfocus();
-                              //Get.toNamed(Routes.ForgotpasswordView);
+                              Get.toNamed(Routes.ForgotpasswordView);
                             },
                             child: Text(
                               'forget your password?'.tr,

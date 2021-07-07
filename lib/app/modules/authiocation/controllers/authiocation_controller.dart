@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:zoe/app/api/response_model.dart';
@@ -70,8 +71,7 @@ class AuthiocationController extends GetxController {
         final userModel = userModelFromJson(response.bodyString);
 
         showSnackBar(
-          message:
-              '${response.body['message']} ',
+          message: '${response.body['message']} ',
           title: appName,
           snackbarStatus: () {
             Get.toNamed(Routes.SigninView);
@@ -115,6 +115,75 @@ class AuthiocationController extends GetxController {
         signin();
       } else {
         Get.snackbar('Sms', response.body['message']);
+      }
+    }
+  }
+
+  sendemailForgetPassword() async {
+
+
+    
+    ResponsModel responsModel =
+        await WebServices().sendEmailForgetPassword(phone.text);
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      if (response.body['success']) {
+        Get.snackbar('Sms', response.body['message']);
+
+        Get.defaultDialog(
+            title: 'أعادة كلمة السر',
+            content: Column(
+              children: [
+                Center(child: Text(response.body['message'])),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: codeSmsConfirem,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), hintText: 'ادخال الكود'),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: Get.width,
+                  height: 60,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                      restPassword(codeSmsConfirem.text);
+                    },
+                    child: Text('ارسال'),
+                  ),
+                )
+              ],
+            ));
+      } else {
+        Get.snackbar('Sms', response.body['errors']);
+      }
+    }
+  }
+
+  restPassword(String code) async {
+    ResponsModel responsModel = await WebServices().setResetPassword(code);
+    if (responsModel.success) {
+      Response response = responsModel.data;
+      if (response.body['success']) {
+        if (response.body['verified']) {
+          Get.find<UserAuth>().setUserToken(
+            response.body['data']['access_token'].toString(),
+          );
+
+          Kselectindex = 2.obs;
+
+          Get.offAllNamed(Routes.LayoutView);
+        } else {
+          Get.toNamed(Routes.OtpView);
+        }
+      } else {
+        Get.snackbar('Sms', response.body['errors']);
       }
     }
   }

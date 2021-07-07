@@ -21,212 +21,259 @@ class CartCheckOutView extends GetView<CartController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustemAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Container(
-          child: ListView(
-            children: [
-              Card(
-                child: ListTile(
-                  title: Text('عدد المنتجات'),
-                  trailing: Text(controller.cartCount().toString()),
-                  leading: Icon(
-                    Icons.shopping_cart,
-                    size: 32,
-                    color: Color(0xff4C1711),
-                  ),
-                ),
-              ),
-              Card(
-                child: ListTile(
-                  title: Text('السعر'),
-                  trailing: Text(
-                    controller.cartTotalProductPrice().toStringAsFixed(0) +
-                        ' ' +
-                        'ريال',
-                  ),
-                  leading: Icon(
-                    Icons.payment,
-                    size: 32,
-                    color: Color(0xff4C1711),
-                  ),
-                ),
-              ),
-              Card(
-                child: ListTile(
-                  title: Text('نسبة الضريبة'),
-                  trailing: Text('${tax.toString()} %'),
-                  leading: Icon(
-                    Icons.payment,
-                    size: 32,
-                    color: Color(0xff4C1711),
-                  ),
-                ),
-              ),
-             /* Card(
-                child: ListTile(
-                  title: Text('مبلغ الضريبة'),
-                  trailing: Text(
-                    '${((controller.cartTotalProductPrice() / tax)).roundToDouble().toStringAsFixed(0)} ريال',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold
+      body: WillPopScope(
+        onWillPop: () async {
+          controller.discount.value = 0;
+          controller.PromoCode.clear();
+          return true;
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Container(
+            child: ListView(
+              children: [
+                Card(
+                  child: ListTile(
+                    title: Text('عدد المنتجات'),
+                    trailing: Text(controller.cartCount().toString()),
+                    leading: Icon(
+                      Icons.shopping_cart,
+                      size: 32,
+                      color: Color(0xff4C1711),
                     ),
                   ),
-                  leading: Icon(
-                    Icons.payment,
-                    size: 32,
-                    color: Color(0xff4C1711),
+                ),
+                Card(
+                  child: ListTile(
+                    title: Text('السعر'),
+                    trailing: Text(
+                      '${((100 * (controller.cartTotalProductPrice() / (100 + tax)))).roundToDouble().toStringAsFixed(0)} ريال',
+                    ),
+                    leading: Icon(
+                      Icons.payment,
+                      size: 32,
+                      color: Color(0xff4C1711),
+                    ),
                   ),
                 ),
-              ),*/
-              Card(
-                child: ListTile(
-                  title: Text('الشحن'),
-                  trailing: Text(
-                      controller.shappingPrice.value.toString() + ' ' + 'ريال'),
-                  leading: Icon(
-                    Icons.car_rental,
-                    size: 32,
-                    color: Color(0xff4C1711),
+                Card(
+                  child: ListTile(
+                    title: Text('الضريبة 15%'),
+                    trailing: Text(
+                      //'${tax.toString()} %'
+                      '${(controller.cartTotalProductPrice() - (100 * (controller.cartTotalProductPrice() / (100 + tax)))).roundToDouble().toStringAsFixed(0)} ريال',
+                    ),
+                    leading: Icon(
+                      Icons.payment,
+                      size: 32,
+                      color: Color(0xff4C1711),
+                    ),
                   ),
                 ),
-              ),
-              Obx(() {
-                return Column(
-                  children: [
-                    Card(
-                      child: ListTile(
-                        title: Text('الخصم'),
-                        trailing: Text(controller.discount.value.toString() +
-                            ' ' +
-                            'ريال'),
-                        leading: Icon(
-                          Icons.local_offer,
-                          size: 32,
-                          color: Color(0xff4C1711),
+                /* Card(
+                  child: ListTile(
+                    title: Text('مبلغ الضريبة'),
+                    trailing: Text(
+                      '${((controller.cartTotalProductPrice() / tax)).roundToDouble().toStringAsFixed(0)} ريال',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    leading: Icon(
+                      Icons.payment,
+                      size: 32,
+                      color: Color(0xff4C1711),
+                    ),
+                  ),
+                ),*/
+                Card(
+                  child: ListTile(
+                    title: Text('الشحن'),
+                    trailing: Text(controller.shappingPrice.value.toString() +
+                        ' ' +
+                        'ريال'),
+                    leading: Icon(
+                      Icons.car_rental,
+                      size: 32,
+                      color: Color(0xff4C1711),
+                    ),
+                  ),
+                ),
+                Obx(() {
+                  return Card(
+                    child: ListTile(
+                      title: DropdownButtonFormField(
+                        itemHeight: 60,
+                        onChanged: (index) {
+                          print(index['id']);
+                          controller.delivaryfeed.value =
+                              index['additional_fees'];
+
+                          controller.paymethods = index['id'];
+                          //print(delivery_fees.elementAt(index)['additional_fees']);
+                        },
+                        validator: (v) {
+                          if (v == null) {
+                            return 'برجاء اختيار طريقة دفع';
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          isDense: true,
+                          hintText: 'اختيار طريقة دفع',
+                          //border: OutlineInputBorder(),
+                        ),
+                        items: List.generate(
+                          delivery_fees.length,
+                          (index) => DropdownMenuItem(
+                            value: delivery_fees.elementAt(index),
+                            child: Text(
+                              '${delivery_fees.elementAt(index)['title']}',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    ListTile(
-                    
-                      title: Text(
-                        'الاجمالى شامل الضريبة',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
                       trailing: Text(
-                        controller.cartTotalPrice().toStringAsFixed(0) +
-                            ' ' +
-                            'ريال',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                 
-                  ],
-                );
-              }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'طريقة الدفع',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-              ),
-              ListTile(
-                title: Text('الدفع عند الاستلام'),
-                leading: Icon(Icons.fact_check),
-                trailing: Text(
-                  '20 ريال',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'وقت التوصيل',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-              ),
-              ListTile(
-                title: Text(controller.deliveryDays.value),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'العنوان',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-              ),
-              Obx(
-                () {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      Kaddress.toString(),
-                      textAlign: TextAlign.center,
+                          controller.delivaryfeed.value.toString() + 'ريال'),
                     ),
                   );
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'كود الخصم',
+                }),
+                Card(
+                  child: ListTile(
+                    title: TextField(
+                      controller: controller.PromoCode,
+                      decoration: InputDecoration(hintText: 'كود الخصم'),
+                    ),
+                    trailing: ElevatedButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        controller.getPromoCodeChecker();
+                      },
+                      child: Text('تنفيذ'),
+                    ),
+                    leading: Icon(
+                      Icons.local_offer,
+                      size: 32,
+                      color: Color(0xff4C1711),
+                    ),
+                  ),
+                ),
+                Obx(() {
+                  return Column(
+                    children: [
+                      controller.discount.value == 0
+                          ? SizedBox.shrink()
+                          : Card(
+                              child: ListTile(
+                                title: Text('الخصم'),
+                                trailing: Text(
+                                    controller.discount.value.toString() +
+                                        ' ' +
+                                        '%'),
+                                leading: Icon(
+                                  Icons.local_offer,
+                                  size: 32,
+                                  color: Color(0xff4C1711),
+                                ),
+                              ),
+                            ),
+                      Card(
+                        child: ListTile(
+                          title: Text(
+                            'الاجمالى ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          trailing: Text(
+                            controller.cartTotalPrice().toStringAsFixed(0) +
+                                ' ' +
+                                'ريال',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          leading: Icon(
+                            Icons.money,
+                            size: 32,
+                            color: Color(0xff4C1711),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+                /*Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'طريقة الدفع',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text('الدفع عند الاستلام'),
+                  leading: Icon(Icons.fact_check),
+                  trailing: Text(
+                    '20 ريال',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextFormField(
-                      controller: controller.PromoCode,
-                    )),
-                    SizedBox(
-                      width: 20,
+             
+             */
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'وقت التوصيل',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          controller.getPromoCodeChecker();
-                        },
-                        child: Text('تنفيذ'))
-                  ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              CustomButton(
-                buttonController: controller.buttonController,
-                title: 'اتمام عملية الشراء',
-                onPressed: () {
-                  controller.checkout();
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-            ],
+                ListTile(
+                  title: Text(controller.deliveryDays.value),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'العنوان',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                ),
+                Obx(
+                  () {
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        Kaddress.toString(),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  height: 60,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        controller.checkout();
+                      },
+                      child: Text('اتمام عملية الشراء')),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -27,7 +27,6 @@ class AccountAdressAddController extends GetxController {
     ResponsModel responsModel = await WebServices().addAccountAdress(
       Kaddress.value,
       cityid,
-      provinance,
       landMark: land_mark.text,
     );
 

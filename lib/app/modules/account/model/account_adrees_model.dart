@@ -36,7 +36,6 @@ class Datum {
     Datum({
         this.id,
         this.address,
-        this.provinance,
         this.city,
         this.deliveryDays,
         this.shippingFees,
@@ -47,7 +46,6 @@ class Datum {
 
     int id;
     String address;
-    String provinance;
     String city;
     String deliveryDays;
     int shippingFees;
@@ -58,10 +56,9 @@ class Datum {
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         address: json["address"],
-        provinance: json["provinance"],
         city: json["city"],
-        deliveryDays: json["delivery_days"],
-        shippingFees: json["shipping_fees"],
+        deliveryDays: json["delivery_days"]  == null ? '0' : json["delivery_days"],
+        shippingFees: json["shipping_fees"]  == null ? '0' : json["shipping_fees"],
         lat: json["lat"] == null ? null : json["lat"],
         lang: json["lang"] == null ? null : json["lang"],
         landMark: json["land_mark"] == null ? null : json["land_mark"],
@@ -70,7 +67,6 @@ class Datum {
     Map<String, dynamic> toJson() => {
         "id": id,
         "address": address,
-        "provinance": provinance,
         "city": city,
         "delivery_days": deliveryDays,
         "shipping_fees": shippingFees,
