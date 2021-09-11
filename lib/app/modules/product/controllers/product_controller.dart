@@ -24,7 +24,7 @@ class ProductController extends GetxController {
   var productQty = 1.obs;
   var ProductPrice = 0.0.obs;
 
-    var price_before_discount = 0.0.obs;
+  var price_before_discount = 0.0.obs;
 
   addproductQty() {
     productQty.value = productQty.value + 1;
@@ -50,8 +50,8 @@ class ProductController extends GetxController {
       final productsDetaileModel =
           productsDetaileModelFromJson(response.bodyString);
 
-
-          price_before_discount.value = productsDetaileModel.data.product.priceBeforeDiscount;
+      price_before_discount.value =
+          productsDetaileModel.data.product.priceBeforeDiscount;
 
       if (productsDetaileModel.data.product.colors.length == 0) {
         productsDetaileModelFuture.value = Future.value(productsDetaileModel);
@@ -70,62 +70,99 @@ class ProductController extends GetxController {
   }
 
   void productAddToCart(ProductsDetaileModel productsDetaile) {
-    Get.snackbar(
-      appName,
-      'تم الاضافة الى سلة المشتريات',
-      barBlur: .9,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.grey,
-      colorText: Colors.black,
-      messageText: Text(
-        'تم الاضافة الى سلة المشتريات',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-    );
+/*
+var productid = productsDetaile.data.product.id.toString();
+var productColor = productsDetaile.data.product.colors.length == 0
+          ? ''
+          : productsDetaile.data.product.colors
+              .elementAt(productColorSelect.value)
+              .id;
 
-    //bntrest();
-    //icon: LottieBuilder.asset('assets/productnotfound.json'));
+var productSize =productsDetaile.data.product.sizes.length == 0
+          ? ''
+          : productsDetaile.data.product.colors
+              .elementAt(productColorSelect.value)
+              .id;
 
-    Get.find<CartController>().addToCart(
-      new CartItem(
-        productimage: productsDetaile.data.product.colors.length == 0
-            ? productsDetaile.data.productImages[0]
-            : productsDetaile.data.product.colors
-                .elementAt(productColorSelect.value)
-                .image,
-        productid: productsDetaile.data.product.id,
-        productName: productsDetaile.data.product.name,
-        productPrice: productSizeSelect.value == 0
-            ? productsDetaile.data.product.price
-            : productsDetaile.data.product.sizes
-                .elementAt(productSizeSelect.value)
-                .price,
-        productColor: productsDetaile.data.product.colors.length == 0
-            ? 0
-            : productsDetaile.data.product.colors
-                .elementAt(productColorSelect.value)
-                .id,
-        productSize: productsDetaile.data.product.sizes.length == 0
-            ? 0
-            : productsDetaile.data.product.sizes
-                .elementAt(productSizeSelect.value)
-                .id,
-        productColorName: productsDetaile.data.product.colors.length == 0
-            ? ''
-            : productsDetaile.data.product.colors
-                .elementAt(productColorSelect.value)
-                .title,
-        productSizeName: productsDetaile.data.product.sizes.length == 0
-            ? ''
-            : productsDetaile.data.product.sizes
-                .elementAt(productSizeSelect.value)
-                .title,
-        qty: productQty.value,
-      ),
-    );
+var productQty =productQty.value.toString();
+*/
+
+    WebServices()
+        .checkerqty(
+      product: productsDetaile.data.product.id.toString(),
+      color: productsDetaile.data.product.colors.length == 0
+          ? '0'
+          : productsDetaile.data.product.colors
+              .elementAt(productColorSelect.value)
+              .id,
+      size: productsDetaile.data.product.sizes.length == 0
+          ? '0'
+          : productsDetaile.data.product.colors
+              .elementAt(productColorSelect.value)
+              .id,
+      qty: productQty.value.toString(),
+    )
+        .then((ResponsModel responsModel) {
+      if (responsModel.success) {
+        if (responsModel.data.body['success']) {
+          Get.snackbar(
+            appName,
+            'تم الاضافة الى سلة المشتريات',
+            barBlur: .9,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.grey,
+            colorText: Colors.black,
+            messageText: Text(
+              'تم الاضافة الى سلة المشتريات',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          );
+
+          Get.find<CartController>().addToCart(
+            new CartItem(
+              productimage: productsDetaile.data.product.colors.length == 0
+                  ? productsDetaile.data.productImages[0]
+                  : productsDetaile.data.product.colors
+                      .elementAt(productColorSelect.value)
+                      .image,
+              productid: productsDetaile.data.product.id,
+              productName: productsDetaile.data.product.name,
+              productPrice: productSizeSelect.value == 0
+                  ? productsDetaile.data.product.price
+                  : productsDetaile.data.product.sizes
+                      .elementAt(productSizeSelect.value)
+                      .price,
+              productColor: productsDetaile.data.product.colors.length == 0
+                  ? 0
+                  : productsDetaile.data.product.colors
+                      .elementAt(productColorSelect.value)
+                      .id,
+              productSize: productsDetaile.data.product.sizes.length == 0
+                  ? 0
+                  : productsDetaile.data.product.sizes
+                      .elementAt(productSizeSelect.value)
+                      .id,
+              productColorName: productsDetaile.data.product.colors.length == 0
+                  ? ''
+                  : productsDetaile.data.product.colors
+                      .elementAt(productColorSelect.value)
+                      .title,
+              productSizeName: productsDetaile.data.product.sizes.length == 0
+                  ? ''
+                  : productsDetaile.data.product.sizes
+                      .elementAt(productSizeSelect.value)
+                      .title,
+              qty: productQty.value,
+            ),
+          );
+        } else {
+          Get.snackbar(appName, responsModel.data.body['message'].toString());
+        }
+      }
+    });
   }
 
   Future SetFavoraitProduct(String brandId) async {

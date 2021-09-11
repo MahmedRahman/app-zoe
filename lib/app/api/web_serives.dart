@@ -71,7 +71,7 @@ class WebServices extends APIManger {
     ResponsModel response = await repPost(
         'forgot_password',
         {
-          "mobile": email,
+          "email": email,
         },
         showLoading: true);
     return response;
@@ -98,8 +98,8 @@ class WebServices extends APIManger {
     return response;
   }
 
-
-   Future<ResponsModel> changePassword(String password, String passwordConfirmation) async {
+  Future<ResponsModel> changePassword(
+      String password, String passwordConfirmation) async {
     ResponsModel response = await repPost(
         'change_password',
         {
@@ -112,6 +112,14 @@ class WebServices extends APIManger {
 
   Future<ResponsModel> getPayMethods() async {
     ResponsModel response = await repGet('pay_methods');
+    return response;
+  }
+
+  Future<ResponsModel> getSearchProduct({@required search}) async {
+    ResponsModel response = await repGet(
+      'search?search=${search.toString()}',
+      showLoading: true,
+    );
     return response;
   }
 
@@ -150,6 +158,34 @@ class WebServices extends APIManger {
   }
 
   Future<ResponsModel> getbrand() async {
+    ResponsModel response = await repGet('brands');
+    return response;
+  }
+
+  Future<ResponsModel> getcities() async {
+    ResponsModel response = await repGet('cities');
+    return response;
+  }
+
+  Future<ResponsModel> checkerqty(
+      {@required String product,
+      @required String color,
+      @required String size,
+      @required String qty}) async {
+    ResponsModel response = await repPost(
+      'add_to_cart_qty',
+      {
+        'product': product,
+        'color': color,
+        'size': size,
+        'qty': qty,
+      },
+      showLoading: true,
+    );
+    return response;
+  }
+
+  Future<ResponsModel> freeshipping() async {
     ResponsModel response = await repGet('brands');
     return response;
   }
@@ -232,10 +268,10 @@ class WebServices extends APIManger {
     return response;
   }
 
-  Future<ResponsModel> vertificationCode(String mobile, String code) async {
+  Future<ResponsModel> vertificationCode(String mobile, bool status) async {
     ResponsModel response = await repPost(
       'vertification_code',
-      {'mobile': mobile, 'code': code},
+      {'mobile': mobile, 'status': status},
       showLoading: true,
     );
     return response;

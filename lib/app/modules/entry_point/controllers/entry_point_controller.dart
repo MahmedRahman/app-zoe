@@ -15,7 +15,7 @@ class EntryPointController extends GetxController {
       if (value.success) {
         Response response = value.data;
         if (response.body['success']) {
-       
+          delivery_fees =response.body['data'];
           additionalFees = response.body['data'][0]['additional_fees'];
         }
       }
@@ -25,20 +25,23 @@ class EntryPointController extends GetxController {
       if (value.success) {
         Response response = value.data;
         if (response.body['success']) {
-        
           tax = response.body['data']['tax'];
+          if (response.body['data']['free_shipping']['active']) {
+            freeshipingamount = response.body['data']['free_shipping']['amount'];
+           
+          }
         }
       }
     });
-/*
-    WebServices().getProvinances().then((value) {
+
+    WebServices().getcities().then((value) {
       if (value.success) {
         Response response = value.data;
         if (response.body['success']) {
-          provinances = response.body['data'];
+          city = response.body['data'];
         }
       }
-    });*/
+    });
   }
 
   @override

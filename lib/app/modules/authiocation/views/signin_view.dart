@@ -6,6 +6,8 @@ import 'package:zoe/app/modules/authiocation/controllers/authiocation_controller
 import 'package:zoe/app/routes/app_pages.dart';
 import 'package:zoe/app/data/helper/AppTheme.dart';
 import 'package:zoe/app/component/CustomTextFormFiled.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SigninView extends GetView<AuthiocationController> {
   var _formKey = GlobalKey<FormState>();
@@ -99,14 +101,16 @@ class SigninView extends GetView<AuthiocationController> {
                           height: 60,
                           width: Get.width,
                           child: ElevatedButton(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                if (_formKey.currentState.validate()) {
-                                  controller.signin();
-                                }
-                              },
-                              child: Text('Login'.tr),),
-                        )
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              if (_formKey.currentState.validate()) {
+                                controller.signin();
+                              }
+                            },
+                            child: Text('Login'.tr),
+                          ),
+                        ),
+                     
                       ],
                     ),
                   ),

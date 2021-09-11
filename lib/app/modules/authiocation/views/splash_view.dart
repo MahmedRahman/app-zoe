@@ -15,10 +15,15 @@ class SplashView extends GetView<AuthiocationController> {
 
     return Scaffold(
       body: Container(
+        
+
+/*
         decoration: BoxDecoration(
             image: DecorationImage(
           image: AssetImage('assets/bg.png'),
         )),
+*/
+
         child: Center(
           child: Column(
             children: [

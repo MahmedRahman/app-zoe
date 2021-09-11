@@ -43,9 +43,9 @@ class ForgotpasswordView extends GetView {
                 ),
                 CustomTextFormFiled(
                   inputController: controller.phone,
-                  inputHit: 'رقم الهاتف',
-                  inputLabel: 'رقم الهاتف',
-                  keyboardType: TextInputType.number ,
+                  inputHit: 'البريد الالكترونى',
+                  inputLabel: 'البريد الالكترونى',
+                  keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(
                   height: 10,

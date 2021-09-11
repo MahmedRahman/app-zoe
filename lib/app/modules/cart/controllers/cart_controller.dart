@@ -109,10 +109,19 @@ class CartController extends GetxService {
     print('xxxxxxxxxx');
 
     var price_before_discount = price_before_tax + taxprice;
+
     price = price_before_discount -
         ((price_before_discount * discount.value) / 100) +
         delivaryfeed.value +
         shappingPrice.value;
+
+    if (freeshipingamount != 0) {
+      if (price < freeshipingamount) {
+        price = price - shappingPrice.value;
+        shappingPrice.value = 0;
+      }
+    }
+
     return price;
   }
 
@@ -129,9 +138,7 @@ class CartController extends GetxService {
       showSnackBar(
         title: appName,
         message: 'برجاء اختيار طريقة الدفع',
-        snackbarStatus: () {
-      
-        },
+        snackbarStatus: () {},
       );
     } else {
       String productList = listCartItem
@@ -193,23 +200,19 @@ class CartController extends GetxService {
               },
             );
           } else {
-
-           launch(response.body['iframe_url']).then((value) {
-               showSnackBar(
-              title: appName,
-              message: 'تم ارسال الطلب',
-              snackbarStatus: () {
-                clearCart();
-                Get.offAllNamed(Routes.LayoutView);
-              },
-            );
-           });
-
-      
+            launch(response.body['iframe_url']).then((value) {
+              showSnackBar(
+                title: appName,
+                message: 'تم ارسال الطلب',
+                snackbarStatus: () {
+                  clearCart();
+                  Get.offAllNamed(Routes.LayoutView);
+                },
+              );
+            });
           }
         } else {
-          showSnackBar(
-              title: appName, message: response.body, snackbarStatus: () {});
+          showSnackBar(title: appName, message: response.body['errors'], snackbarStatus: () {});
         }
       }
     }

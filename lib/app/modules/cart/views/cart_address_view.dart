@@ -101,15 +101,21 @@ class AddressView extends GetView<CartController> {
                           value: Address.id,
                           groupValue: addressid.value,
                           onChanged: (int value) {
+
                             addressid.value = value;
+
                             controller.addressid = value;
-                            controller.shappingPrice.value =
-                                Address.shippingFees;
+
+                  
+                              controller.shappingPrice.value =
+                                  Address.shippingFees;
+
 
                             controller.deliveryDays.value =
                                 Address.deliveryDays;
 
                             Kaddress.value = "${Address.address.toString()} ";
+
                           },
                         );
                       },

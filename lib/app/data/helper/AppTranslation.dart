@@ -21,7 +21,8 @@ class AppTranslation extends Translations {
           'Confirm phone number': 'تاكيد رقم الهاتف',
           'new registration': 'تسجيل جديد',
           'Full name': 'الاسم',
-          'Email': 'البريد الالكترونى'
+          'Email': 'البريد الالكترونى',
+           'Code': 'برجاء كتابة الكود المرسال',
         }
       };
 }

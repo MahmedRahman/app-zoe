@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "946909203754",
+    "project_id": "zoecom",
+    "storage_bucket": "zoecom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946909203754:android:d546eb4fd90714019c6253",
+        "android_client_info": {
+          "package_name": "com.matrix.app_number"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946909203754-0odu6gtbkrmpgct25jbmsorm8fdklj1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2zhBIho5-FixKi8KhpeAY3VXzLIv6LoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946909203754-0odu6gtbkrmpgct25jbmsorm8fdklj1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946909203754:android:261afc7ac59bde399c6253",
+        "android_client_info": {
+          "package_name": "sa.com.zoe.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946909203754-0odu6gtbkrmpgct25jbmsorm8fdklj1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2zhBIho5-FixKi8KhpeAY3VXzLIv6LoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946909203754-0odu6gtbkrmpgct25jbmsorm8fdklj1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:zoe/app/api/response_model.dart';
@@ -40,17 +42,11 @@ class AuthiocationController extends GetxController {
       Response response = responsModel.data;
 
       if (response.body['success']) {
-        if (response.body['verified']) {
-          Get.find<UserAuth>().setUserToken(
-            response.body['data']['access_token'].toString(),
-          );
-
-          Kselectindex = 2.obs;
-
-          Get.offAllNamed(Routes.LayoutView);
-        } else {
-          Get.toNamed(Routes.OtpView);
-        }
+        Get.find<UserAuth>().setUserToken(
+          response.body['data']['access_token'].toString(),
+        );
+        Kselectindex = 2.obs;
+        Get.offAllNamed(Routes.LayoutView);
       } else {
         Get.snackbar(appName, response.body['errors']);
       }
@@ -107,7 +103,7 @@ class AuthiocationController extends GetxController {
 
   confiemSms() async {
     ResponsModel responsModel =
-        await WebServices().vertificationCode(phone.text, codeSmsConfirem.text);
+        await WebServices().vertificationCode(phone.text, true);
 
     if (responsModel.success) {
       Response response = responsModel.data;
@@ -120,9 +116,6 @@ class AuthiocationController extends GetxController {
   }
 
   sendemailForgetPassword() async {
-
-
-    
     ResponsModel responsModel =
         await WebServices().sendEmailForgetPassword(phone.text);
     if (responsModel.success) {

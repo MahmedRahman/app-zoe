@@ -10,181 +10,231 @@ import 'package:zoe/app/component/CustomImageCached.dart';
 import 'package:zoe/app/component/CustomIndicator.dart';
 
 class HomePage extends StatelessWidget {
-  // HomeController controller = Get.put(HomeController());
+  HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GetX<HomeController>(
-        init: HomeController(),
-        builder: (controller) {
-          return FutureBuilder(
-            future: controller.homeModelFuture.value,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                HomeModel homeModel = snapshot.data;
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: Get.height * .25,
-                        child: PageView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(
-                            homeModel.data.ads.length,
-                            (index) {
-                              return CustomImageCached(
-                                imageUrl:
-                                    homeModel.data.ads.elementAt(index).image,
-                              );
-                            },
-                          ).toList(),
+    return Scaffold(
+      /*
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: TextFormField(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              controller.getSearchProduct();
+            },
+            decoration: InputDecoration(
+              hintText: 'بحث ..',
+              filled: true,
+              fillColor: Colors.grey[300],
+              suffixIcon: Icon(Icons.search_sharp),
+            ),
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
+    */
+      body: Container(
+        child: GetX<HomeController>(
+          init: HomeController(),
+          builder: (controller) {
+            return FutureBuilder(
+              future: controller.homeModelFuture.value,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  HomeModel homeModel = snapshot.data;
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 15,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: SizedBox(
-                          width: Get.width,
-                          child: Text(
-                            'الاقسام',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: KprimaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      buildDepartment(homeModel.data.departments),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
+                        Row(
                           children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomImageCached(
-                                imageUrl: homeModel.data.bannerTwo,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: CustomImageCached(
-                                imageUrl: homeModel.data.bannerOne,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: SizedBox(
-                          width: Get.width,
-                          child: Text(
-                            'الماركات',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: KprimaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      buildBrand(homeModel.data.brands),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomImageCached(
-                                imageUrl: homeModel.data.bannerThree,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                     
-                     
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
                             
-                              child: Text(
-                                'افضل العروض',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: KprimaryColor,
+                            Container(
+                              width: Get.width ,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: TextField(
+                                  controller: controller.serechval,
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        FocusScope.of(context).unfocus();
+                                        controller.getSearchProduct();
+                                      },
+                                      icon: Icon(Icons.search),
+                                    ),
+                                    border: OutlineInputBorder(),
+                                    hintText: 'بحث ..',
+                                    filled: true,
+                                    fillColor: Colors.grey[300],
+                                  ),
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(
-                                    Routes.PRODUCT_LIST,arguments: ['', ProductCategory.Offers]);
-                              },
-                              child: Text(
-                                'المزيد' ?? '',
-                                style: TextStyle(
-                                  color: Color(0xFF4C1711),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                            
                           ],
                         ),
-                      ),
-                    
-                    
-                    
-                      SizedBox(
-                        height: Get.height * .4,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(
-                            homeModel.data.offers.length,
-                            (index) {
-                              Offer product =
-                                  homeModel.data.offers.elementAt(index);
-
-                              return ProductItem(
-                                product: product,
-                              );
-                            },
+                        SizedBox(
+                          height: Get.height * .25,
+                          child: PageView(
+                            scrollDirection: Axis.horizontal,
+                            children: List.generate(
+                              homeModel.data.ads.length,
+                              (index) {
+                                return CustomImageCached(
+                                  imageUrl:
+                                      homeModel.data.ads.elementAt(index).image,
+                                );
+                              },
+                            ).toList(),
                           ),
                         ),
-                      ),
-                      buildFeaturedCategory(homeModel.data.featuredCategories),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                );
-              } else if (snapshot.hasError) {
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: SizedBox(
+                            width: Get.width,
+                            child: Text(
+                              'الاقسام',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: KprimaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        buildDepartment(homeModel.data.departments),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomImageCached(
+                                  imageUrl: homeModel.data.bannerTwo,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: CustomImageCached(
+                                  imageUrl: homeModel.data.bannerOne,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: SizedBox(
+                            width: Get.width,
+                            child: Text(
+                              'الماركات',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: KprimaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        buildBrand(homeModel.data.brands),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomImageCached(
+                                  imageUrl: homeModel.data.bannerThree,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                child: Text(
+                                  'افضل العروض',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: KprimaryColor,
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(Routes.PRODUCT_LIST,
+                                      arguments: ['', ProductCategory.Offers]);
+                                },
+                                child: Text(
+                                  'المزيد' ?? '',
+                                  style: TextStyle(
+                                    color: Color(0xFF4C1711),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * .4,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: List.generate(
+                              homeModel.data.offers.length,
+                              (index) {
+                                Offer product =
+                                    homeModel.data.offers.elementAt(index);
+
+                                return ProductItem(
+                                  product: product,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        buildFeaturedCategory(
+                            homeModel.data.featuredCategories),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: CustomIndicator(
+                      indicatorStatus: IndicatorStatus.error,
+                    ),
+                  );
+                }
                 return Center(
                   child: CustomIndicator(
-                    indicatorStatus: IndicatorStatus.error,
+                    indicatorStatus: IndicatorStatus.wait,
                   ),
                 );
-              }
-              return Center(
-                child: CustomIndicator(
-                  indicatorStatus: IndicatorStatus.wait,
-                ),
-              );
-            },
-          );
-        },
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -481,5 +531,4 @@ class ProductItem extends StatelessWidget {
       return '0';
     }
   }
-
 }
