@@ -46,7 +46,7 @@ class AccountAdressAddController extends GetxController {
       } else {
         showSnackBar(
           title: appName,
-          message: 'برجا اختيار منطقة صحيحة',
+          message: 'we were unable to add a new address without using the map',
           snackbarStatus: () {},
         );
       }
