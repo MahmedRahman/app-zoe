@@ -23,9 +23,12 @@ class AccountAdressAddController extends GetxController {
   TextEditingController building = new TextEditingController();
   TextEditingController house_number = new TextEditingController();
 
+  
+  TextEditingController textaddress = new TextEditingController();
+
   addAccountAdress() async {
     ResponsModel responsModel = await WebServices().addAccountAdress(
-      Kaddress.value,
+     GetUtils.isNullOrBlank(Kaddress.value) ? textaddress.text : Kaddress.value,
       cityid,
       landMark: land_mark.text,
     );

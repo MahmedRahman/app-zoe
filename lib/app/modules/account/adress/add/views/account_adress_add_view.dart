@@ -139,11 +139,22 @@ class AccountAdressAddView extends GetView<AccountAdressAddController> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
+                      Text(
                       'العنوان',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                        TextFormField(
+                      controller: controller.textaddress,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: 'العنوان',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Obx(() {
                       return Text(
